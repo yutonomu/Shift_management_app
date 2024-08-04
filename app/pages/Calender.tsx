@@ -5,9 +5,11 @@ import SettingsButton from "../components/calender/SettingsButton";
 function Calender() {
   return (
     <>
-      <h1>calender</h1>
-      <SettingsButton />
-      <Day />
+      <div className="border-2 border-green-500">
+        <h1 className="text-green-500">calender</h1>
+        <SettingsButton />
+        <Day />
+      </div>
     </>
   );
 }

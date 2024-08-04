@@ -6,9 +6,12 @@ import InputShiftButton from "../components/day/InputShiftButton";
 function Day() {
   return (
     <>
+    <div className="border border-green-900">
+
       <Header />
       <Body />
       <InputShiftButton />
+    </div>
     </>
   );
 }

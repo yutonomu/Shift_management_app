@@ -1,7 +1,7 @@
 function ShiftLine() {
   return (
     <>
-      <h2>shift line</h2>
+      <h2>shift line　</h2>
     </>
   );
 }

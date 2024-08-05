@@ -4,13 +4,14 @@ import SettingsButton from "../components/calender/SettingsButton";
 
 function Calender() {
   return (
-    <>
-      <div className="border-2 border-green-500">
-        <h1 className="text-green-500">calender</h1>
-        <SettingsButton />
+    <div className="relative w-screen h-screen">
+      <div className="absolute z-10">
         <Day />
       </div>
-    </>
+      <div className="absolute z-20">
+        <SettingsButton />
+      </div>
+    </div>
   );
 }
 

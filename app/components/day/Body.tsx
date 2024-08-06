@@ -1,13 +1,13 @@
 import TimeLine from "@/app/components/day/TimeLine";
 import ShiftLine from "@/app/components/day/ShiftLine";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function Body() {
   const lineNum = 5;
   const shiftLines = [...Array(lineNum)].map((_, i) => {
     return (
       <>
-        <div key={i} className="border border-yellow-300">
+        <div key={i} className="w-[15vw]">
           <ShiftLine />
         </div>
       </>
@@ -15,12 +15,14 @@ function Body() {
   });
 
   return (
-    <div className="h-[80vh] bg-yellow-700">
-      <ScrollArea className="h-[80vh] rounded-md border p-4">
-        <div className="flex flex-row h-screen">
-        <TimeLine />
-        {shiftLines}
-      </div>
+    <div className="h-full bg-yellow-700">
+      <ScrollArea className="w-screen h-[80vh] rounded-md border">
+        <div className="flex flex-row ">
+          <div className="w-[20vw]">
+            <TimeLine />
+          </div>
+          {shiftLines}
+        </div>
       </ScrollArea>
     </div>
   );

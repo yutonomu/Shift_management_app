@@ -2,6 +2,7 @@ import type { UserInputType } from "@/app/types/UserInputType";
 import { use, useEffect, useRef } from "react";
 
 interface ShiftLineProps {
+  deviceName: string;
   userInput: UserInputType;
   calcBlockPosition: (
     startTime: string,
@@ -9,7 +10,8 @@ interface ShiftLineProps {
   ) => { top: number; left: number; height: number };
 }
 
-function ShiftLine({ userInput, calcBlockPosition }: ShiftLineProps) {
+function ShiftLine({ deviceName, userInput, calcBlockPosition }: ShiftLineProps) {
+
   const { top, left, height } = calcBlockPosition(
     userInput.startTime,
     userInput.endTime
@@ -18,6 +20,8 @@ function ShiftLine({ userInput, calcBlockPosition }: ShiftLineProps) {
   return (
     <div className="w-full h-full flex flex-col border-l border-black relative">
       {/* ShiftLineの仕切り線 */}
+    { userInput.selectedDevice === deviceName && (
+
       <div
         className="absolute w-full"
         style={{
@@ -29,6 +33,7 @@ function ShiftLine({ userInput, calcBlockPosition }: ShiftLineProps) {
       >
         {userInput.name}
       </div>
+    )}
     </div>
   );
 }

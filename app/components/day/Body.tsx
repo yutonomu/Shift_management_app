@@ -5,6 +5,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { UserInputType } from "@/app/types/UserInputType";
 import { time } from "console";
 
+const deviceNames: string[] = ["Pc-1", "Pc-2", "Pc-3", "Pc-4", "Pc-5"];
+
 const testUserInput: UserInputType = {
   name: "name",
   selectedDevice: "Pc-1",
@@ -111,14 +113,15 @@ function Body() {
   };
 
   // 各ShiftLineを作成
-  const shiftLines = [...Array(deviceNum)].map((_, i) => {
+  const shiftLines = [...deviceNames].map((deviceName, i) => {
     return (
       <div
-        key={i}
+        key={deviceName}
         className="w-[16vw] h-full flex-none z-20"
         style={{ height: `${height}px` }}
       >
         <ShiftLine
+          deviceName={deviceName}
           userInput={testUserInput}
           calcBlockPosition={calcBlockPosition}
         />

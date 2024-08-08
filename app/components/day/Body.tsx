@@ -8,8 +8,8 @@ import { time } from "console";
 const testUserInput: UserInputType = {
   name: "name",
   selectedDevice: "Pc-1",
-  startTime: "3:00",
-  endTime: "9:00",
+  startTime: "10:55",
+  endTime: "15:36",
   color: "red",
 };
 
@@ -68,6 +68,33 @@ function Body() {
     </div>
   );
 
+  // ShiftBlockの時間(Hour)の位置を計算
+  function calcPosition(hour: number, minute: number) {
+    let position = 0;
+    if (
+      // Hour の位置を計算
+      timeLinesRef.current[hour - 1] !== undefined &&
+      timeLinesRef.current[hour - 1] !== null
+    ) {
+      position =  timeLinesRef.current[hour - 1]!.offsetTop;
+    }
+
+    if(
+      // 0時以降の場合
+      timeLinesRef.current[hour] !== undefined &&
+      timeLinesRef.current[hour] !== null
+    ) {
+      position += (timeLinesRef.current[hour]!.offsetTop - position) / (60 / minute); // 1分ごとの位置を計算
+    } else if(
+      // 24時の場合
+      timeLinesRef.current[hour - 2] !== undefined &&
+      timeLinesRef.current[hour - 2] !== null
+    ){
+      position += (timeLinesRef.current[hour - 2]!.offsetTop - position) / (60 / minute); // 1分ごとの位置を計算
+    }
+    return position;
+  }
+
   // ShiftBlockの位置を計算
   const calcBlockPosition = (startTime: string, endTime: string) => {
     const startHour = parseInt(startTime.split(":")[0]);
@@ -75,29 +102,11 @@ function Body() {
     const endHour = parseInt(endTime.split(":")[0]);
     const endMinute = parseInt(endTime.split(":")[1]);
 
-    // const top = startHour * 60 + startMinute;
-    // const height = endHour * 60 + endMinute - top;
-    console.log("startHour", startHour);
-    let top:number = 0;
-    let end:number = 0;
+    const top: number = calcPosition(startHour, startMinute); // 開始時間（Hour）のtopを計算
+    const end: number = calcPosition(endHour, endMinute); // 終了時間（Hour）のtopを計算
 
-    if (
-      timeLinesRef.current[startHour - 1] !== undefined &&
-      timeLinesRef.current[startHour - 1] !== null
-    ) {
-      top = timeLinesRef.current[startHour - 1]!.offsetTop;
-    }
-    
-    if (
-      timeLinesRef.current[endHour - 1] !== undefined &&
-      timeLinesRef.current[endHour - 1] !== null
-    ) {
-      end = timeLinesRef.current[endHour - 1]!.offsetTop;
-    }
-    
     const height = end - top;
-    
-    console.log("top", top);
+
     return { top: top, left: 0, height: height };
   };
 

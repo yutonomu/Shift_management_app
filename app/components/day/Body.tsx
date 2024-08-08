@@ -1,9 +1,19 @@
 "use client";
 import ShiftLine from "@/app/components/day/ShiftLine";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 function Body() {
   const deviceNum = 5;
+  const shiftLineHeight = useRef<HTMLDivElement | null>(null);
+
+  const [height, setHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    if (shiftLineHeight.current) {
+      setHeight(shiftLineHeight.current.offsetHeight);
+    }
+  }, []);
 
   // 1:00 ~ 23:00 の文字列を作成
   const times: string[] = Array.from(
@@ -31,19 +41,21 @@ function Body() {
 
   // 時刻と横線の背景を作成
   const timeLines = (
-    // <div className="flex">
-    <div className="w-[100vw] absolute z-10">
+    <div className="w-[100vw] absolute z-10" ref={shiftLineHeight}> {/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
       {times.map((time: string, index: number) => (
         <div key={index}>{timeWithLine(time, index)}</div> // 時刻と横線を表示
       ))}
     </div>
-    // </div>
   );
 
   // 各ShiftLineを作成
   const shiftLines = [...Array(deviceNum)].map((_, i) => {
     return (
-      <div key={i} className="w-[16vw] h-full flex-none z-20">
+      <div
+        key={i}
+        className="w-[16vw] h-full flex-none z-20"
+        style={{ height: `${height}px` }}
+      >
         <ShiftLine />
       </div>
     );

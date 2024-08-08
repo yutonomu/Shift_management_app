@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP  } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import { NextAuthProvider } from "@/lib/next-auth/provider";
+import { Suspense } from "react";
+import Loading from "./loading";
 
-const notoSansJP  = Noto_Sans_JP({ subsets: ["latin"] });
+const notoSansJP = Noto_Sans_JP({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="jp">
-      <body className={notoSansJP .className}>{children}</body>
+      <body className={notoSansJP.className}>
+        {" "}
+        <NextAuthProvider>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </NextAuthProvider>
+      </body>
     </html>
   );
 }

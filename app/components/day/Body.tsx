@@ -5,13 +5,24 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { UserInputType } from "@/app/types/UserInputType";
 import { time } from "console";
 
-const testUserInput: UserInputType = {
-  name: "name",
-  selectedDevice: "Pc-1",
-  startTime: "10:55",
-  endTime: "15:36",
-  color: "red",
-};
+const deviceNames: string[] = ["Pc-1", "Pc-2", "Pc-3", "Pc-4", "Pc-5"];
+
+const userInputs: UserInputType[] = [
+  {
+    name: "name1",
+    selectedDevice: "Pc-1",
+    startTime: "10:55",
+    endTime: "15:36",
+    color: "red",
+  },
+  {
+    name: "name2",
+    selectedDevice: "Pc-2",
+    startTime: "15:55",
+    endTime: "20:50",
+    color: "blue",
+  },
+];
 
 function Body() {
   const deviceNum = 5; // 1画面に表示するShiftLineの数
@@ -76,21 +87,23 @@ function Body() {
       timeLinesRef.current[hour - 1] !== undefined &&
       timeLinesRef.current[hour - 1] !== null
     ) {
-      position =  timeLinesRef.current[hour - 1]!.offsetTop;
+      position = timeLinesRef.current[hour - 1]!.offsetTop;
     }
 
-    if(
+    if (
       // 0時以降の場合
       timeLinesRef.current[hour] !== undefined &&
       timeLinesRef.current[hour] !== null
     ) {
-      position += (timeLinesRef.current[hour]!.offsetTop - position) / (60 / minute); // 1分ごとの位置を計算
-    } else if(
+      position +=
+        (timeLinesRef.current[hour]!.offsetTop - position) / (60 / minute); // 1分ごとの位置を計算
+    } else if (
       // 24時の場合
       timeLinesRef.current[hour - 2] !== undefined &&
       timeLinesRef.current[hour - 2] !== null
-    ){
-      position += (timeLinesRef.current[hour - 2]!.offsetTop - position) / (60 / minute); // 1分ごとの位置を計算
+    ) {
+      position +=
+        (timeLinesRef.current[hour - 2]!.offsetTop - position) / (60 / minute); // 1分ごとの位置を計算
     }
     return position;
   }
@@ -111,15 +124,16 @@ function Body() {
   };
 
   // 各ShiftLineを作成
-  const shiftLines = [...Array(deviceNum)].map((_, i) => {
+  const shiftLines = [...deviceNames].map((deviceName, i) => {
     return (
       <div
-        key={i}
+        key={deviceName}
         className="w-[16vw] h-full flex-none z-20"
         style={{ height: `${height}px` }}
       >
         <ShiftLine
-          userInput={testUserInput}
+          deviceName={deviceName}
+          userInputs={userInputs}
           calcBlockPosition={calcBlockPosition}
         />
       </div>

@@ -5,7 +5,7 @@ import InputShiftButton from "../components/day/InputShiftButton";
 
 function Day() {
   return (
-    <div className="relative w-screen h-screen bg-gray-300">
+    <div className="relative w-screen h-screen">
       <Header />
       <div className="absolute z-10">
         <Body />

@@ -3,37 +3,41 @@ import { use, useEffect, useRef } from "react";
 
 interface ShiftLineProps {
   deviceName: string;
-  userInput: UserInputType;
+  userInputs: UserInputType[];
   calcBlockPosition: (
     startTime: string,
     endTime: string
   ) => { top: number; left: number; height: number };
 }
 
-function ShiftLine({ deviceName, userInput, calcBlockPosition }: ShiftLineProps) {
-
-  const { top, left, height } = calcBlockPosition(
-    userInput.startTime,
-    userInput.endTime
-  );
+function ShiftLine({ deviceName, userInputs, calcBlockPosition }: ShiftLineProps) {
 
   return (
     <div className="w-full h-full flex flex-col border-l border-black relative">
       {/* ShiftLineの仕切り線 */}
-    { userInput.selectedDevice === deviceName && (
-
-      <div
-        className="absolute w-full"
-        style={{
-          top: `${top}px`,
-          height: `${height}px`,
-          left: `${left}px`,
-          backgroundColor: userInput.color,
-        }}
-      >
-        {userInput.name}
-      </div>
-    )}
+      {userInputs.map((userInput:UserInputType, index:number) => {
+        const { top, left, height } = calcBlockPosition(
+          userInput.startTime,
+          userInput.endTime
+        );
+        
+        return (
+          userInput.selectedDevice === deviceName && (
+            <div
+              key={index}
+              className="absolute w-full"
+              style={{
+                top: `${top}px`,
+                height: `${height}px`,
+                left: `${left}px`,
+                backgroundColor: userInput.color,
+              }}
+            >
+              {userInput.name}
+            </div>
+          )
+        );
+      })}
     </div>
   );
 }

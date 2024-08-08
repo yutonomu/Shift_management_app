@@ -15,12 +15,6 @@ function ShiftLine({ userInput, calcBlockPosition }: ShiftLineProps) {
     userInput.endTime
   );
 
-  const debugRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    console.log("debug: ",debugRef.current?.offsetTop);
-  }, []);
-
   return (
     <div className="w-full h-full flex flex-col border-l border-black relative">
       {/* ShiftLineの仕切り線 */}
@@ -32,7 +26,6 @@ function ShiftLine({ userInput, calcBlockPosition }: ShiftLineProps) {
           left: `${left}px`,
           backgroundColor: userInput.color,
         }}
-        ref={debugRef}
       >
         {userInput.name}
       </div>

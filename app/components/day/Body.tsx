@@ -1,7 +1,7 @@
 "use client";
 import ShiftLine from "@/app/components/day/ShiftLine";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MutableRefObject, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { UserInputType } from "@/app/types/UserInputType";
 
 
@@ -151,7 +151,6 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
         <ShiftLine
           deviceName={deviceName}
           userInputs={userInputs}
-          // shiftLineRef={shiftLinesRef.current[i]}
           calcBlockPosition={calcBlockPosition}
         />
       </div>

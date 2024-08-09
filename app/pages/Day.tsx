@@ -9,8 +9,10 @@ function Day() {
   // 指定可能なデバイス名のリスト
   const deviceNames: string[] = ["Pc-1", "Pc-2", "Pc-3", "Pc-4", "Pc-5"];
 
+  // 各デバイス名の区切り線のleftとデバイス名を表示するためのwidth
   const [shiftLineLeftAndWidth, setShiftLineLeftAndWidth] = useState<{ left: number; width: number }[]>([...Array(deviceNames.length).fill({ left: 0, width: 0 })]);
 
+  // shiftLineLeftAndWidthのindex番目の要素を更新する
   const updateShiftLineLeftAndWidth = (left: number, width: number, index: number) => {
     setShiftLineLeftAndWidth(prevState =>{
       const updatedArray = [...prevState];

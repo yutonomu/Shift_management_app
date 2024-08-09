@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 interface HeaderProps {
   shiftLineLeftAndWidth: { left: number; width: number }[];
@@ -7,6 +6,7 @@ interface HeaderProps {
 
 function Header({ shiftLineLeftAndWidth, deviceNames }: HeaderProps) {
 
+  // デバイス名と区切り線を表示する
   const devices = () => {
     return shiftLineLeftAndWidth.map((shiftLine, index) => {
       return (

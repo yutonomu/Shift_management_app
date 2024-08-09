@@ -7,7 +7,7 @@ import { useState } from "react";
 
 function Day() {
   // 指定可能なデバイス名のリスト
-  const deviceNames: string[] = ["Pc-1", "Pc-2", "Pc-3", "Pc-4", "Pc-5"];
+  const deviceNames: string[] = ["白PC", "黒PC", "ノートPC", "Mac1", "Mac2"];
 
   // 各デバイス名の区切り線のleftとデバイス名を表示するためのwidth
   const [shiftLineLeftAndWidth, setShiftLineLeftAndWidth] = useState<{ left: number; width: number }[]>([...Array(deviceNames.length).fill({ left: 0, width: 0 })]);
@@ -28,7 +28,7 @@ function Day() {
       <div className="absolute z-10">
         <Body deviceNames={deviceNames} updateShiftLineLeftAndWidth={updateShiftLineLeftAndWidth}/>
       </div>
-      <div className="absolute z-20 right-0 bottom-0">
+      <div className="absolute z-20 m-[10vw] right-0 bottom-0">
         <InputShiftButton />
       </div>
     </div>

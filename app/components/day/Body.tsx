@@ -8,14 +8,14 @@ import type { UserInputType } from "@/app/types/UserInputType";
 const userInputs: UserInputType[] = [
   {
     name: "name1",
-    selectedDevice: "Pc-1",
+    selectedDevice: "ノートPC",
     startTime: "10:55",
     endTime: "15:36",
     color: "red",
   },
   {
     name: "name2",
-    selectedDevice: "Pc-2",
+    selectedDevice: "Mac2",
     startTime: "15:55",
     endTime: "20:50",
     color: "blue",

@@ -3,7 +3,7 @@ import { MutableRefObject, RefObject, use, useEffect, useRef } from "react";
 
 interface ShiftLineProps {
   deviceName: string;
-  userInputs: ShiftBlockType[];
+  shiftBlocks: ShiftBlockType[];
   calcBlockPosition: (
     startTime: string,
     endTime: string
@@ -12,7 +12,7 @@ interface ShiftLineProps {
 
 function ShiftLine({
   deviceName,
-  userInputs,
+  shiftBlocks,
   calcBlockPosition,
 }: ShiftLineProps) {
 
@@ -23,7 +23,7 @@ function ShiftLine({
     >
       {/* ShiftLineの仕切り線 */}
 
-      {userInputs.map((userInput: ShiftBlockType, index: number) => {
+      {shiftBlocks.map((userInput: ShiftBlockType, index: number) => {
         const { top, left, height } = calcBlockPosition(
           userInput.startTime,
           userInput.endTime

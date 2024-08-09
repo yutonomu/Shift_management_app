@@ -5,29 +5,13 @@ import { useLayoutEffect, useRef, useState } from "react";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 
-const userInputs: ShiftBlockType[] = [
-  {
-    name: "name1",
-    selectedDevice: "ノートPC",
-    startTime: "10:55",
-    endTime: "20:36",
-    color: "red",
-  },
-  {
-    name: "name2",
-    selectedDevice: "Mac1",
-    startTime: "9:55",
-    endTime: "12:50",
-    color: "blue",
-  },
-];
-
 interface BodyProps {
   deviceNames: string[];
+  shiftBlocks: ShiftBlockType[];
   updateShiftLineLeftAndWidth: (left: number, width: number, index: number) => void;
 }
 
-function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
+function Body( { deviceNames, shiftBlocks,  updateShiftLineLeftAndWidth }: BodyProps) {
 
   const timeLineHeight = useRef<HTMLDivElement | null>(null); // ShiftLineの高さを取得するためのref
   const timeLinesRef = useRef<(HTMLDivElement | null)[]>([]); // 時刻の横線の高さを取得するためのrefの配列
@@ -149,7 +133,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
       >
         <ShiftLine
           deviceName={deviceName}
-          userInputs={userInputs}
+          shiftBlocks={shiftBlocks}
           calcBlockPosition={calcBlockPosition}
         />
       </div>

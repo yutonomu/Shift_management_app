@@ -19,10 +19,7 @@ function ShiftLine({
   
   return (
     <div
-      className="w-full h-full flex flex-col relative"
-      // ref={(el) => {
-      //   shiftLineRef.current = el;
-      // }}
+      className="w-full flex flex-col relative"
     >
       {/* ShiftLineの仕切り線 */}
 

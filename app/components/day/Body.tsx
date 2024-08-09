@@ -66,7 +66,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
     const isLast: boolean = index === times.length - 1; // 最後の行かどうか
     return (
       <div
-        className={`flex items-center w-full ${isFirst ? "mt-2" : ""} ${
+        className={`flex items-center h-[4vh] w-full ${isFirst ? "mt-2" : ""} ${
           isLast ? "mb-2" : "mb-1"
         }`} // 最初の行と最後の行のマージンを調整。それ以外は通常のマージン
       >
@@ -85,8 +85,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
 
   // 時刻と横線の背景を作成
   const timeLines = (
-    <div className="w-[100vw]  absolute z-10" ref={timeLineHeight}>
-      {/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
+    <div className="w-[100vw] absolute z-10" ref={timeLineHeight}>{/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
       {times.map((time: string, index: number) => (
         <div key={index}>{timeWithLine(time, index)}</div> // 時刻と横線を表示
       ))}
@@ -142,7 +141,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
     return (
       <div
         key={deviceName}
-        className="w-[16vw] h-full flex-none z-20 border-l-2 border-black"
+        className="w-[16vw] flex-none z-20 border-l-2 border-black"
         ref={(el) => {
           shiftLinesRef.current[i] = el;
         }}
@@ -160,9 +159,9 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
   return (
     <div className="w-screen h-[85vh]">
       <ScrollArea className="w-full h-full rounded-md border">
-        <div className="relative w-full">
+        <div className="relative w-full ">
           {timeLines}
-          <div className="flex w-full h-full justify-end">{shiftLines}</div>
+          <div className="flex w-full justify-end">{shiftLines}</div>
         </div>
       </ScrollArea>
     </div>

@@ -34,7 +34,7 @@ function Day({ month, day, dayOfWeek }: DayProps) {
       <div className="absolute z-10">
         <Body deviceNames={deviceNames} updateShiftLineLeftAndWidth={updateShiftLineLeftAndWidth}/>
       </div>
-      <div className="absolute z-20 m-[10vw] right-0 bottom-0">
+      <div className="absolute z-20 mb-[10vw] mr-[5vw] right-0 bottom-0">
         <InputShiftButton />
       </div>
     </div>

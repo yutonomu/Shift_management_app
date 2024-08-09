@@ -4,10 +4,10 @@ import Link from "next/link";
 
 export function SettingsButtonWithModal() {
   return (
-    <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+    <div className="container flex h-16 items-center justify-between px-4 md:px-6 ">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="lg:hidden">
+          <Button variant="outline" size="icon" className="lg:hidden bg-gray-200">
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>

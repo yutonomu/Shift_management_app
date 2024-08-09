@@ -7,8 +7,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import InputShiftForm from "@/app/components/day/InputShiftForm";
-import { Button } from "@/components/ui/button";
-import { Plus, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 
 function InputShiftButton() {
   return (
@@ -20,7 +19,7 @@ function InputShiftButton() {
         </button> */}
 
         {/* デザイン案2 */}
-        <button className="rounded-full bg-white border border-black w-12 h-12 flex items-center justify-center">
+        <button className="rounded-[30%] bg-gray-300 w-12 h-12 flex items-center justify-center drop-shadow-xl">
           <PlusIcon className="text-black h-6 w-6" />
         </button>
       </SheetTrigger>

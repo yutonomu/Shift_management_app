@@ -73,7 +73,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
         <span className="w-[15vw] text-lg flex justify-center">{time}</span>{" "}
         {/* 時刻 */}
         <div
-          className="flex-grow border-t border-black"
+          className="flex-grow border-t border-gray-300"
           ref={(el) => {
             timeLinesRef.current[index] = el;
           }}
@@ -85,7 +85,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
 
   // 時刻と横線の背景を作成
   const timeLines = (
-    <div className="w-[100vw] absolute z-10" ref={timeLineHeight}>
+    <div className="w-[100vw]  absolute z-10" ref={timeLineHeight}>
       {/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
       {times.map((time: string, index: number) => (
         <div key={index}>{timeWithLine(time, index)}</div> // 時刻と横線を表示
@@ -142,7 +142,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
     return (
       <div
         key={deviceName}
-        className="w-[16vw] h-full flex-none z-20 border-l border-black"
+        className="w-[16vw] h-full flex-none z-20 border-l-2 border-black"
         ref={(el) => {
           shiftLinesRef.current[i] = el;
         }}
@@ -158,9 +158,9 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
   });
 
   return (
-    <div className="w-screen h-[80vh]">
+    <div className="w-screen h-[85vh]">
       <ScrollArea className="w-full h-full rounded-md border">
-        <div className="relative w-full h-full">
+        <div className="relative w-full">
           {timeLines}
           <div className="flex w-full h-full justify-end">{shiftLines}</div>
         </div>

@@ -29,7 +29,7 @@ function Header({
       return (
         <div
           key={index}
-          className="border-l-2 border-black absolute flex items-center justify-center"
+          className="absolute flex items-end justify-center"
           style={{
             width: `${shiftLine.width}px`,
             left: `${shiftLine.left + 1}px`,
@@ -54,24 +54,26 @@ function Header({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-gray-200 bottom-0">
       <div
-        className="w-[25vw] h-[5vh] ml-[10%] text-[2rem] flex items-center justify-center"
+        className="w-[25vw] h-[5vh] ml-[10%] mt-[3%] text-[3vh] flex items-center justify-center"
       >{month}月</div>
-      <div className="relative flex">
+      <div className="relative flex bottom-0">
         <div
-          className="absolute bottom-0 flex flex-col items-center ml-2"
+          className="absolute bottom-0 flex flex-col items-center ml-2 "
           style={{
             width: `${shiftLineLeftAndWidth[0].width}px`,
             left: `0px`,
-            height: "60%",
+            height: `${shiftLineLeftAndWidth[0].width}px`,
             bottom: `0px`,
           }}
         >
           <div>{dayOfWeek}</div>
-          <div>{day}</div>
+          <div
+          className="rounded-full bg-black text-white w-[8vw] h-[8vw] flex items-center justify-center"
+          >{day}</div>
         </div>
-        <div className="h-[15vh] bottom-0">{devices()}</div>
+        <div className="h-[10vh] bottom-0">{devices()}</div>
       </div>
     </div>
   );

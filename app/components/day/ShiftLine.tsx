@@ -36,7 +36,7 @@ function ShiftLine({
           userInput.selectedDevice === deviceName && (
             <div
               key={index}
-              className="absolute w-full"
+              className="absolute w-full border bg-white rounded-md"
               style={{
                 top: `${top}px`,
                 height: `${height}px`,

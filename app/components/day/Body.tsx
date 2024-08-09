@@ -1,11 +1,9 @@
 "use client";
 import ShiftLine from "@/app/components/day/ShiftLine";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { MutableRefObject, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { UserInputType } from "@/app/types/UserInputType";
-import { time } from "console";
 
-const deviceNames: string[] = ["Pc-1", "Pc-2", "Pc-3", "Pc-4", "Pc-5"];
 
 const userInputs: UserInputType[] = [
   {
@@ -24,12 +22,18 @@ const userInputs: UserInputType[] = [
   },
 ];
 
-function Body() {
-  const deviceNum = 5; // 1画面に表示するShiftLineの数
-  const shiftLineHeight = useRef<HTMLDivElement | null>(null); // ShiftLineの高さを取得するためのref
-  const timeLinesRef = useRef<(HTMLDivElement | null)[]>([]); // 時刻の横線の高さを取得するためのrefの配列
+interface BodyProps {
+  deviceNames: string[];
+  updateShiftLineLeftAndWidth: (left: number, width: number) => void;
+}
 
-  const [height, setHeight] = useState(0); // ShiftLineの高さ
+function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
+
+  const timeLineHeight = useRef<HTMLDivElement | null>(null); // ShiftLineの高さを取得するためのref
+  const timeLinesRef = useRef<(HTMLDivElement | null)[]>([]); // 時刻の横線の高さを取得するためのrefの配列
+  const shiftLinesRef = useRef<(HTMLDivElement | null)[]>([]); // ShiftLineのrefの配列
+
+  const [shiftLineHeight, setShiftLineHeight] = useState(0); // ShiftLineの高さ
 
   // 1:00 ~ 23:00 の文字列を作成
   const times: string[] = Array.from(
@@ -38,12 +42,23 @@ function Body() {
   );
 
   useLayoutEffect(() => {
-    if (shiftLineHeight.current) {
-      setHeight(shiftLineHeight.current.offsetHeight);
+    if (timeLineHeight.current) {
+      setShiftLineHeight(timeLineHeight.current.offsetHeight);
     }
     // timeLinesRef.currentの長さをtimesの長さに合わせて初期化
     timeLinesRef.current = timeLinesRef.current.slice(0, times.length);
-  }, [times]);
+
+    // shiftLinesRef.currentの長さをdeviceNamesの長さに合わせて初期化
+    shiftLinesRef.current = shiftLinesRef.current.slice(0, deviceNames.length);
+
+    // shiftLinesRef.currentの各要素のoffsetLeftとoffsetWidthを取得してsetShiftLineLeftAndWidthを呼び出す
+    shiftLinesRef.current.forEach((shiftLine, index) => {
+      if (shiftLine) {
+        updateShiftLineLeftAndWidth(shiftLine.offsetLeft, shiftLine.offsetWidth);
+      }
+    });
+  }, [times.length, deviceNames.length]);
+
 
   // 時刻の隣に横線を描く要素を作成
   const timeWithLine = (time: string, index: number) => {
@@ -70,8 +85,7 @@ function Body() {
 
   // 時刻と横線の背景を作成
   const timeLines = (
-    <div className="w-[100vw] absolute z-10" ref={shiftLineHeight}>
-      {" "}
+    <div className="w-[100vw] absolute z-10" ref={timeLineHeight}>
       {/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
       {times.map((time: string, index: number) => (
         <div key={index}>{timeWithLine(time, index)}</div> // 時刻と横線を表示
@@ -129,11 +143,15 @@ function Body() {
       <div
         key={deviceName}
         className="w-[16vw] h-full flex-none z-20"
-        style={{ height: `${height}px` }}
+        ref={(el) => {
+          shiftLinesRef.current[i] = el;
+        }}
+        style={{ height: `${shiftLineHeight}px` }}
       >
         <ShiftLine
           deviceName={deviceName}
           userInputs={userInputs}
+          // shiftLineRef={shiftLinesRef.current[i]}
           calcBlockPosition={calcBlockPosition}
         />
       </div>

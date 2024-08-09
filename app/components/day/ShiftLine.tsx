@@ -1,5 +1,5 @@
 import type { UserInputType } from "@/app/types/UserInputType";
-import { use, useEffect, useRef } from "react";
+import { MutableRefObject, RefObject, use, useEffect, useRef } from "react";
 
 interface ShiftLineProps {
   deviceName: string;
@@ -10,17 +10,28 @@ interface ShiftLineProps {
   ) => { top: number; left: number; height: number };
 }
 
-function ShiftLine({ deviceName, userInputs, calcBlockPosition }: ShiftLineProps) {
+function ShiftLine({
+  deviceName,
+  userInputs,
+  calcBlockPosition,
+}: ShiftLineProps) {
 
+  
   return (
-    <div className="w-full h-full flex flex-col border-l border-black relative">
+    <div
+      className="w-full h-full flex flex-col relative"
+      // ref={(el) => {
+      //   shiftLineRef.current = el;
+      // }}
+    >
       {/* ShiftLineの仕切り線 */}
-      {userInputs.map((userInput:UserInputType, index:number) => {
+
+      {userInputs.map((userInput: UserInputType, index: number) => {
         const { top, left, height } = calcBlockPosition(
           userInput.startTime,
           userInput.endTime
         );
-        
+
         return (
           userInput.selectedDevice === deviceName && (
             <div

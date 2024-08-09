@@ -24,7 +24,7 @@ const userInputs: UserInputType[] = [
 
 interface BodyProps {
   deviceNames: string[];
-  updateShiftLineLeftAndWidth: (left: number, width: number) => void;
+  updateShiftLineLeftAndWidth: (left: number, width: number, index: number) => void;
 }
 
 function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
@@ -54,7 +54,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
     // shiftLinesRef.currentの各要素のoffsetLeftとoffsetWidthを取得してsetShiftLineLeftAndWidthを呼び出す
     shiftLinesRef.current.forEach((shiftLine, index) => {
       if (shiftLine) {
-        updateShiftLineLeftAndWidth(shiftLine.offsetLeft, shiftLine.offsetWidth);
+        updateShiftLineLeftAndWidth(shiftLine.offsetLeft, shiftLine.offsetWidth, index);
       }
     });
   }, [times.length, deviceNames.length]);
@@ -142,7 +142,7 @@ function Body( { deviceNames, updateShiftLineLeftAndWidth }: BodyProps) {
     return (
       <div
         key={deviceName}
-        className="w-[16vw] h-full flex-none z-20"
+        className="w-[16vw] h-full flex-none z-20 border-l border-black"
         ref={(el) => {
           shiftLinesRef.current[i] = el;
         }}

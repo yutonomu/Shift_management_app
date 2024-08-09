@@ -1,9 +1,9 @@
-import type { UserInputType } from "@/app/types/UserInputType";
+import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { MutableRefObject, RefObject, use, useEffect, useRef } from "react";
 
 interface ShiftLineProps {
   deviceName: string;
-  userInputs: UserInputType[];
+  userInputs: ShiftBlockType[];
   calcBlockPosition: (
     startTime: string,
     endTime: string
@@ -23,7 +23,7 @@ function ShiftLine({
     >
       {/* ShiftLineの仕切り線 */}
 
-      {userInputs.map((userInput: UserInputType, index: number) => {
+      {userInputs.map((userInput: ShiftBlockType, index: number) => {
         const { top, left, height } = calcBlockPosition(
           userInput.startTime,
           userInput.endTime

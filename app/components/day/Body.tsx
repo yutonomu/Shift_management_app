@@ -2,22 +2,22 @@
 import ShiftLine from "@/app/components/day/ShiftLine";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLayoutEffect, useRef, useState } from "react";
-import type { UserInputType } from "@/app/types/UserInputType";
+import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 
-const userInputs: UserInputType[] = [
+const userInputs: ShiftBlockType[] = [
   {
     name: "name1",
     selectedDevice: "ノートPC",
     startTime: "10:55",
-    endTime: "15:36",
+    endTime: "20:36",
     color: "red",
   },
   {
     name: "name2",
-    selectedDevice: "Mac2",
-    startTime: "15:55",
-    endTime: "20:50",
+    selectedDevice: "Mac1",
+    startTime: "9:55",
+    endTime: "12:50",
     color: "blue",
   },
 ];

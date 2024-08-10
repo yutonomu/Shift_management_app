@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 const prismaClient = new PrismaClient();
 
 async function getAllowedEmails() {
-  const allowedEmails = await prismaClient.dobocreate.findMany({
+  const allowedEmails = await prismaClient.dobocreateUser.findMany({
     select: {
       email: true,
     },

@@ -1,8 +1,21 @@
 "use client";
 import Day from "./Day";
 import SettingsButton from "../components/calender/SettingsButton";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ShiftBlockType } from "../types/ShiftBlockType";
+
+async function getShiftAllData(): Promise<ShiftBlockType[]> {
+  const response = await fetch("/api/shift/all", {
+    cache: "no-cache",
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const shiftAllData: ShiftBlockType[] = await response.json();
+  console.log(shiftAllData);
+  return shiftAllData;
+}
 
 function Calender() {
   const settingsButtonRef = useRef<HTMLDivElement | null>(null);
@@ -10,22 +23,24 @@ function Calender() {
   // 指定可能なデバイス名のリスト
   const deviceNames: string[] = ["白PC", "黒PC", "ノートPC", "Mac1", "Mac2"];
 
-  const shiftBlocks: ShiftBlockType[] = [
-    {
-      name: "name1",
-      selectedDevice: "ノートPC",
-      startTime: "10:55",
-      endTime: "20:36",
-      color: "red",
-    },
-    {
-      name: "name2",
-      selectedDevice: "Mac1",
-      startTime: "9:55",
-      endTime: "12:50",
-      color: "blue",
-    },
-  ];
+  // シフトデータの状態を保持するstate
+  const [shiftBlocks, setShiftBlocks] = useState<ShiftBlockType[]>([]);
+
+  useEffect(() => {
+    // シフトデータを非同期で取得
+    const fetchShiftData = async () => {
+      try {
+        const data = await getShiftAllData();
+        console.log("fetch", data);
+        // console.log("prefetch", preShiftBlocks);
+        setShiftBlocks(data);
+      } catch (error) {
+        console.error("Error fetching shift data:", error);
+      }
+    };
+
+    fetchShiftData();
+  }, []); // 空の依存配列で初回レンダリング時に実行
 
   const month = "8";
   const day = "2";

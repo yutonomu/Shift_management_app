@@ -4,15 +4,21 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
-
 interface BodyProps {
   deviceNames: string[];
   shiftBlocks: ShiftBlockType[];
-  updateShiftLineLeftAndWidth: (left: number, width: number, index: number) => void;
+  updateShiftLineLeftAndWidth: (
+    left: number,
+    width: number,
+    index: number
+  ) => void;
 }
 
-function Body( { deviceNames, shiftBlocks,  updateShiftLineLeftAndWidth }: BodyProps) {
-
+function Body({
+  deviceNames,
+  shiftBlocks,
+  updateShiftLineLeftAndWidth,
+}: BodyProps) {
   const timeLineHeight = useRef<HTMLDivElement | null>(null); // ShiftLineの高さを取得するためのref
   const timeLinesRef = useRef<(HTMLDivElement | null)[]>([]); // 時刻の横線の高さを取得するためのrefの配列
   const shiftLinesRef = useRef<(HTMLDivElement | null)[]>([]); // ShiftLineのrefの配列
@@ -38,11 +44,14 @@ function Body( { deviceNames, shiftBlocks,  updateShiftLineLeftAndWidth }: BodyP
     // shiftLinesRef.currentの各要素のoffsetLeftとoffsetWidthを取得してsetShiftLineLeftAndWidthを呼び出す
     shiftLinesRef.current.forEach((shiftLine, index) => {
       if (shiftLine) {
-        updateShiftLineLeftAndWidth(shiftLine.offsetLeft, shiftLine.offsetWidth, index);
+        updateShiftLineLeftAndWidth(
+          shiftLine.offsetLeft,
+          shiftLine.offsetWidth,
+          index
+        );
       }
     });
   }, [times.length, deviceNames.length]);
-
 
   // 時刻の隣に横線を描く要素を作成
   const timeWithLine = (time: string, index: number) => {
@@ -69,7 +78,8 @@ function Body( { deviceNames, shiftBlocks,  updateShiftLineLeftAndWidth }: BodyP
 
   // 時刻と横線の背景を作成
   const timeLines = (
-    <div className="w-[100vw] absolute z-10" ref={timeLineHeight}>{/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
+    <div className="w-[100vw] absolute z-10" ref={timeLineHeight}>
+      {/* timeLineの高さを shiftLine の縦幅とするために ref で取得 */}
       {times.map((time: string, index: number) => (
         <div key={index}>{timeWithLine(time, index)}</div> // 時刻と横線を表示
       ))}

@@ -10,11 +10,11 @@ import InputShiftForm from "@/app/components/day/InputShiftForm";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
-interface InputShiftButtonProps {
-  deviceNames: string[];
-}
+// interface InputShiftButtonProps {
+//   deviceNames: string[];
+// }
 
-function InputShiftButton({ deviceNames }: InputShiftButtonProps) {
+function InputShiftButton() {
   return (
     <Sheet>
       <SheetTrigger>

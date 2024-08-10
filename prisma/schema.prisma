@@ -56,11 +56,6 @@ model User {
  
   @@map("users")
 }
-
-model Dobocreate {
-  id String @id @default(cuid())
-  email String @unique
-}
  
 model VerificationToken {
   identifier String
@@ -71,3 +66,40 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
+model DobocreateUser {
+  id String @id @default(cuid())
+  email String @unique
+  name String
+  color String
+  role  Role
+  defaultDevice Devices?
+  shifts Shift[]
+
+  @@map("dobocreate_users")
+}
+
+model Shift {
+  id String @id @default(cuid())
+  user DobocreateUser @relation(fields: [userId], references: [id])
+  userId String
+  startTime DateTime
+  endTime DateTime
+  project String?
+  selectedDevice Devices
+  isOverlapShiftId String?
+
+  @@map("shifts")
+}
+
+enum Devices {
+  WHITE_PC
+  BLACK_PC
+  LAPTOP
+  MAC1
+  MAC2
+  }
+
+  enum Role {
+    ADMIN
+    USER
+  }

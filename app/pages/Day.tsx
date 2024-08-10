@@ -11,11 +11,10 @@ interface DayProps {
   day: string;
   dayOfWeek: string;
   shiftBlocks: ShiftBlockType[];
+  deviceNames: string[];
 }
 
-function Day({ month, day, dayOfWeek, shiftBlocks }: DayProps) {
-  // 指定可能なデバイス名のリスト
-  const deviceNames: string[] = ["白PC", "黒PC", "ノートPC", "Mac1", "Mac2"];
+function Day({ month, day, dayOfWeek, shiftBlocks, deviceNames }: DayProps) {
 
   // 各デバイス名の区切り線のleftとデバイス名を表示するためのwidth
   const [shiftLineLeftAndWidth, setShiftLineLeftAndWidth] = useState<{ left: number; width: number }[]>([...Array(deviceNames.length).fill({ left: 0, width: 0 })]);

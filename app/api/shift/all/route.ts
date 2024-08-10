@@ -23,7 +23,7 @@ export async function GET(req: Request): Promise<NextResponse> {
     const formattedShiftData: ShiftBlockType[] = shiftAllData.map((shift) => {
       return {
         name: shift.user.name,
-        selectedDevice: deviceLabelMap[shift.selectedDevice], // 日本語に変換
+        selectedDevice: shift.selectedDevice,
         startTime: shift.startTime.toString(),
         endTime: shift.endTime.toString(),
         color: shift.user.color,

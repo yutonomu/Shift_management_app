@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import UserButton from "@/components/user-button";
+import { deviceLabelMap } from "@/app/types/devices";
 
 interface HeaderProps {
   shiftLineLeftAndWidth: { left: number; width: number }[];
@@ -31,6 +32,8 @@ function Header({
   // デバイス名と区切り線を表示する
   const devices = () => {
     return shiftLineLeftAndWidth.map((shiftLine, index) => {
+      const deviceKey = deviceNames[index] as keyof typeof deviceLabelMap;
+
       return (
         <div
           key={index}
@@ -50,7 +53,7 @@ function Header({
               height={shiftLine.width / 2}
             />
             <span style={{ fontSize: `${shiftLine.width / 4}px` }}>
-              {deviceNames[index]}
+              {deviceLabelMap[deviceKey]}
             </span>
           </div>
         </div>

@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import UserButton from "@/components/user-button";
 
 interface HeaderProps {
   shiftLineLeftAndWidth: { left: number; width: number }[];
@@ -22,6 +24,9 @@ function Header({
     "/Icons/bi_apple.svg",
     "/Icons/ri_apple-line.svg",
   ];
+
+  const { data: session } = useSession();
+  const user = session?.user;
 
   // デバイス名と区切り線を表示する
   const devices = () => {
@@ -57,7 +62,11 @@ function Header({
     <div className="flex flex-col bg-gray-200 bottom-0">
       <div className="w-[25vw] h-[5vh] ml-[10%] mt-[3%] text-[3vh] flex items-center justify-center">
         {month}月
+        <div className="absolute right-5">
+          <UserButton />
+        </div>
       </div>
+
       <div className="relative flex bottom-0">
         <div
           className="absolute bottom-0 flex flex-col items-center ml-2 "

@@ -35,7 +35,7 @@ function Header({
       const deviceKey = deviceNames[index] as keyof typeof deviceLabelMap;
 
       return (
-        <div
+        <header
           key={index}
           className="absolute flex items-end justify-center"
           style={{
@@ -56,7 +56,7 @@ function Header({
               {deviceLabelMap[deviceKey]}
             </span>
           </div>
-        </div>
+        </header>
       );
     });
   };

@@ -56,7 +56,11 @@ function Day({ month, day, dayOfWeek, shiftBlocks }: DayProps) {
         <InputShiftButton
           deviceNames={deviceNames}
           dateTime={
-            new Date(new Date().getFullYear(), parseInt(month), parseInt(day))
+            new Date(
+              new Date().getFullYear(),
+              parseInt(month) - 1,
+              parseInt(day)
+            )
           }
         />
       </div>

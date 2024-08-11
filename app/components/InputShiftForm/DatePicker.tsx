@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,12 +13,23 @@ import {
 } from "@/components/ui/popover";
 import { ja } from "date-fns/locale";
 
-export function DatePicker() {
-  const [date, setDate] = React.useState<Date>(new Date());
+interface DatePickerProps {
+  date: Date | undefined;
+  setDate: (date: Date | undefined) => void;
+}
 
-  const formatMonthYear = (date: Date) => {
-    return format(date, "yyyy年M月", { locale: ja });
-  };
+export function DatePicker({ date, setDate }: DatePickerProps) {
+  const [tempDate, setTempDate] = React.useState<Date | undefined>(date); // Calenderコンポーネント内で直接操作するための変数
+
+  // DatePickerで選択された tempDate は、時間が 00:00:00 になるため、日付情報だけを date にセットする
+  React.useEffect(() => {
+    if (date && tempDate) {
+      const newDate = new Date(tempDate); // 更新用の Date 変数を作成（date は時間が 00:00:00 になっている）
+      newDate.setHours(date.getHours()); // tempDateの時間をnewDateにセット(00:00:00 -> tempDateのHoursをセット)
+      newDate.setMinutes(date.getMinutes()); // tempDateの分をnewDateにセット(00:00:00 -> tempDateのMinutesをセット)
+      setDate(newDate); // 日付と時間が正しく更新された newDate を date にセット
+    }
+  }, [tempDate?.getFullYear(), tempDate?.getMonth(), tempDate?.getDay()]);
 
   return (
     <Popover>
@@ -26,7 +37,7 @@ export function DatePicker() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[280px] justify-start text-left font-normal ml-1 mr-1",
             !date && "text-muted-foreground"
           )}
         >
@@ -40,10 +51,9 @@ export function DatePicker() {
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
+          selected={tempDate}
+          onSelect={setTempDate}
           locale={ja}
-          formatMonthYear={formatMonthYear}
           initialFocus
         />
       </PopoverContent>

@@ -13,7 +13,6 @@ interface TimePickerProps {
 export default function TimePicker({ date, setDate }: TimePickerProps) {
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
-  const secondRef = React.useRef<HTMLInputElement>(null);
  
   return (
     <div className="flex items-center gap-1">
@@ -34,7 +33,6 @@ export default function TimePicker({ date, setDate }: TimePickerProps) {
           setDate={setDate}
           ref={minuteRef}
           onLeftFocus={() => hourRef.current?.focus()}
-          onRightFocus={() => secondRef.current?.focus()}
         />
       </div>
     </div>

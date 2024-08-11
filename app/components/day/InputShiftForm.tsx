@@ -3,89 +3,69 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import Image from "next/image";
-import { DatePicker } from "@/app/components/InputShiftForm/DatePicker";
-
-import TimePicker from "../InputShiftForm/TimePicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
+import SelectDateAndTime from "@/app/components/InputShiftForm/SelectDateAndTime";
+import { Button  } from "@/components/ui/button";
+import Link from "next/link";
 
 interface InputShiftFormProps {
   deviceNames: string[];
   defaultDeviceName?: string | null;
 }
-
 function InputShiftForm({
   deviceNames,
   defaultDeviceName = null,
 }: InputShiftFormProps) {
+  const [startDateTime, setStartDateTime] = useState<Date | undefined>(
+    undefined
+  );
+  const [endDateTime, setEndDateTime] = useState<Date | undefined>(new Date());
 
-  function SelectStartDateAndTime(): JSX.Element {
-    const [time, setTime] = useState<Date | undefined>(new Date());
-
-    return (
-      <div className="flex justify-between items-center border-b border-black m-3">
-        <Image
-          src="/Icons/uil_calender.svg"
-          alt="calender"
-          width={100}
-          height={100}
-        />
-        <DatePicker />
-        <TimePicker date={time} setDate={setTime} />
-      </div>
-    );
-  }
-
-  function SelecteDevice(): JSX.Element {
-    {
-      const selectContents = () => {
-        return (
-          <div>
-            {deviceNames.map((deviceName) => (
-              <SelectItem key={deviceName} value={deviceName}>
-                {deviceName}
-              </SelectItem>
-            ))}
-          </div>
-        );
-      };
-      const placeholder: string = defaultDeviceName
-        ? defaultDeviceName
-        : "デバイス名を選択";
-      return (
-        <div className="flex justify-between items-center m-3">
-          <Image
-            src="/Icons/bi_pc-display-horizontal.svg"
-            alt="device"
-            width={100}
-            height={100}
-          />
-          <Select>
-            <SelectTrigger className="w-[50vw]">
-              <SelectValue placeholder={placeholder} />
-            </SelectTrigger>
-            <SelectContent>{selectContents()}</SelectContent>
-          </Select>
-        </div>
-      );
+  useEffect(() => {
+    // 開始時間が設定されたら終了時間を設定する. 終了時間は開始時間から1時間後に設定する
+    if (startDateTime) {
+      const newEndDateTime = new Date(startDateTime);
+      newEndDateTime.setHours(startDateTime.getHours() + 1);
+      setEndDateTime(newEndDateTime);
     }
-  }
+    // 開始時間が設定されていない場合は、現在時刻の30分後に設定する
+    else {
+      const newStartDateTime = new Date();
+      if (newStartDateTime.getMinutes() <= 30) {
+        newStartDateTime.setMinutes(30);
+      } else {
+        newStartDateTime.setHours(newStartDateTime.getHours() + 1);
+        newStartDateTime.setMinutes(0);
+      }
+      setStartDateTime(newStartDateTime);
+    }
+  }, [startDateTime]);
 
   return (
     <div>
       <SheetHeader>
         <SheetTitle>シフトを登録します</SheetTitle>
         <SheetDescription>
-          <SelectStartDateAndTime /> {/* 開始時間を選択する */}
-          <SelecteDevice /> {/* デバイス名を選択する */}
+          <SelectDateAndTime
+            dateTime={startDateTime}
+            setDateTime={setStartDateTime}
+          />{" "}
+          {/* 開始時間を選択する */}
+          <SelectDateAndTime
+            dateTime={endDateTime}
+            setDateTime={setEndDateTime}
+          />{" "}
+          {/* 終了時間を選択する */}
+          <SelecteDevice
+            deviceNames={deviceNames}
+            defaultDeviceName={defaultDeviceName}
+          />
+          {/* デバイス名を選択する */}
+          <Button variant={"outline"} asChild>
+            <Link href="/">決定</Link>
+          </Button>
+
         </SheetDescription>
       </SheetHeader>
     </div>

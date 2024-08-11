@@ -2,12 +2,12 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
 import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
 import SelectDateAndTime from "@/app/components/InputShiftForm/SelectDateAndTime";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { deviceLabelMap } from "@/app/types/devices";
 
 interface InputShiftFormProps {
   deviceNames: string[];
@@ -23,6 +23,22 @@ function InputShiftForm({
     undefined
   );
   const [endDateTime, setEndDateTime] = useState<Date | undefined>(new Date());
+  const [isAllowInput, setIsAllowInput] = useState<boolean>(true);
+
+  // 選択されたデバイス名を保存するためのステートを定義;
+  const [selectedDevice, setSelectedDevice] = useState<string | undefined>(
+    defaultDeviceName
+      ? deviceLabelMap[defaultDeviceName as keyof typeof deviceLabelMap]
+      : undefined
+  );
+
+  useEffect(() => {
+    if (selectedDevice) {
+      setTimeout(() => {
+        setIsAllowInput(true);
+      }, 300); // 300msの遅延を設定
+    }
+  }, [selectedDevice]);
 
   useEffect(() => {
     // 開始時間が設定されたら終了時間を設定する. 終了時間は開始時間から1時間後に設定する
@@ -62,17 +78,18 @@ function InputShiftForm({
           <SelecteDevice
             deviceNames={deviceNames}
             defaultDeviceName={defaultDeviceName}
+            setSelectedDevice={setSelectedDevice}
+            setIsAllowInput={setIsAllowInput}
           />{" "}
           {/* デバイス名を選択する */}
-          <Button
-            variant={"outline"}
-            asChild
-            className="border border-black w-[50vw] h-[20vw] mt-4"
-          >
-            <Link href="/">
+          <SheetClose asChild>
+            <button
+              className="rouded-md border border-black w-[50vw] h-[20vw] mt-4"
+              disabled={!isAllowInput}
+            >
               <div className="text-base">決定</div>
-            </Link>
-          </Button>
+            </button>
+          </SheetClose>
         </SheetDescription>
       </SheetHeader>
     </div>

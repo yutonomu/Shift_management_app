@@ -7,6 +7,7 @@ import { useState } from "react";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 interface DayProps {
+  year: number;
   month: number;
   day: number;
   dayOfWeek: string;
@@ -14,7 +15,14 @@ interface DayProps {
   deviceNames: string[];
 }
 
-function Day({ month, day, dayOfWeek, shiftBlocks, deviceNames }: DayProps) {
+function Day({
+  year,
+  month,
+  day,
+  dayOfWeek,
+  shiftBlocks,
+  deviceNames,
+}: DayProps) {
   // 各デバイス名の区切り線のleftとデバイス名を表示するためのwidth
   const [shiftLineLeftAndWidth, setShiftLineLeftAndWidth] = useState<
     { left: number; width: number }[]
@@ -53,7 +61,7 @@ function Day({ month, day, dayOfWeek, shiftBlocks, deviceNames }: DayProps) {
       <div className="absolute z-20 mb-[10vw] mr-[5vw] right-0 bottom-0">
         <InputShiftButton
           deviceNames={deviceNames}
-          dateTime={new Date(new Date().getFullYear(), month - 1, day)}
+          dateTime={new Date(year, month - 1, day)}
         />
       </div>
     </div>

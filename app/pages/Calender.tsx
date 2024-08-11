@@ -58,9 +58,6 @@ function Calender({ year, month, day }: CalenderProps) {
     fetchShiftData();
   }, []); // 空の依存配列で初回レンダリング時に実行
 
-  // const month = "8";
-  // const day = "2";
-  // const dayOfWeek = "金";
   // year, month, dayからDateオブジェクトを作成
   const date = new Date(year, month - 1, day);
   const dayOfWeek = date.toLocaleDateString("ja-JP", { weekday: "short" });
@@ -69,6 +66,7 @@ function Calender({ year, month, day }: CalenderProps) {
     <div className="relative w-screen h-screen">
       <div className="absolute z-10">
         <Day
+          year={year}
           month={month}
           day={day}
           dayOfWeek={dayOfWeek}

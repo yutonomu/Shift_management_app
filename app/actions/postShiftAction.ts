@@ -29,7 +29,7 @@ export const postShift = async ({
   const userId = session.user.id;
 
   try {
-    await prisma.shift.create({
+    const newShift = await prisma.shift.create({
       data: {
         selectedDevice: selectedDevice as Devices,
         startTime: new Date(startTime),
@@ -41,6 +41,9 @@ export const postShift = async ({
         },
       },
     });
+
+    // シフト作成が成功した場合、成功メッセージを返す
+    return { success: true, shift: newShift };
   } catch (error) {
     console.error("Error creating shift:", error);
   }

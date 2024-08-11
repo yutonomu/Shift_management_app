@@ -8,12 +8,16 @@ import { useEffect, useState } from "react";
 import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
 import SelectDateAndTime from "@/app/components/InputShiftForm/SelectDateAndTime";
 import { deviceLabelMap } from "@/app/types/devices";
+import { postShift } from "@/app/actions/postShiftAction";
+import { useRouter } from "next/navigation";
+import { shiftFromSchema } from "@/app/types/ShiftFormSchema";
 
 interface InputShiftFormProps {
   deviceNames: string[];
   defaultDeviceName?: string | null;
   dateTime: Date;
 }
+
 function InputShiftForm({
   deviceNames,
   defaultDeviceName = null,
@@ -24,6 +28,9 @@ function InputShiftForm({
   );
   const [endDateTime, setEndDateTime] = useState<Date | undefined>(new Date());
   const [isAllowInput, setIsAllowInput] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const router = useRouter();
 
   // 選択されたデバイス名を保存するためのステートを定義;
   const [selectedDevice, setSelectedDevice] = useState<string | undefined>(
@@ -31,6 +38,34 @@ function InputShiftForm({
       ? deviceLabelMap[defaultDeviceName as keyof typeof deviceLabelMap]
       : undefined
   );
+
+  const handleCreateShift = async () => {
+    const validationResult = shiftFromSchema.safeParse({
+      selectedDevice,
+      startTime: startDateTime,
+      endTime: endDateTime,
+    });
+
+    if (!validationResult.success) {
+      // setErrorMessage("正しい入力を行ってください");
+      confirm("正しい入力を行ってください");
+      return;
+    }
+
+    try {
+      const newShift = await postShift({
+        selectedDevice: validationResult.data.selectedDevice,
+        startTime: validationResult.data.startTime,
+        endTime: validationResult.data.endTime,
+      });
+      setErrorMessage(null); // エラーがなければクリア
+      router.refresh(); // ページをリフレッシュ
+      console.log("Shift created successfully", newShift);
+    } catch (error) {
+      console.error("Error creating shift:", error);
+      setErrorMessage("Error creating shift. Please try again.");
+    }
+  };
 
   useEffect(() => {
     if (selectedDevice) {
@@ -67,6 +102,7 @@ function InputShiftForm({
       <SheetHeader>
         <SheetTitle>シフトを登録します</SheetTitle>
         <SheetDescription>
+          {errorMessage && <div className="text-red-500">{errorMessage}</div>}
           <SelectDateAndTime
             dateTime={startDateTime}
             setDateTime={setStartDateTime}
@@ -86,7 +122,10 @@ function InputShiftForm({
           {/* デバイス名を選択する */}
           <SheetClose asChild>
             <button
-              className="rouded-md border border-black w-[50vw] h-[20vw] mt-4"
+              className="rounded-md border border-black w-[50vw] h-[20vw] mt-4"
+              onClick={async () => {
+                await handleCreateShift();
+              }}
               disabled={!isAllowInput}
             >
               <div className="text-base">決定</div>

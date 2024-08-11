@@ -4,12 +4,10 @@ import {
   SheetDescription,
   SheetClose,
 } from "@/components/ui/sheet";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
 import SelectDateAndTime from "@/app/components/InputShiftForm/SelectDateAndTime";
 import { deviceLabelMap } from "@/app/types/devices";
-import { UndoIcon } from "lucide-react";
-import { is } from "date-fns/locale";
 
 interface InputShiftFormProps {
   deviceNames: string[];
@@ -42,13 +40,6 @@ function InputShiftForm({
       ? deviceLabelMap[defaultDeviceName as keyof typeof deviceLabelMap]
       : undefined
   );
-
-  useEffect(() => {
-    console.log("start", start);
-    console.log("end", end);
-    console.log("startDateTime", startDateTime);
-    console.log("endDateTime", endDateTime);
-  }, []);
 
   useEffect(() => {
     if (selectedDevice) {

@@ -1,5 +1,4 @@
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
-import { MutableRefObject, RefObject, use, useEffect, useRef } from "react";
 import InputShiftForm from "./InputShiftForm";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
@@ -19,10 +18,6 @@ function ShiftLine({
   shiftBlocks,
   calcBlockPosition,
 }: ShiftLineProps) {
-  function handleClick(userInput: ShiftBlockType) {
-    console.log("clicked", userInput.startTime);
-  }
-
   return (
     <div className="w-full flex flex-col relative">
       {/* ShiftLineの仕切り線 */}
@@ -45,9 +40,6 @@ function ShiftLine({
                     height: `${height}px`,
                     left: `${left}px`,
                     backgroundColor: userInput.color,
-                  }}
-                  onClick={() => {
-                    handleClick(userInput);
                   }}
                 >
                   {userInput.name}

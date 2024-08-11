@@ -142,6 +142,7 @@ function Body({
         style={{ height: `${shiftLineHeight}px` }}
       >
         <ShiftLine
+          deviceNames={deviceNames}
           deviceName={deviceName}
           shiftBlocks={shiftBlocks}
           calcBlockPosition={calcBlockPosition}

@@ -1,6 +1,7 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import InputShiftForm from "@/app/components/day/InputShiftForm";
 import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 
 interface InputShiftButtonProps {
   deviceNames: string[];
@@ -8,6 +9,7 @@ interface InputShiftButtonProps {
 }
 
 function InputShiftButton({ deviceNames, dateTime }: InputShiftButtonProps) {
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -19,6 +21,13 @@ function InputShiftButton({ deviceNames, dateTime }: InputShiftButtonProps) {
         <InputShiftForm deviceNames={deviceNames} dateTime={dateTime} />
       </SheetContent>
     </Sheet>
+
+    // <Link
+    //   href={"inputShiftForm/create"}
+    //   className="rounded-[30%] bg-gray-300 w-12 h-12 flex items-center justify-center drop-shadow-xl"
+    // >
+    //   <PlusIcon className="text-black h-6 w-6" />
+    // </Link>
   );
 }
 

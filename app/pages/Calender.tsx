@@ -8,6 +8,9 @@ import { ShiftBlockType } from "../types/ShiftBlockType";
 function Calender() {
   const settingsButtonRef = useRef<HTMLDivElement | null>(null);
 
+  // 指定可能なデバイス名のリスト
+  const deviceNames: string[] = ["白PC", "黒PC", "ノートPC", "Mac1", "Mac2"];
+
   const shiftBlocks: ShiftBlockType[] = [
     {
       name: "name1",
@@ -24,15 +27,21 @@ function Calender() {
       color: "blue",
     },
   ];
-  
-  const month = '8';
-  const day = '2';
-  const dayOfWeek = '金';
+
+  const month = "8";
+  const day = "2";
+  const dayOfWeek = "金";
 
   return (
     <div className="relative w-screen h-screen">
       <div className="absolute z-10">
-        <Day month={month} day={day} dayOfWeek={dayOfWeek} shiftBlocks={shiftBlocks} />
+        <Day
+          month={month}
+          day={day}
+          dayOfWeek={dayOfWeek}
+          shiftBlocks={shiftBlocks}
+          deviceNames={deviceNames}
+        />
       </div>
       <div className="absolute z-20" ref={settingsButtonRef}>
         <SettingsButton />

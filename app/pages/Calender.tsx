@@ -4,6 +4,7 @@ import SettingsButton from "../components/calender/SettingsButton";
 import { useRef } from "react";
 import { ShiftBlockType } from "../types/ShiftBlockType";
 
+
 function Calender() {
   const settingsButtonRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,6 +48,7 @@ function Calender() {
       </div>
     </div>
   );
+
 }
 
 export default Calender;

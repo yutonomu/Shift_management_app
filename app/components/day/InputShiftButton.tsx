@@ -1,20 +1,15 @@
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import InputShiftForm from "@/app/components/day/InputShiftForm";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
 interface InputShiftButtonProps {
   deviceNames: string[];
+  dateTime: Date;
 }
 
-function InputShiftButton({ deviceNames }: InputShiftButtonProps) {
+function InputShiftButton({ deviceNames, dateTime }: InputShiftButtonProps) {
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -23,7 +18,7 @@ function InputShiftButton({ deviceNames }: InputShiftButtonProps) {
         </button>
       </SheetTrigger>
       <SheetContent className="w-screen h-screen" side={"bottom"}>
-        <InputShiftForm />
+        <InputShiftForm deviceNames={deviceNames} dateTime={dateTime} />
       </SheetContent>
     </Sheet>
 

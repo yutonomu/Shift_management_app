@@ -37,7 +37,7 @@ function SelecteDevice({
       );
     };
     const placeholder: string = defaultDeviceName
-      ? defaultDeviceName
+      ? deviceLabelMap[defaultDeviceName as keyof typeof deviceLabelMap]
       : "デバイス名を選択";
     return (
       <div className="flex justify-between items-center m-3">

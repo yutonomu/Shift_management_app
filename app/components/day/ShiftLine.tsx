@@ -4,6 +4,7 @@ import InputShiftForm from "./InputShiftForm";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 interface ShiftLineProps {
+  deviceNames: string[];
   deviceName: string;
   shiftBlocks: ShiftBlockType[];
   calcBlockPosition: (
@@ -13,6 +14,7 @@ interface ShiftLineProps {
 }
 
 function ShiftLine({
+  deviceNames,
   deviceName,
   shiftBlocks,
   calcBlockPosition,
@@ -20,7 +22,7 @@ function ShiftLine({
   function handleClick(userInput: ShiftBlockType) {
     console.log("clicked", userInput.startTime);
   }
-  const deviceNames: string[] = ["白PC", "黒PC", "ノートPC", "Mac1", "Mac2"]; // テストデータ。デバイス選択の項目の表示がおかしくなるのはこのデータのせいだと思う
+
   return (
     <div className="w-full flex flex-col relative">
       {/* ShiftLineの仕切り線 */}

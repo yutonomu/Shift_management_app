@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.header {
-  posision: sticky;
-  top: 0;
-  z-index: 1000; /* 他のコンテンツの上に表示されるようにする */
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;

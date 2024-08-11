@@ -1,7 +1,6 @@
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { deviceLabelMap } from "@/app/types/devices";
 
 export async function GET(
   req: Request,
@@ -24,13 +23,13 @@ export async function GET(
   const endDate = new Date(year, month - 1, day, 23, 59, 59);
 
   try {
-    const shiftAllData = await prisma.shift.findMany({
-      // where: {
-      //   startTime: {
-      //     gte: startDate,
-      //     lte: endDate,
-      //   },
-      // },
+    const shiftDayData = await prisma.shift.findMany({
+      where: {
+        startTime: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
       select: {
         selectedDevice: true,
         startTime: true,
@@ -44,18 +43,20 @@ export async function GET(
       },
     });
 
-    // ShiftBlockTypeに合わせてデータを変換しつつ、日本語ラベルに変換
-    const formattedShiftData: ShiftBlockType[] = shiftAllData.map((shift) => {
+    // // ShiftBlockTypeに合わせてデータを変換
+    const shiftDayBlocks: ShiftBlockType[] = shiftDayData.map((shift) => {
       return {
         name: shift.user.name,
-        selectedDevice: deviceLabelMap[shift.selectedDevice], // 日本語に変換
-        startTime: shift.startTime.toString(),
-        endTime: shift.endTime.toString(),
+        selectedDevice: shift.selectedDevice, // 日本語に変換
+        startTime: shift.startTime,
+        endTime: shift.endTime,
         color: shift.user.color,
       };
     });
 
-    return NextResponse.json(formattedShiftData, { status: 200 });
+    console.log("shiftDayBlocks:", shiftDayBlocks);
+
+    return NextResponse.json(shiftDayBlocks, { status: 200 });
   } catch (error) {
     console.error("Failed to fetch shifts:", error);
     return NextResponse.json(

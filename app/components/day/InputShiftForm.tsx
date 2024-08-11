@@ -60,12 +60,14 @@ function InputShiftForm({
           <SelecteDevice
             deviceNames={deviceNames}
             defaultDeviceName={defaultDeviceName}
-          />
-          {/* デバイス名を選択する */}
-          <Button variant={"outline"} asChild>
-            <Link href="/">決定</Link>
+          /> {/* デバイス名を選択する */}
+          <Button variant={"outline"} asChild className="border border-black w-[50vw] h-[20vw] mt-4">
+            <Link href="/">
+            <div
+            className="text-base"
+            >決定</div>
+            </Link>
           </Button>
-
         </SheetDescription>
       </SheetHeader>
     </div>

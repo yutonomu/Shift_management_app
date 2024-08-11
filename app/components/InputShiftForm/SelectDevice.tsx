@@ -1,12 +1,10 @@
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Image from "next/image";
 
 interface SelecteDeviceProps {
@@ -14,7 +12,10 @@ interface SelecteDeviceProps {
   defaultDeviceName?: string | null;
 }
 
-function SelecteDevice({deviceNames, defaultDeviceName}: SelecteDeviceProps): JSX.Element {
+function SelecteDevice({
+  deviceNames,
+  defaultDeviceName,
+}: SelecteDeviceProps): JSX.Element {
   {
     const selectContents = () => {
       return (
@@ -35,11 +36,11 @@ function SelecteDevice({deviceNames, defaultDeviceName}: SelecteDeviceProps): JS
         <Image
           src="/Icons/bi_pc-display-horizontal.svg"
           alt="device"
-          width={100}
-          height={100}
+          width={68}
+          height={68}
         />
         <Select>
-          <SelectTrigger className="w-[50vw]">
+          <SelectTrigger className="w-[60vw] text-xs">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>{selectContents()}</SelectContent>

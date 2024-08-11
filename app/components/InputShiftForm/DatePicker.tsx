@@ -37,15 +37,15 @@ export function DatePicker({ date, setDate }: DatePickerProps) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal ml-1 mr-1",
+            "w-auto justify-start text-left font-normal ml-1 mr-1 text-xs",
             !date && "text-muted-foreground"
           )}
         >
-          {date ? (
-            format(date, "PPP(E)", { locale: ja })
-          ) : (
-            <span>Pick a date</span>
-          )}
+            {date ? (
+              format(date, "PPP(E)", { locale: ja })
+            ) : (
+              <span>Pick a date</span>
+            )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

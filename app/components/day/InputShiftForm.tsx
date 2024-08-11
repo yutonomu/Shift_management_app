@@ -4,25 +4,36 @@ import {
   SheetDescription,
   SheetClose,
 } from "@/components/ui/sheet";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
 import SelectDateAndTime from "@/app/components/InputShiftForm/SelectDateAndTime";
 import { deviceLabelMap } from "@/app/types/devices";
+import { UndoIcon } from "lucide-react";
+import { is } from "date-fns/locale";
 
 interface InputShiftFormProps {
   deviceNames: string[];
   defaultDeviceName?: string | null;
   dateTime: Date;
+  start?: Date;
+  end?: Date;
+  isEdit?: boolean;
 }
 function InputShiftForm({
   deviceNames,
   defaultDeviceName = null,
   dateTime,
+  start,
+  end,
+
+  isEdit = false,
 }: InputShiftFormProps) {
   const [startDateTime, setStartDateTime] = useState<Date | undefined>(
-    undefined
+    start ? start : undefined
   );
-  const [endDateTime, setEndDateTime] = useState<Date | undefined>(new Date());
+  const [endDateTime, setEndDateTime] = useState<Date | undefined>(
+    end ? end : new Date()
+  );
   const [isAllowInput, setIsAllowInput] = useState<boolean>(true);
 
   // 選択されたデバイス名を保存するためのステートを定義;
@@ -31,6 +42,13 @@ function InputShiftForm({
       ? deviceLabelMap[defaultDeviceName as keyof typeof deviceLabelMap]
       : undefined
   );
+
+  useEffect(() => {
+    console.log("start", start);
+    console.log("end", end);
+    console.log("startDateTime", startDateTime);
+    console.log("endDateTime", endDateTime);
+  }, []);
 
   useEffect(() => {
     if (selectedDevice) {
@@ -44,7 +62,12 @@ function InputShiftForm({
     // 開始時間が設定されたら終了時間を設定する. 終了時間は開始時間から1時間後に設定する
     if (startDateTime !== undefined) {
       const newEndDateTime = new Date(startDateTime);
-      newEndDateTime.setHours(startDateTime.getHours() + 1);
+      if (!isEdit) {
+        newEndDateTime.setHours(startDateTime.getHours() + 1);
+      } else if (endDateTime) {
+        newEndDateTime.setHours(endDateTime.getHours());
+        newEndDateTime.setMinutes(endDateTime.getMinutes());
+      }
       setEndDateTime(newEndDateTime);
     }
     // 開始時間が設定されていない場合は、現在時刻の30分後に設定する
@@ -65,7 +88,9 @@ function InputShiftForm({
   return (
     <div>
       <SheetHeader>
-        <SheetTitle>シフトを登録します</SheetTitle>
+        <SheetTitle>
+          {isEdit ? "シフトを編集します" : "シフトを登録します"}
+        </SheetTitle>
         <SheetDescription>
           <SelectDateAndTime
             dateTime={startDateTime}
@@ -92,6 +117,16 @@ function InputShiftForm({
               <div className="text-base">決定</div>
             </button>
           </SheetClose>
+          {isEdit && (
+            <SheetClose asChild>
+              <button
+                className="rouded-md border border-black w-[50vw] h-[20vw] mt-4"
+                disabled={!isAllowInput}
+              >
+                <div className="text-base">削除</div>
+              </button>
+            </SheetClose>
+          )}
         </SheetDescription>
       </SheetHeader>
     </div>

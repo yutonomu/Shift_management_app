@@ -41,16 +41,17 @@ export function DatePicker({ date, setDate }: DatePickerProps) {
             !date && "text-muted-foreground"
           )}
         >
-            {date ? (
-              format(date, "PPP(E)", { locale: ja })
-            ) : (
-              <span>Pick a date</span>
-            )}
+          {date ? (
+            format(date, "PPP(E)", { locale: ja })
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
+          month={date}
           selected={tempDate}
           onSelect={setTempDate}
           locale={ja}

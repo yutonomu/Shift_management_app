@@ -26,18 +26,20 @@ function InputShiftForm({
 
   useEffect(() => {
     // 開始時間が設定されたら終了時間を設定する. 終了時間は開始時間から1時間後に設定する
-    if (startDateTime) {
+    if (startDateTime !== undefined) {
       const newEndDateTime = new Date(startDateTime);
       newEndDateTime.setHours(startDateTime.getHours() + 1);
       setEndDateTime(newEndDateTime);
     }
     // 開始時間が設定されていない場合は、現在時刻の30分後に設定する
     else {
+      const now = new Date(); // 現在時刻を設定する用
       const newStartDateTime = new Date(dateTime); // 親コンポーネントから渡された日付を開始時間に設定する
-      if (newStartDateTime.getMinutes() <= 30) {
+      if (now.getMinutes() <= 30) {
+        newStartDateTime.setHours(now.getHours());
         newStartDateTime.setMinutes(30);
       } else {
-        newStartDateTime.setHours(newStartDateTime.getHours() + 1);
+        newStartDateTime.setHours(now.getHours() + 1);
         newStartDateTime.setMinutes(0);
       }
       setStartDateTime(newStartDateTime);

@@ -66,6 +66,7 @@ function Calender({ year, month, day }: CalenderProps) {
     <div className="relative w-screen h-screen">
       <div className="absolute z-10">
         <Day
+          year={year}
           month={month}
           day={day}
           dayOfWeek={dayOfWeek}

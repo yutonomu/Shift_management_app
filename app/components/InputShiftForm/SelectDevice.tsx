@@ -6,23 +6,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
+import { deviceLabelMap } from "@/app/types/devices";
 
 interface SelecteDeviceProps {
   deviceNames: string[];
   defaultDeviceName?: string | null;
+  setSelectedDevice: (value: string | undefined) => void;
+  setIsAllowInput: (value: boolean) => void;
 }
 
 function SelecteDevice({
   deviceNames,
   defaultDeviceName,
+  setSelectedDevice,
+  setIsAllowInput,
 }: SelecteDeviceProps): JSX.Element {
   {
     const selectContents = () => {
       return (
         <div>
-          {deviceNames.map((deviceName) => (
-            <SelectItem key={deviceName} value={deviceName}>
-              {deviceName}
+          {deviceNames.map((deviceName, index) => (
+            <SelectItem
+              key={deviceName}
+              value={deviceLabelMap[deviceName as keyof typeof deviceLabelMap]}
+            >
+              {deviceLabelMap[deviceName as keyof typeof deviceLabelMap]}
             </SelectItem>
           ))}
         </div>
@@ -39,7 +47,14 @@ function SelecteDevice({
           width={68}
           height={68}
         />
-        <Select>
+        <Select
+          onValueChange={(value) => setSelectedDevice(value)}
+          onOpenChange={(isOpen) => {
+            if (isOpen) {
+              setIsAllowInput(false);
+            }
+          }}
+        >
           <SelectTrigger className="w-[60vw] text-xs">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>

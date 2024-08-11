@@ -10,15 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-interface UserButtonProps {
-  user?: {
-    name?: string;
-    email?: string;
-    image?: string;
-  };
-}
-
-export default function UserButton(/*{ user }: UserButtonProps*/) {
+export default function UserButton() {
   const { data: session } = useSession();
   const user = session?.user;
 

@@ -6,10 +6,12 @@ export async function GET(
   req: Request,
   { params }: { params: { time: string } }
 ): Promise<NextResponse> {
-  const [year, month, day] = new Date(params.time)
-    .toLocaleDateString()
-    .split("/")
-    .map(Number);
+  const date = new Date(params.time);
+  const [year, month, day] = [
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate(),
+  ];
 
   if (isNaN(year) || isNaN(month) || isNaN(day)) {
     return NextResponse.json(

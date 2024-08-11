@@ -116,11 +116,11 @@ function Body({
   }
 
   // ShiftBlockの位置を計算
-  const calcBlockPosition = (startTime: string, endTime: string) => {
-    const startHour = parseInt(startTime.split(":")[0]);
-    const startMinute = parseInt(startTime.split(":")[1]);
-    const endHour = parseInt(endTime.split(":")[0]);
-    const endMinute = parseInt(endTime.split(":")[1]);
+  const calcBlockPosition = (startTime: Date, endTime: Date) => {
+    const startHour = startTime.getHours();
+    const startMinute = startTime.getMinutes();
+    const endHour = endTime.getHours();
+    const endMinute = endTime.getMinutes();
 
     const top: number = calcPosition(startHour, startMinute); // 開始時間（Hour）のtopを計算
     const end: number = calcPosition(endHour, endMinute); // 終了時間（Hour）のtopを計算

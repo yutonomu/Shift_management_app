@@ -82,8 +82,8 @@ model Shift {
   id String @id @default(cuid())
   user DobocreateUser @relation(fields: [userId], references: [id])
   userId String
-  startTime String
-  endTime String
+  startTime DateTime
+  endTime DateTime
   project String?
   selectedDevice Devices
   isOverlapShiftId String?

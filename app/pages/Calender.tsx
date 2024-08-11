@@ -10,38 +10,36 @@ async function getShiftAllData({
   month,
   day,
 }: CalenderProps): Promise<ShiftBlockType[]> {
-  const response = await fetch("/api/shift/all", {
+  const response = await fetch(`/api/shift/day/${year}/${month}/${day}`, {
     cache: "no-cache",
   });
-
-  // const response = await fetch(`/api/shift/day/${year}/${month}/${day}`, {
-  //   cache: "no-cache",
-  // });
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
 
-  const shiftAllData: ShiftBlockType[] = await response.json();
-  console.log(shiftAllData);
-  return shiftAllData;
+  const shiftDayBlocks: ShiftBlockType[] = await response.json();
+  // startTimeとendTimeをDateオブジェクトに変換
+  shiftDayBlocks.forEach((block) => {
+    block.startTime = new Date(block.startTime);
+    block.endTime = new Date(block.endTime);
+  });
+
+  return shiftDayBlocks;
 }
 
 interface CalenderProps {
-  // number型にしたい
-  year: string;
-  month: string;
-  day: string;
+  year: number;
+  month: number;
+  day: number;
 }
 
 function Calender({ year, month, day }: CalenderProps) {
   const settingsButtonRef = useRef<HTMLDivElement | null>(null);
 
   // 指定可能なデバイス名のリスト
-  // const deviceNames: string[] = ["白PC", "黒PC", "ノートPC", "Mac1", "Mac2"];
   const deviceNames: string[] = Object.values(Devices).filter(
     (value) => typeof value === "string"
   ) as string[];
-  console.log("deviceNames", deviceNames);
 
   // シフトデータの状態を保持するstate
   const [shiftBlocks, setShiftBlocks] = useState<ShiftBlockType[]>([]);
@@ -64,7 +62,7 @@ function Calender({ year, month, day }: CalenderProps) {
   // const day = "2";
   // const dayOfWeek = "金";
   // year, month, dayからDateオブジェクトを作成
-  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  const date = new Date(year, month - 1, day);
   const dayOfWeek = date.toLocaleDateString("ja-JP", { weekday: "short" });
 
   return (

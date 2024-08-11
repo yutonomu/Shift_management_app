@@ -7,8 +7,8 @@ import { useState } from "react";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 interface DayProps {
-  month: string;
-  day: string;
+  month: number;
+  day: number;
   dayOfWeek: string;
   shiftBlocks: ShiftBlockType[];
   deviceNames: string[];

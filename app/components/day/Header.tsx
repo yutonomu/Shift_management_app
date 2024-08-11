@@ -6,8 +6,8 @@ import { deviceLabelMap } from "@/app/types/devices";
 interface HeaderProps {
   shiftLineLeftAndWidth: { left: number; width: number }[];
   deviceNames: string[];
-  month: string;
-  day: string;
+  month: number;
+  day: number;
   dayOfWeek: string;
 }
 

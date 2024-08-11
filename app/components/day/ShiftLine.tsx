@@ -5,8 +5,8 @@ interface ShiftLineProps {
   deviceName: string;
   shiftBlocks: ShiftBlockType[];
   calcBlockPosition: (
-    startTime: string,
-    endTime: string
+    startTime: Date,
+    endTime: Date
   ) => { top: number; left: number; height: number };
 }
 

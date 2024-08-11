@@ -9,7 +9,6 @@ interface InputShiftButtonProps {
 }
 
 function InputShiftButton({ deviceNames, dateTime }: InputShiftButtonProps) {
-
   return (
     <Sheet>
       <SheetTrigger>

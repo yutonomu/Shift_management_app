@@ -1,8 +1,8 @@
 export type ShiftBlockType = {
   name: string;
   selectedDevice: string;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   color: string;
   // defaultDevice: string; // ユーザーが設定したデフォルトのデバイス名
   // shiftBlockId: string;

@@ -5,8 +5,8 @@ interface ShiftLineProps {
   deviceName: string;
   shiftBlocks: ShiftBlockType[];
   calcBlockPosition: (
-    startTime: string,
-    endTime: string
+    startTime: Date,
+    endTime: Date
   ) => { top: number; left: number; height: number };
 }
 
@@ -15,12 +15,8 @@ function ShiftLine({
   shiftBlocks,
   calcBlockPosition,
 }: ShiftLineProps) {
-
-  
   return (
-    <div
-      className="w-full flex flex-col relative"
-    >
+    <div className="w-full flex flex-col relative">
       {/* ShiftLineの仕切り線 */}
 
       {shiftBlocks.map((userInput: ShiftBlockType, index: number) => {

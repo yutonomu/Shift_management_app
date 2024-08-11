@@ -14,7 +14,7 @@ import {
 import Image from "next/image";
 import { DatePicker } from "@/app/components/InputShiftForm/DatePicker";
 
-import SelectTime from "../InputShiftForm/SelectTime";
+import TimePicker from "../InputShiftForm/TimePicker";
 import { useState } from "react";
 
 interface InputShiftFormProps {
@@ -26,8 +26,10 @@ function InputShiftForm({
   deviceNames,
   defaultDeviceName = null,
 }: InputShiftFormProps) {
+
   function SelectStartDateAndTime(): JSX.Element {
-    const [time, setTime] = useState<Date | null>(new Date());
+    const [time, setTime] = useState<Date | undefined>(new Date());
+
     return (
       <div className="flex justify-between items-center border-b border-black m-3">
         <Image
@@ -37,7 +39,7 @@ function InputShiftForm({
           height={100}
         />
         <DatePicker />
-        <SelectTime date={time} setDate={setTime} />
+        <TimePicker date={time} setDate={setTime} />
       </div>
     );
   }

@@ -16,7 +16,7 @@ import withPWA from "next-pwa";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: true, // Next.js の設定
   images: {
     remotePatterns: [
       {
@@ -27,10 +27,15 @@ const nextConfig = {
   },
 };
 
-export default withPWA({
+const pwaConfig = {
   dest: "public",
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === "development", // 開発環境でPWAを無効化
+};
+
+// PWA の設定を適用してエクスポート
+export default withPWA({
+  ...pwaConfig,
   ...nextConfig,
 });

@@ -1,4 +1,6 @@
 {
+  "name": "シフト管理アプリ",
+  "short_name": "シフト管理",
   "theme_color": "#8936FF",
   "background_color": "#2EC6FE",
   "icons": [
@@ -19,7 +21,6 @@
   "display": "standalone",
   "dir": "auto",
   "lang": "ja",
-  "name": "シフト管理アプリ",
-  "short_name": "シフト管理",
-  "start_url": "/"
+  "start_url": "/",
+  "scope": "/"
 }

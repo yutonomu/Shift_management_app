@@ -4,6 +4,7 @@ import SettingsButton from "../components/calender/SettingsButton";
 import { useEffect, useRef, useState } from "react";
 import { ShiftBlockType } from "../types/ShiftBlockType";
 import { Devices } from "@prisma/client";
+import { NowPageTime } from "../types/NowPageTime";
 
 async function getShiftAllData({
   year,
@@ -62,6 +63,12 @@ function Calender({ year, month, day }: CalenderProps) {
   const date = new Date(year, month - 1, day);
   const dayOfWeek = date.toLocaleDateString("ja-JP", { weekday: "short" });
 
+  const nowPageTime: NowPageTime = {
+    year,
+    month,
+    day,
+  };
+
   return (
     <div className="relative w-screen h-screen">
       <div className="absolute z-10">
@@ -72,6 +79,7 @@ function Calender({ year, month, day }: CalenderProps) {
           dayOfWeek={dayOfWeek}
           shiftBlocks={shiftBlocks}
           deviceNames={deviceNames}
+          nowPageTime={nowPageTime}
         />
       </div>
       <div className="absolute z-20" ref={settingsButtonRef}>

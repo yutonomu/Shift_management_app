@@ -1,6 +1,7 @@
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import InputShiftForm from "./InputShiftForm";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface ShiftLineProps {
   deviceNames: string[];
@@ -10,6 +11,7 @@ interface ShiftLineProps {
     startTime: Date,
     endTime: Date
   ) => { top: number; left: number; height: number };
+  nowPageTime: NowPageTime;
 }
 
 function ShiftLine({
@@ -17,6 +19,7 @@ function ShiftLine({
   deviceName,
   shiftBlocks,
   calcBlockPosition,
+  nowPageTime,
 }: ShiftLineProps) {
   return (
     <div className="w-full flex flex-col relative">
@@ -47,12 +50,14 @@ function ShiftLine({
               </SheetTrigger>
               <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
                 <InputShiftForm
+                  id={userInput.id}
                   deviceNames={deviceNames}
                   dateTime={userInput.startTime}
                   start={userInput.startTime}
                   end={userInput.endTime}
                   defaultDeviceName={userInput.selectedDevice}
                   isEdit={true}
+                  nowPageTime={nowPageTime}
                 />
               </SheetContent>
             </Sheet>

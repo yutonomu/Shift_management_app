@@ -8,27 +8,33 @@ import {
 import { useEffect, useState } from "react";
 import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
 import SelectDateAndTime from "@/app/components/InputShiftForm/SelectDateAndTime";
-import { deviceLabelMap } from "@/app/types/devices";
 import { postShift } from "@/app/actions/postShiftAction";
 import { useRouter } from "next/navigation";
 import { shiftFromSchema } from "@/app/types/ShiftFormSchema";
+import { editShift } from "@/app/actions/editShiftAction";
+import { deleteShift } from "@/app/actions/deleteShiftAction";
+import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface InputShiftFormProps {
+  id?: string | null;
   deviceNames: string[];
   defaultDeviceName?: string | null;
   dateTime: Date;
   start?: Date;
   end?: Date;
   isEdit?: boolean;
+  nowPageTime: NowPageTime;
 }
 
 function InputShiftForm({
+  id,
   deviceNames,
   defaultDeviceName = null,
   dateTime,
   start,
   end,
   isEdit = false,
+  nowPageTime,
 }: InputShiftFormProps) {
   const [startDateTime, setStartDateTime] = useState<Date | undefined>(
     start ? start : undefined
@@ -47,13 +53,11 @@ function InputShiftForm({
 
   // 選択されたデバイス名を保存するためのステートを定義;
   const [selectedDevice, setSelectedDevice] = useState<string | undefined>(
-    defaultDeviceName
-      ? deviceLabelMap[defaultDeviceName as keyof typeof deviceLabelMap]
-      : undefined
+    defaultDeviceName ? defaultDeviceName : undefined
   );
 
   const handleCreateShift = async (): Promise<boolean> => {
-    console.log("onClicked");
+    console.log("handleCreateShift.selectedDevice", selectedDevice);
     const validationResult = shiftFromSchema.safeParse({
       selectedDevice,
       startTime: startDateTime,
@@ -79,7 +83,9 @@ function InputShiftForm({
         endTime: validationResult.data.endTime,
       });
       setErrors({ selectedDevice: null, startTime: null, endTime: null });
-      router.refresh(); // ページをリフレッシュ
+      router.push(
+        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
+      ); // ページをリフレッシュ
       console.log("Shift created successfully", newShift);
       setIsSheetOpen(false); // 成功した場合にシートを閉じる
       return true; // シフト作成が成功した場合、trueを返す
@@ -90,6 +96,71 @@ function InputShiftForm({
         general: "シフトの作成中にエラーが発生しました。再度お試しください。",
       }));
       return false; // シフト作成に失敗した場合、falseを返す
+    }
+  };
+
+  const handleDeleteShift = async (): Promise<boolean> => {
+    try {
+      const deletedShift = await deleteShift({
+        shiftId: id as string,
+      });
+      router.push(
+        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
+      ); // ページをリフレッシュ
+      console.log("Shift edited successfully", deletedShift);
+      setIsSheetOpen(false); // 成功した場合にシートを閉じる
+      return true; // シフトの削除が成功した場合、trueを返す
+    } catch (error) {
+      console.error("Error creating shift:", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: "シフトの削除中にエラーが発生しました。再度お試しください。",
+      }));
+      return false; // シフトの削除に失敗した場合、falseを返す
+    }
+  };
+
+  const handleEditShift = async (): Promise<boolean> => {
+    console.log("handleEditShift.selectedDevice", selectedDevice);
+    const validationResult = shiftFromSchema.safeParse({
+      selectedDevice,
+      startTime: startDateTime,
+      endTime: endDateTime,
+    });
+
+    if (!validationResult.success) {
+      const newErrors = validationResult.error.errors.reduce(
+        (acc: any, error) => {
+          acc[error.path[0]] = error.message;
+          return acc;
+        },
+        {}
+      );
+      setErrors(newErrors);
+      return false; // バリデーションエラーが発生した場合、falseを返す
+    }
+
+    try {
+      const fixShift = await editShift({
+        shiftId: id as string,
+        selectedDevice: validationResult.data.selectedDevice,
+        startTime: validationResult.data.startTime,
+        endTime: validationResult.data.endTime,
+      });
+      setErrors({ selectedDevice: null, startTime: null, endTime: null });
+      router.push(
+        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
+      ); // ページをリフレッシュ
+      console.log("Shift edited successfully", fixShift);
+      setIsSheetOpen(false); // 成功した場合にシートを閉じる
+      return true; // シフトの編集が成功した場合、trueを返す
+    } catch (error) {
+      console.error("Error creating shift:", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: "シフトの作成中にエラーが発生しました。再度お試しください。",
+      }));
+      return false; // シフト編集に失敗した場合、falseを返す
     }
   };
 
@@ -173,25 +244,40 @@ function InputShiftForm({
             />
           </div>
           {/* デバイス名を選択する */}
-          <button
-            className="rounded-md border border-black bg-white w-[50vw] h-[20vw] mt-4"
-            onClick={async () => {
-              const success = await handleCreateShift();
-              console.log("success", success);
-            }}
-            type="submit"
-            disabled={!isAllowInput}
-          >
-            <div className="text-base text-black">決定</div>
-          </button>
-          {isEdit && (
+          <div className="flex justify-center items-center">
+            <div className="flex flex-row space-x-4">
               <button
-                className="rouded-md border border-black w-[50vw] h-[20vw] mt-4"
+                className="rounded-md border border-black bg-white w-[30vw] h-[15vw] mt-4"
+                onClick={async () => {
+                  if (isEdit) {
+                    const success = await handleEditShift();
+                    console.log("edit success", success);
+                  } else {
+                    const success = await handleCreateShift();
+                    console.log("create success", success);
+                  }
+                }}
+                type="submit"
                 disabled={!isAllowInput}
               >
-                <div className="text-base">削除</div>
+                <div className="text-base text-black">
+                  {isEdit ? "編集" : "決定"}
+                </div>
               </button>
-          )}
+              {isEdit && (
+                <button
+                  className="rounded-md border border-black w-[30vw] h-[15vw] mt-4"
+                  onClick={async () => {
+                    const success = await handleDeleteShift();
+                    console.log("delete success", success);
+                  }}
+                  disabled={!isAllowInput}
+                >
+                  <div className="text-base text-red-500">削除</div>
+                </button>
+              )}
+            </div>
+          </div>
         </SheetDescription>
       </SheetHeader>
     </Sheet>

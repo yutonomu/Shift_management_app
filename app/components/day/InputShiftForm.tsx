@@ -23,7 +23,6 @@ function InputShiftForm({
   dateTime,
   start,
   end,
-
   isEdit = false,
 }: InputShiftFormProps) {
   const [startDateTime, setStartDateTime] = useState<Date | undefined>(

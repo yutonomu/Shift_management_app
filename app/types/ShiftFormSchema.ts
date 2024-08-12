@@ -2,7 +2,9 @@ import { z } from "zod";
 
 export const shiftFromSchema = z
   .object({
-    selectedDevice: z.string().min(1, "デバイス名を入力してください"),
+    selectedDevice: z.string().nonempty("デバイス名を入力してください").min(1, {
+      message: "デバイス名を入力してください",
+    }),
     startTime: z.date(),
     endTime: z.date(),
   })

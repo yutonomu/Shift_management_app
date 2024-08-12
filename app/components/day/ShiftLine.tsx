@@ -1,7 +1,9 @@
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
-import { MutableRefObject, RefObject, use, useEffect, useRef } from "react";
+import InputShiftForm from "./InputShiftForm";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 interface ShiftLineProps {
+  deviceNames: string[];
   deviceName: string;
   shiftBlocks: ShiftBlockType[];
   calcBlockPosition: (
@@ -11,6 +13,7 @@ interface ShiftLineProps {
 }
 
 function ShiftLine({
+  deviceNames,
   deviceName,
   shiftBlocks,
   calcBlockPosition,
@@ -27,18 +30,32 @@ function ShiftLine({
 
         return (
           userInput.selectedDevice === deviceName && (
-            <div
-              key={index}
-              className="absolute w-full border-2 border-white bg-white rounded-xl text-center text-black"
-              style={{
-                top: `${top}px`,
-                height: `${height}px`,
-                left: `${left}px`,
-                backgroundColor: userInput.color,
-              }}
-            >
-              {userInput.name}
-            </div>
+            <Sheet>
+              <SheetTrigger>
+                <div
+                  key={index}
+                  className="absolute w-full border-2 border-white bg-white rounded-xl text-center text-black"
+                  style={{
+                    top: `${top}px`,
+                    height: `${height}px`,
+                    left: `${left}px`,
+                    backgroundColor: userInput.color,
+                  }}
+                >
+                  {userInput.name}
+                </div>
+              </SheetTrigger>
+              <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
+                <InputShiftForm
+                  deviceNames={deviceNames}
+                  dateTime={userInput.startTime}
+                  start={userInput.startTime}
+                  end={userInput.endTime}
+                  defaultDeviceName={userInput.selectedDevice}
+                  isEdit={true}
+                />
+              </SheetContent>
+            </Sheet>
           )
         );
       })}

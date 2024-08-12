@@ -37,7 +37,7 @@ function Day({
     setShiftLineLeftAndWidth((prevState) => {
       const updatedArray = [...prevState];
       updatedArray[index] = { left, width };
-      console.log(updatedArray[index]);
+      console.log("updatedArray[index]: ", updatedArray[index]);
       return updatedArray;
     });
   };

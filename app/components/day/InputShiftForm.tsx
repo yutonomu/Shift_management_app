@@ -17,17 +17,25 @@ interface InputShiftFormProps {
   deviceNames: string[];
   defaultDeviceName?: string | null;
   dateTime: Date;
+  start?: Date;
+  end?: Date;
+  isEdit?: boolean;
 }
 
 function InputShiftForm({
   deviceNames,
   defaultDeviceName = null,
   dateTime,
+  start,
+  end,
+  isEdit = false,
 }: InputShiftFormProps) {
   const [startDateTime, setStartDateTime] = useState<Date | undefined>(
-    undefined
+    start ? start : undefined
   );
-  const [endDateTime, setEndDateTime] = useState<Date | undefined>(new Date());
+  const [endDateTime, setEndDateTime] = useState<Date | undefined>(
+    end ? end : new Date()
+  );
   const [isAllowInput, setIsAllowInput] = useState<boolean>(true);
   const [isSheetOpen, setIsSheetOpen] = useState(true); // シートの開閉状態を管理
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({
@@ -97,7 +105,12 @@ function InputShiftForm({
     // 開始時間が設定されたら終了時間を設定する. 終了時間は開始時間から1時間後に設定する
     if (startDateTime !== undefined) {
       const newEndDateTime = new Date(startDateTime);
-      newEndDateTime.setHours(startDateTime.getHours() + 1);
+      if (!isEdit) {
+        newEndDateTime.setHours(startDateTime.getHours() + 1);
+      } else if (endDateTime) {
+        newEndDateTime.setHours(endDateTime.getHours());
+        newEndDateTime.setMinutes(endDateTime.getMinutes());
+      }
       setEndDateTime(newEndDateTime);
     }
     // 開始時間が設定されていない場合は、現在時刻の30分後に設定する
@@ -118,7 +131,9 @@ function InputShiftForm({
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetHeader>
-        <SheetTitle>シフトを登録します</SheetTitle>
+        <SheetTitle>
+          {isEdit ? "シフトを編集します" : "シフトを登録します"}
+        </SheetTitle>
         <SheetDescription>
           <div>
             {errors.startTime && (
@@ -169,6 +184,14 @@ function InputShiftForm({
           >
             <div className="text-base text-black">決定</div>
           </button>
+          {isEdit && (
+              <button
+                className="rouded-md border border-black w-[50vw] h-[20vw] mt-4"
+                disabled={!isAllowInput}
+              >
+                <div className="text-base">削除</div>
+              </button>
+          )}
         </SheetDescription>
       </SheetHeader>
     </Sheet>

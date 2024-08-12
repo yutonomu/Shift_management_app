@@ -16,7 +16,7 @@ async function getAllowedEmails() {
 }
 
 export const nextAuthOptions: NextAuthOptions = {
-  debug: true,
+  debug: false,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

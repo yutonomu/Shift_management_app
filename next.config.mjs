@@ -25,12 +25,12 @@ const nextConfig = {
       },
     ],
   },
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === "development", // 開発環境でPWAを無効にする
-  },
 };
 
-export default withPWA(nextConfig);
+export default withPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development", // 開発環境でPWAを無効化
+  ...nextConfig,
+});

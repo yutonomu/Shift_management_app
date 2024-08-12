@@ -11,7 +11,7 @@ async function getShiftAllData({
   day,
 }: CalenderProps): Promise<ShiftBlockType[]> {
   const response = await fetch(`/api/shift/day/${year}/${month}/${day}`, {
-    cache: "no-cache",
+    cache: "no-store",
   });
   if (!response.ok) {
     throw new Error("Network response was not ok");

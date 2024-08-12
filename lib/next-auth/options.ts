@@ -1,5 +1,4 @@
 import { NextAuthOptions } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../prisma";
@@ -26,15 +25,22 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token, user }) {
       if (user) {
-        return {
-          ...session,
-          user: {
-            ...session.user,
-            id: user.id,
-          },
-        };
+        // DobocreateUserのIDを取得してトークンに追加
+        const dobocreateUser = await prismaClient.dobocreateUser.findUnique({
+          where: { email: user.email! },
+        });
+
+        if (dobocreateUser) {
+          token.id = dobocreateUser.id; // DobocreateUserのIDをトークンに設定
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
       }
       return session;
     },

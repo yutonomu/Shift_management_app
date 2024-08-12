@@ -21,6 +21,9 @@ function SelecteDevice({
   setSelectedDevice,
   setIsAllowInput,
 }: SelecteDeviceProps): JSX.Element {
+  const reverseDeviceLabelMap = Object.fromEntries(
+    Object.entries(deviceLabelMap).map(([key, value]) => [value, key])
+  );
   {
     const selectContents = () => {
       return (
@@ -48,7 +51,10 @@ function SelecteDevice({
           height={68}
         />
         <Select
-          onValueChange={(value) => setSelectedDevice(value)}
+          onValueChange={(value) => {
+            const originalDeviceName = reverseDeviceLabelMap[value];
+            setSelectedDevice(originalDeviceName);
+          }}
           onOpenChange={(isOpen) => {
             if (isOpen) {
               setIsAllowInput(false);

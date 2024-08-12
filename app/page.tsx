@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Calender from "./pages/Calender";
 import Loading from "@/app/loading";
 
 function getCurrentDate() {

@@ -16,13 +16,13 @@ function MonthCalender({
   setIsOpen,
   setClickedBlock,
 }: MonthCalendarProps) {
+  // クリックされたシフトの id と同じ id のシフトブロックを取得
   const handleClick = (info: any) => {
-    // info に含まれるtitle, start, endと同じ値を持つshiftBlockのインデックスを取得
     const index = shiftBlocks.findIndex((block) => {
       return block.id === info.event.id;
     });
-    setClickedBlock(shiftBlocks[index]);
-    setIsOpen(true);
+    setClickedBlock(shiftBlocks[index]); // クリックされたシフトと同じ id のシフトブロックをセット
+    setIsOpen(true); // イベント編集シートを開く
   };
 
   // カレンダー上に表示するイベントのデータ

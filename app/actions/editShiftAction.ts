@@ -17,11 +17,13 @@ const shiftFromSchema = z
   });
 
 export const editShift = async ({
+  userId,
   shiftId,
   selectedDevice,
   startTime,
   endTime,
 }: {
+  userId: string;
   shiftId: string; // ここで型定義を行います
   selectedDevice: string;
   startTime: Date;
@@ -31,8 +33,6 @@ export const editShift = async ({
   if (!session) {
     throw new Error("Unauthorized");
   }
-
-  const userId = session.user.id;
 
   // バリデーションを実行
   const validationResult = shiftFromSchema.safeParse({

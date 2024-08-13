@@ -66,8 +66,7 @@ function Day({
           nowPageTime={nowPageTime}
         />
       </div>
-
-      <div className="absolute z-20  mb-[10vw] mr-[5vw] right-0 bottom-0">
+      <div className="absolute z-20  mb-[10vw] mr-[5vw] lg:mt-3 right-0 lg:right-10 bottom-0 lg:top-0">
         <InputShiftButton
           deviceNames={deviceNames}
           dateTime={new Date(year, month - 1, day)}

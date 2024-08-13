@@ -47,10 +47,11 @@ function Day({
 
   return (
     <div className="relative w-full h-full">
-      <div className="w-full h-[15vh]">
+      <div className="w-full h-[15vh] ">
         <Header
           shiftLineLeftAndWidth={shiftLineLeftAndWidth}
           deviceNames={deviceNames}
+          year={year}
           month={month}
           day={day}
           dayOfWeek={dayOfWeek}

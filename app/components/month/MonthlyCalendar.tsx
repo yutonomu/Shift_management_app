@@ -11,11 +11,24 @@ interface MonthCalendarProps {
   setClickedBlock: (block: ShiftBlockType | null) => void;
 }
 
-function MonthCalender({
+function MonthlyCalender({
   shiftBlocks,
   setIsOpen,
   setClickedBlock,
 }: MonthCalendarProps) {
+  // カレンダー上に表示するイベントのデータ
+  const events: { title: string; start: Date; end: Date }[] = shiftBlocks.map(
+    (shiftBlock) => {
+      return {
+        id: shiftBlock.id,
+        backgroundColor: shiftBlock.color,
+        title: shiftBlock.name,
+        start: shiftBlock.startTime,
+        end: shiftBlock.endTime,
+      };
+    }
+  );
+
   // クリックされたシフトの id と同じ id のシフトブロックを取得
   const handleClick = (info: any) => {
     const index = shiftBlocks.findIndex((block) => {
@@ -25,33 +38,37 @@ function MonthCalender({
     setIsOpen(true); // イベント編集シートを開く
   };
 
-  // カレンダー上に表示するイベントのデータ
-  const events: { title: string; start: Date; end: Date }[] = shiftBlocks.map(
-    (block) => {
-      return {
-        id: block.id,
-        backgroundColor: block.color,
-        title: block.name,
-        start: block.startTime,
-        end: block.endTime,
-      };
-    }
-  );
-
   return (
     <div>
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
+        height="auto"
         locales={[jaLocale]}
         locale="ja"
         events={[...events]}
         eventClick={(info) => {
           return handleClick(info);
         }}
+        eventContent={(info) => {
+          return (
+            <div
+              style={{
+                backgroundColor: info.event.backgroundColor,
+                color: "white",
+                borderRadius: "5px",
+                padding: "5px",
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              {info.event.title}
+            </div>
+          );
+        }}
       />
     </div>
   );
 }
 
-export default MonthCalender;
+export default MonthlyCalender;

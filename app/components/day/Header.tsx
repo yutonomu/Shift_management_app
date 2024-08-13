@@ -35,7 +35,7 @@ function Header({
       const deviceKey = deviceNames[index] as keyof typeof deviceLabelMap;
 
       return (
-        <header
+        <div
           key={index}
           className="absolute flex items-end justify-center"
           style={{
@@ -45,49 +45,50 @@ function Header({
             bottom: `0px`,
           }}
         >
-          <div className="flex flex-col">
-            <Image
-              src={imagePaths[index]}
-              alt="device"
-              width={shiftLine.width / 2}
-              height={shiftLine.width / 2}
-            />
-            <span style={{ fontSize: `${shiftLine.width / 4}px` }}>
+          <div className="flex flex-col items-center">
+            <div className="relative w-10 h-10 ">
+              <Image
+                src={imagePaths[index]}
+                alt="device"
+                fill
+                sizes="100vw"
+                className="object-scale-down"
+              />
+            </div>
+            <div className="text-center text-sm lg:text-xl">
               {deviceLabelMap[deviceKey]}
-            </span>
+            </div>
           </div>
-        </header>
+        </div>
       );
     });
   };
 
   return (
-    <div className="flex flex-col bg-gray-200 bottom-0">
-      <div className="w-[25vw] h-[5vh] ml-[10%] mt-[3%] text-[3vh] flex items-center justify-center">
+    <header className="flex flex-col bg-gray-200 lg:h-50">
+      <div className="w-[25vw] h-[5vh] ml-[10%] mt-[3%] lg:left-0 lg:m-0 text-[3vh] flex items-center justify-center">
         {month}月
-        <div className="absolute right-5">
-          <UserButton />
-        </div>
+      </div>
+      <div className="absolute right-5 mt-3 lg:mt-5">
+        <UserButton />
       </div>
 
-      <div className="relative flex bottom-0">
+      <div className="relative flex">
         <div
-          className="absolute bottom-0 flex flex-col items-center ml-2 "
+          className="absolute flex flex-col items-center ml-2  lg:text-6xl"
           style={{
             width: `${shiftLineLeftAndWidth[0].width}px`,
-            left: `0px`,
             height: `${shiftLineLeftAndWidth[0].width}px`,
-            bottom: `0px`,
           }}
         >
-          <div>{dayOfWeek}</div>
+          {/* <div>{dayOfWeek}</div>
           <div className="rounded-full bg-black text-white w-[8vw] h-[8vw] flex items-center justify-center">
             {day}
-          </div>
+          </div> */}
         </div>
         <div className="h-[10vh] bottom-0">{devices()}</div>
       </div>
-    </div>
+    </header>
   );
 }
 

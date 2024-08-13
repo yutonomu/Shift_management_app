@@ -6,6 +6,7 @@ import { SheetContent, Sheet } from "@/components/ui/sheet";
 
 import InputShiftForm from "@/app/components/day/InputShiftForm";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import SettingsButton from "../components/calender/SettingsButton";
 
 interface MonthProps {
   shiftBlocks: ShiftBlockType[];
@@ -24,12 +25,17 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
     setIsOpen(false);
   };
   return (
-    <div>
-      <MonthlyCalendar
-        shiftBlocks={shiftBlocks}
-        setIsOpen={setIsOpen}
-        setClickedBlock={setClickedBlock}
-      />
+    <div className="relative">
+      <div className="absolute z-20">
+        <SettingsButton />
+      </div>
+      <div className="absolute z-10 mt-3">
+        <MonthlyCalendar
+          shiftBlocks={shiftBlocks}
+          setIsOpen={setIsOpen}
+          setClickedBlock={setClickedBlock}
+        />
+      </div>
 
       <Sheet open={isOpen} onOpenChange={handleClose}>
         <SheetContent className="w-screen h-[80vh]" side={"bottom"}>

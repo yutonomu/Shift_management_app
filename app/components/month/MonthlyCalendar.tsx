@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import jaLocale from "@fullcalendar/core/locales/ja";
+import interactionPlugin from "@fullcalendar/interaction";
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 interface MonthCalendarProps {
@@ -41,11 +42,23 @@ function MonthlyCalender({
   return (
     <div>
       <FullCalendar
-        plugins={[dayGridPlugin]}
+        plugins={[dayGridPlugin, dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         height="auto"
         locales={[jaLocale]}
         locale="ja"
+        dateClick={(info) => {
+          console.log(info.date); // 日付がクリックされたらコンソールに日付を表示
+        }}
+        dayCellContent={(info) => {
+          return <div>{info.dayNumberText.replace("日", "")}</div>;
+        }}
+        dayMaxEvents={true}
+        headerToolbar={{
+          start: "",
+          center: "title",
+          end: "prev,next",
+        }}
         events={[...events]}
         eventClick={(info) => {
           return handleClick(info);

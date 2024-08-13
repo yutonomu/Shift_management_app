@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import UserButton from "@/components/user-button";
 import { deviceLabelMap } from "@/app/types/devices";
+import SettingsButton from "../calender/SettingsButton";
 
 interface HeaderProps {
   shiftLineLeftAndWidth: { left: number; width: number }[];
@@ -37,16 +38,14 @@ function Header({
       return (
         <div
           key={index}
-          className="absolute flex items-end justify-center"
+          className="absolute flex items-end justify-center bottom-0"
           style={{
             width: `${shiftLine.width}px`,
             left: `${shiftLine.left + 1}px`,
-            height: "100%",
-            bottom: `0px`,
           }}
         >
           <div className="flex flex-col items-center">
-            <div className="relative w-10 h-10 ">
+            <div className="relative w-8 h-8">
               <Image
                 src={imagePaths[index]}
                 alt="device"
@@ -65,28 +64,31 @@ function Header({
   };
 
   return (
-    <header className="flex flex-col bg-gray-200 w-full h-full">
-      <div className="w-[25vw] h-[5vh] ml-[10%] mt-[3%] lg:left-0 lg:m-0 text-[3vh] flex items-center justify-center">
-        {month}月
+    <header className="flex flex-col bg-gray-200 w-full h-full gap-10">
+      <div className="flex">
+        <SettingsButton />
+        <div className="w-[15vw] lg:w-[6vw] h-[5vh] text-[3vh] mt-3  lg:left-0 flex items-center justify-end">
+          {month}月
+        </div>
       </div>
       <div className="absolute right-5 mt-3 lg:mt-5">
         <UserButton />
       </div>
 
-      <div className="relative flex h-full">
+      <div className="relative w-full h-full flex">
         <div
-          className="absolute flex flex-col bottom-0 h-full lg:flex-row-reverse items-center ml-2  lg:text-xl"
+          className="absolute w-full h-full bottom-0 flex flex-col lg:flex-row-reverse items-center ml-2 lg:text-xl "
           style={{
             width: `${shiftLineLeftAndWidth[0].width}px`,
             height: `${shiftLineLeftAndWidth[0].width}px`,
           }}
         >
-          <div>{dayOfWeek}</div>
-          <div className="rounded-full bg-black text-white w-[8vw] lg:w-10 h-[8vw] lg:h-10 flex items-center justify-center">
+          <div className="text-sm">{dayOfWeek}</div>
+          <div className="text-sm rounded-full bg-black text-white w-[8vw] lg:w-10 h-[8vw] lg:h-10 flex items-center justify-center">
             {day}
           </div>
         </div>
-        <div className="h-full bottom-0">{devices()}</div>
+        <div className="h-full">{devices()}</div>
       </div>
     </header>
   );

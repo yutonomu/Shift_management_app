@@ -10,8 +10,8 @@ function MonthCalender() {
       selectedDevice: "PC-1",
       color: "red",
       userId: "1",
-      startTime: new Date("2024-08-13"),
-      endTime: new Date("2024-08-13"),
+      startTime: new Date("2024-08-13 09:00"),
+      endTime: new Date("2024-08-13 12:00"),
     },
     {
       id: "2",
@@ -19,8 +19,8 @@ function MonthCalender() {
       selectedDevice: "PC-2",
       color: "blue",
       userId: "2",
-      startTime: new Date("2024-08-15"),
-      endTime: new Date("2024-08-15"),
+      startTime: new Date("2024-08-15 19:00"),
+      endTime: new Date("2024-08-15 23:00"),
     },
     {
       id: "3",
@@ -28,8 +28,8 @@ function MonthCalender() {
       selectedDevice: "PC-1",
       color: "green",
       userId: "3",
-      startTime: new Date("2024-08-13"),
-      endTime: new Date("2024-08-13"),
+      startTime: new Date("2024-08-13 1:00"),
+      endTime: new Date("2024-08-13 10:00"),
     },
   ];
 

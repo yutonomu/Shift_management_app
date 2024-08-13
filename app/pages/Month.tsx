@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { EventClickArg } from "@fullcalendar/core/index.js";
+import InputShiftForm from "@/app/components/day/InputShiftForm";
+import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface MonthProps {
   shiftBlocks: ShiftBlockType[];
@@ -23,6 +25,12 @@ function Month({ shiftBlocks }: MonthProps) {
   const [clickedBlock, setClickedBlock] = React.useState<ShiftBlockType | null>(
     null
   );
+
+  const testNowPageTime: NowPageTime = {
+    year: 2024,
+    month: 8,
+    day: 2,
+  };
 
   const handleClose = () => {
     setIsOpen(false);
@@ -36,25 +44,20 @@ function Month({ shiftBlocks }: MonthProps) {
       />
 
       <Sheet open={isOpen} onOpenChange={handleClose}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Edit profile</SheetTitle>
-            <SheetDescription>
-              Make changes to your profile here. Click save whenre done.
-            </SheetDescription>
-          </SheetHeader>
-          <div className="grid gap-4 py-4">
-            <div>{clickedBlock?.startTime.toLocaleString()}</div>
-            <div className="grid grid-cols-4 items-center gap-4">test</div>
-            <div className="grid grid-cols-4 items-center gap-4">testestse</div>
-          </div>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button type="submit" onClick={handleClose}>
-                Save changes
-              </Button>
-            </SheetClose>
-          </SheetFooter>
+        <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
+          <InputShiftForm
+            id={clickedBlock?.id}
+            userId={clickedBlock?.userId}
+            deviceNames={
+              clickedBlock?.selectedDevice ? [clickedBlock.selectedDevice] : []
+            }
+            defaultDeviceName={clickedBlock?.selectedDevice || ""}
+            dateTime={clickedBlock?.startTime || new Date()}
+            start={clickedBlock?.startTime || new Date()}
+            end={clickedBlock?.endTime || new Date()}
+            nowPageTime={testNowPageTime}
+            isEdit={true}
+          />
         </SheetContent>
       </Sheet>
     </div>

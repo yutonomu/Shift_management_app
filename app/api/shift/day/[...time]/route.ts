@@ -33,6 +33,7 @@ export async function GET(
         },
       },
       select: {
+        id: true,
         selectedDevice: true,
         startTime: true,
         endTime: true,
@@ -48,6 +49,7 @@ export async function GET(
     // // ShiftBlockTypeに合わせてデータを変換
     const shiftDayBlocks: ShiftBlockType[] = shiftDayData.map((shift) => {
       return {
+        id: shift.id,
         name: shift.user.name,
         selectedDevice: shift.selectedDevice, // 日本語に変換
         startTime: shift.startTime,

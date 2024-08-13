@@ -3,6 +3,7 @@ import ShiftLine from "@/app/components/day/ShiftLine";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
+import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface BodyProps {
   deviceNames: string[];
@@ -12,12 +13,14 @@ interface BodyProps {
     width: number,
     index: number
   ) => void;
+  nowPageTime: NowPageTime;
 }
 
 function Body({
   deviceNames,
   shiftBlocks,
   updateShiftLineLeftAndWidth,
+  nowPageTime,
 }: BodyProps) {
   const timeLineHeight = useRef<HTMLDivElement | null>(null); // ShiftLineの高さを取得するためのref
   const timeLinesRef = useRef<(HTMLDivElement | null)[]>([]); // 時刻の横線の高さを取得するためのrefの配列
@@ -146,6 +149,7 @@ function Body({
           deviceName={deviceName}
           shiftBlocks={shiftBlocks}
           calcBlockPosition={calcBlockPosition}
+          nowPageTime={nowPageTime}
         />
       </div>
     );

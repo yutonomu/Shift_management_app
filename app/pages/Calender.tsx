@@ -71,7 +71,7 @@ function Calender({ year, month, day }: CalenderProps) {
 
   return (
     <div className="relative w-screen h-screen">
-      <div className="absolute z-10">
+      <div className="absolute z-10 w-full h-full">
         <Day
           year={year}
           month={month}

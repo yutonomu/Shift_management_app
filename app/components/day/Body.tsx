@@ -156,14 +156,12 @@ function Body({
   });
 
   return (
-    <div className="w-screen h-[85vh]">
-      <ScrollArea className="w-full h-full rounded-md border">
-        <div className="relative w-full ">
-          {timeLines}
-          <div className="flex w-full justify-end">{shiftLines}</div>
-        </div>
-      </ScrollArea>
-    </div>
+    <ScrollArea className="w-full h-full rounded-md border">
+      <div className="relative w-full">
+        {timeLines}
+        <div className="flex w-full justify-end">{shiftLines}</div>
+      </div>
+    </ScrollArea>
   );
 }
 

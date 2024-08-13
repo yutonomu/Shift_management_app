@@ -46,15 +46,18 @@ function Day({
   };
 
   return (
-    <div className="relative w-screen h-screen">
-      <Header
-        shiftLineLeftAndWidth={shiftLineLeftAndWidth}
-        deviceNames={deviceNames}
-        month={month}
-        day={day}
-        dayOfWeek={dayOfWeek}
-      />
-      <div className="absolute z-10">
+    <div className="relative w-full h-full">
+      <div className="w-full h-[15vh]">
+        <Header
+          shiftLineLeftAndWidth={shiftLineLeftAndWidth}
+          deviceNames={deviceNames}
+          month={month}
+          day={day}
+          dayOfWeek={dayOfWeek}
+        />
+      </div>
+
+      <div className="absolute z-10 w-full h-[85vh] bottom-0">
         <Body
           deviceNames={deviceNames}
           shiftBlocks={shiftBlocks}
@@ -62,7 +65,8 @@ function Day({
           nowPageTime={nowPageTime}
         />
       </div>
-      <div className="absolute z-20 mb-[10vw] mr-[5vw] right-0 bottom-0">
+
+      <div className="absolute z-20  mb-[10vw] mr-[5vw] right-0 bottom-0">
         <InputShiftButton
           deviceNames={deviceNames}
           dateTime={new Date(year, month - 1, day)}

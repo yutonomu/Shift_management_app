@@ -65,7 +65,7 @@ function Header({
   };
 
   return (
-    <header className="flex flex-col bg-gray-200 lg:h-50">
+    <header className="flex flex-col bg-gray-200 w-full h-full">
       <div className="w-[25vw] h-[5vh] ml-[10%] mt-[3%] lg:left-0 lg:m-0 text-[3vh] flex items-center justify-center">
         {month}月
       </div>
@@ -73,20 +73,20 @@ function Header({
         <UserButton />
       </div>
 
-      <div className="relative flex">
+      <div className="relative flex h-full">
         <div
-          className="absolute flex flex-col items-center ml-2  lg:text-6xl"
+          className="absolute flex flex-col bottom-0 h-full lg:flex-row-reverse items-center ml-2  lg:text-xl"
           style={{
             width: `${shiftLineLeftAndWidth[0].width}px`,
             height: `${shiftLineLeftAndWidth[0].width}px`,
           }}
         >
-          {/* <div>{dayOfWeek}</div>
-          <div className="rounded-full bg-black text-white w-[8vw] h-[8vw] flex items-center justify-center">
+          <div>{dayOfWeek}</div>
+          <div className="rounded-full bg-black text-white w-[8vw] lg:w-10 h-[8vw] lg:h-10 flex items-center justify-center">
             {day}
-          </div> */}
+          </div>
         </div>
-        <div className="h-[10vh] bottom-0">{devices()}</div>
+        <div className="h-full bottom-0">{devices()}</div>
       </div>
     </header>
   );

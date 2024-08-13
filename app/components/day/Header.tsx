@@ -68,30 +68,29 @@ function Header({
 
   return (
     <header className="flex flex-col bg-gray-200 w-full h-full">
-      <div className="flex h-1/2">
-        <div className="lg:hidden">
+      <div className="flex w-full h-1/2 lg:flex-row-reverse border-2 ">
+        <div className="lg:w-full lg:h-full w-1/6 lg:left-0 ">
           <SettingsButton />
         </div>
-        <div className="w-1/6 lg:w-[8vw] h-[5vh] text-[3vh] font-medium mt-3 lg:ml-2 flex items-center justify-center">
+        <div className="w-1/6 lg:w-[8vw] h-[5vh] text-[3vh] font-medium mt-3 lg:ml-2 flex items-center justify-center ">
           {month}月
         </div>
-
-        <div className="absolute right-5 mt-3 lg:mt-5">
-          <UserButton />
-        </div>
+      </div>
+      <div className="absolute right-5 mt-3 lg:mt-5 ">
+        <UserButton />
       </div>
 
       <div className="relative w-full h-full flex mb-1">
-        <div className="absolute w-1/6 lg:w-[8vw] h-full flex flex-col lg:flex-row-reverse items-center mb-1 justify-end lg:justify-center  lg:text-xl">
+        <div className="absolute w-1/6 lg:w-[8vw] h-full flex flex-col lg:flex-row-reverse items-center justify-end lg:justify-center  lg:text-xl">
           <div className="text-sm lg:text-xl">{dayOfWeek}</div>
           {year === new Date().getFullYear() &&
           month === new Date().getMonth() + 1 &&
           day === new Date().getDate() ? (
-            <div className="text-2xl rounded-full bg-black text-white w-[8vw] lg:w-[4vw] h-[8vw] lg:h-[4vw] flex items-center justify-center mr-3">
+            <div className="text-sm lg:text-xl rounded-full bg-black text-white w-[8vw] lg:w-[4vw] h-[8vw] lg:h-[4vw] flex items-center justify-center mr-3">
               {day}
             </div>
           ) : (
-            <div className="text-2xl text-black w-[8vw] lg:w-[4vw] h-[8vw] lg:h-[4vw] flex items-center justify-center">
+            <div className="text-md lg:text-2xl text-black w-[8vw] lg:w-[4vw] h-[8vw] lg:h-[4vw] flex items-center justify-center">
               {day}
             </div>
           )}

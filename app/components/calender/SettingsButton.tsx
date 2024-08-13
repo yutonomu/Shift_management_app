@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function SettingsButton() {
   return (
-    <div className="container flex h-16 items-center justify-between px-4 md:px-6 ">
+    <div className="container flex h-16 lg:h-full  items-center justify-between px-4 md:px-6 lg:ml-0 ">
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -53,42 +53,35 @@ export function SettingsButton() {
           </div>
         </SheetContent>
       </Sheet>
-      <nav className="lg:flex w-[100vw] grid-rows-5">
-        <Link
-          href="#"
-          className="text-lg font-medium transition-colors hover:text-primary"
-          prefetch={false}
-        >
-          新規シフト登録
-        </Link>
-        <Link
-          href="#"
-          className="text-lg font-medium transition-colors hover:text-primary"
-          prefetch={false}
+      <nav className="hidden lg:space-x-4 lg:flex lg:grid-rows-4 lg:gap-10 ">
+        <Button
+          // href="#"
+          className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-white"
+          // prefetch={false}
         >
           月
-        </Link>
-        <Link
-          href="#"
+        </Button>
+        <Button
+          // href="#"
           className="text-lg font-medium transition-colors hover:text-primary"
-          prefetch={false}
+          // prefetch={false}
         >
           日
-        </Link>
-        <Link
-          href="#"
+        </Button>
+        <Button
+          // href="#"
           className="text-lg font-medium transition-colors hover:text-primary"
-          prefetch={false}
+          // prefetch={false}
         >
           管理者画面
-        </Link>
-        <Link
-          href="#"
+        </Button>
+        <Button
+          // href="#"
           className="text-lg font-medium transition-colors hover:text-primary r-0"
-          prefetch={false}
+          // prefetch={false}
         >
           ログアウト
-        </Link>
+        </Button>
       </nav>
     </div>
   );

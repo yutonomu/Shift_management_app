@@ -7,50 +7,50 @@ import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 interface MonthCalendarProps {
   shiftBlocks: ShiftBlockType[];
+  setIsOpen: (isOpen: boolean) => void;
+  setClickedBlock: (block: ShiftBlockType | null) => void;
 }
 
-function MonthCalender({ shiftBlocks }: MonthCalendarProps) {
+function MonthCalender({
+  shiftBlocks,
+  setIsOpen,
+  setClickedBlock,
+}: MonthCalendarProps) {
   const handleClick = (info: any) => {
-    console.log("clicked", events);
-    console.log("clicked", events[0]);
+    // info に含まれるtitle, start, endと同じ値を持つshiftBlockのインデックスを取得
+    const index = shiftBlocks.findIndex((block) => {
+      return block.id === info.event.id;
+    });
+    setClickedBlock(shiftBlocks[index]);
+    setIsOpen(true);
   };
 
   // カレンダー上に表示するイベントのデータ
-  const events: { title: string; start: string; end: string }[] =
-    shiftBlocks.map((block) => {
-      // startとendに格納する値
-      // Date型を文字列に変換. 月と日は1桁の場合は0埋めする
-      const start = `${block.startTime.getFullYear()}-${String(
-        block.startTime.getMonth() + 1
-      ).padStart(2, "0")}-${String(block.startTime.getDate()).padStart(
-        2,
-        "0"
-      )}`;
-      const end = `${block.endTime.getFullYear()}-${String(
-        block.endTime.getMonth() + 1
-      ).padStart(2, "0")}-${String(block.endTime.getDate()).padStart(2, "0")}`;
-
+  const events: { title: string; start: Date; end: Date }[] = shiftBlocks.map(
+    (block) => {
       return {
+        id: block.id,
+        backgroundColor: block.color,
         title: block.name,
-        start: start,
-        end: end,
+        start: block.startTime,
+        end: block.endTime,
       };
-    });
+    }
+  );
 
-  useEffect(() => {
-    console.log("month calendar", shiftBlocks);
-  }, []);
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin]}
-      initialView="dayGridMonth"
-      locales={[jaLocale]}
-      locale="ja"
-      events={[...events]}
-      eventClick={(info) => {
-        handleClick(info);
-      }}
-    />
+    <div>
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        locales={[jaLocale]}
+        locale="ja"
+        events={[...events]}
+        eventClick={(info) => {
+          return handleClick(info);
+        }}
+      />
+    </div>
   );
 }
 

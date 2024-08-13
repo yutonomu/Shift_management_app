@@ -11,7 +11,7 @@ function MonthCalender() {
       color: "red",
       userId: "1",
       startTime: new Date("2024-08-13"),
-      endTime: new Date("2024-08-14"),
+      endTime: new Date("2024-08-13"),
     },
     {
       id: "2",
@@ -20,7 +20,7 @@ function MonthCalender() {
       color: "blue",
       userId: "2",
       startTime: new Date("2024-08-15"),
-      endTime: new Date("2024-08-16"),
+      endTime: new Date("2024-08-15"),
     },
     {
       id: "3",
@@ -29,7 +29,7 @@ function MonthCalender() {
       color: "green",
       userId: "3",
       startTime: new Date("2024-08-13"),
-      endTime: new Date("2024-08-14"),
+      endTime: new Date("2024-08-13"),
     },
   ];
 

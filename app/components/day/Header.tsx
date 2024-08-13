@@ -64,27 +64,21 @@ function Header({
   };
 
   return (
-    <header className="flex flex-col bg-gray-200 w-full h-full gap-10">
-      <div className="flex">
+    <header className="flex flex-col bg-gray-200 w-full h-full">
+      <div className="flex h-1/2">
         <SettingsButton />
-        <div className="w-[15vw] lg:w-[6vw] h-[5vh] text-[3vh] mt-3  lg:left-0 flex items-center justify-end">
+        <div className="w-1/6 lg:w-[6vw] h-[5vh] text-[3vh] mt-3  lg:left-0 flex items-center justify-center">
           {month}月
         </div>
-      </div>
-      <div className="absolute right-5 mt-3 lg:mt-5">
-        <UserButton />
+        <div className="absolute right-5 mt-3 lg:mt-5">
+          <UserButton />
+        </div>
       </div>
 
-      <div className="relative w-full h-full flex">
-        <div
-          className="absolute w-full h-full bottom-0 flex flex-col lg:flex-row-reverse items-center ml-2 lg:text-xl "
-          style={{
-            width: `${shiftLineLeftAndWidth[0].width}px`,
-            height: `${shiftLineLeftAndWidth[0].width}px`,
-          }}
-        >
-          <div className="text-sm">{dayOfWeek}</div>
-          <div className="text-sm rounded-full bg-black text-white w-[8vw] lg:w-10 h-[8vw] lg:h-10 flex items-center justify-center">
+      <div className="relative w-full h-full flex  ">
+        <div className="absolute w-1/6 h-full flex flex-col lg:flex-row-reverse items-center justify-end ml-2 lg:text-xl ">
+          <div className="text-sm ">{dayOfWeek}</div>
+          <div className="text-sm rounded-full bg-black text-white w-[8vw]  h-[8vw] flex items-center justify-center">
             {day}
           </div>
         </div>

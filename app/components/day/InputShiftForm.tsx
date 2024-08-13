@@ -17,6 +17,7 @@ import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface InputShiftFormProps {
   id?: string | null;
+  userId?: string | null;
   deviceNames: string[];
   defaultDeviceName?: string | null;
   dateTime: Date;
@@ -28,6 +29,7 @@ interface InputShiftFormProps {
 
 function InputShiftForm({
   id,
+  userId,
   deviceNames,
   defaultDeviceName = null,
   dateTime,
@@ -143,6 +145,7 @@ function InputShiftForm({
     try {
       const fixShift = await editShift({
         shiftId: id as string,
+        userId: userId as string,
         selectedDevice: validationResult.data.selectedDevice,
         startTime: validationResult.data.startTime,
         endTime: validationResult.data.endTime,

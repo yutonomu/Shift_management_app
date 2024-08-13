@@ -51,6 +51,7 @@ function ShiftLine({
               <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
                 <InputShiftForm
                   id={userInput.id}
+                  userId={userInput.userId}
                   deviceNames={deviceNames}
                   dateTime={userInput.startTime}
                   start={userInput.startTime}

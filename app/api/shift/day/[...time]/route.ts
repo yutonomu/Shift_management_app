@@ -39,6 +39,7 @@ export async function GET(
         endTime: true,
         user: {
           select: {
+            id: true,
             name: true,
             color: true,
           },
@@ -50,6 +51,7 @@ export async function GET(
     const shiftDayBlocks: ShiftBlockType[] = shiftDayData.map((shift) => {
       return {
         id: shift.id,
+        userId: shift.user.id,
         name: shift.user.name,
         selectedDevice: shift.selectedDevice, // 日本語に変換
         startTime: shift.startTime,

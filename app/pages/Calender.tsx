@@ -6,7 +6,7 @@ import { ShiftBlockType } from "../types/ShiftBlockType";
 import { Devices } from "@prisma/client";
 import { NowPageTime } from "../types/NowPageTime";
 
-async function getShiftAllData({
+async function getShiftDayData({
   year,
   month,
   day,
@@ -49,7 +49,7 @@ function Calender({ year, month, day }: CalenderProps) {
     // シフトデータを非同期で取得
     const fetchShiftData = async () => {
       try {
-        const data = await getShiftAllData({ year, month, day });
+        const data = await getShiftDayData({ year, month, day });
         setShiftBlocks(data);
       } catch (error) {
         console.error("Error fetching shift data:", error);

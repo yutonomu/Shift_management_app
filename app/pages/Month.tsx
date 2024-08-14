@@ -7,6 +7,7 @@ import { SheetContent, Sheet } from "@/components/ui/sheet";
 import InputShiftForm from "@/app/components/day/InputShiftForm";
 import { NowPageTime } from "@/app/types/NowPageTime";
 import SettingsButton from "../components/calender/SettingsButton";
+import InputShiftButton from "../components/day/InputShiftButton";
 
 interface MonthProps {
   shiftBlocks: ShiftBlockType[];
@@ -20,23 +21,43 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
     null
   ); // クリックされたシフトブロック
 
+  const year = nowPageTime.year;
+  const month = nowPageTime.month;
+  const day = nowPageTime.day;
+  const inputShiftDate = () => {
+    const today = new Date();
+    if (
+      nowPageTime.year === today.getFullYear() &&
+      nowPageTime.month === today.getMonth() + 1
+    ) {
+      return new Date(nowPageTime.year, nowPageTime.month - 1, nowPageTime.day);
+    }
+    return new Date(nowPageTime.year, nowPageTime.month - 1, 1);
+  };
+
   // シフト編集シートを閉じる
   const handleClose = () => {
     setIsOpen(false);
   };
   return (
-    <div className="relative">
+    <div className="relative w-full h-full">
       <div className="absolute z-20">
         <SettingsButton />
       </div>
-      <div className="absolute z-10 mt-3">
+      <div className="absolute z-10 mt-3 w-full h-full">
         <MonthlyCalendar
           shiftBlocks={shiftBlocks}
           setIsOpen={setIsOpen}
           setClickedBlock={setClickedBlock}
         />
       </div>
-
+      <div className="absolute z-20 mb-[10vw] mr-[5vw] right-0 bottom-0 lg:mt-3 lg:right-10 lg:top-0">
+        <InputShiftButton
+          deviceNames={deviceNames}
+          dateTime={inputShiftDate()}
+          nowPageTime={nowPageTime}
+        />
+      </div>
       <Sheet open={isOpen} onOpenChange={handleClose}>
         <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
           <InputShiftForm

@@ -30,6 +30,7 @@ function ShiftLine({
           userInput.startTime,
           userInput.endTime
         );
+        console.log("userInput.selectedDevice: ", userInput.isOverlapShiftId);
 
         return (
           userInput.selectedDevice === deviceName && (

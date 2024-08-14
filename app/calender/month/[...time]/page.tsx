@@ -58,7 +58,7 @@ function MonthCalender({
     "MAC2",
   ];
   return (
-    <div>
+    <div className="w-screen h-screen">
       <Month
         shiftBlocks={testDate}
         nowPageTime={testNowPageTime}

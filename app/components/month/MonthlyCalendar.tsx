@@ -40,47 +40,45 @@ function MonthlyCalender({
   };
 
   return (
-    <div>
-      <FullCalendar
-        plugins={[dayGridPlugin, dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        height="auto"
-        locales={[jaLocale]}
-        locale="ja"
-        dateClick={(info) => {
-          console.log(info.date); // 日付がクリックされたらコンソールに日付を表示
-        }}
-        dayCellContent={(info) => {
-          return <div>{info.dayNumberText.replace("日", "")}</div>;
-        }}
-        dayMaxEvents={true}
-        headerToolbar={{
-          start: "",
-          center: "title",
-          end: "prev,next",
-        }}
-        events={[...events]}
-        eventClick={(info) => {
-          return handleClick(info);
-        }}
-        eventContent={(info) => {
-          return (
-            <div
-              style={{
-                backgroundColor: info.event.backgroundColor,
-                color: "white",
-                borderRadius: "5px",
-                padding: "5px",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              {info.event.title}
-            </div>
-          );
-        }}
-      />
-    </div>
+    <FullCalendar
+      plugins={[dayGridPlugin, dayGridPlugin, interactionPlugin]}
+      initialView="dayGridMonth"
+      height="auto"
+      locales={[jaLocale]}
+      locale="ja"
+      dateClick={(info) => {
+        console.log(info.date); // 日付がクリックされたらコンソールに日付を表示
+      }}
+      dayCellContent={(info) => {
+        return <div>{info.dayNumberText.replace("日", "")}</div>;
+      }}
+      dayMaxEvents={true}
+      headerToolbar={{
+        start: "",
+        center: "title",
+        end: "",
+      }}
+      events={[...events]}
+      eventClick={(info) => {
+        return handleClick(info);
+      }}
+      eventContent={(info) => {
+        return (
+          <div
+            style={{
+              backgroundColor: info.event.backgroundColor,
+              color: "white",
+              borderRadius: "5px",
+              padding: "5px",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            {info.event.title}
+          </div>
+        );
+      }}
+    />
   );
 }
 

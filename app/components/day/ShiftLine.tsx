@@ -43,7 +43,10 @@ function ShiftLine({
                     top: `${top}px`,
                     height: `${height}px`,
                     left: `${left}px`,
-                    backgroundColor: userInput.color,
+                    backgroundColor:
+                      userInput.isOverlapShiftId !== null
+                        ? "red"
+                        : userInput.color,
                   }}
                 >
                   {userInput.name}

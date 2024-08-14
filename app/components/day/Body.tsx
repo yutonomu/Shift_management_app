@@ -66,7 +66,9 @@ function Body({
           isLast ? "mb-2" : "mb-1"
         }`} // 最初の行と最後の行のマージンを調整。それ以外は通常のマージン
       >
-        <span className="w-[15vw] text-lg flex justify-center">{time}</span>{" "}
+        <span className="w-[15vw] lg:w-[8vw] text-lg flex justify-center">
+          {time}
+        </span>{" "}
         {/* 時刻 */}
         <div
           className="flex-grow border-t border-gray-300"
@@ -138,7 +140,7 @@ function Body({
     return (
       <div
         key={deviceName}
-        className="w-[16vw] flex-none z-20 border-l-2 border-black"
+        className="w-[16vw] lg:w-[18vw] flex-none z-20 border-l-2 border-black"
         ref={(el) => {
           shiftLinesRef.current[i] = el;
         }}
@@ -156,14 +158,12 @@ function Body({
   });
 
   return (
-    <div className="w-screen h-[85vh]">
-      <ScrollArea className="w-full h-full rounded-md border">
-        <div className="relative w-full ">
-          {timeLines}
-          <div className="flex w-full justify-end">{shiftLines}</div>
-        </div>
-      </ScrollArea>
-    </div>
+    <ScrollArea className="w-full h-full rounded-md border">
+      <div className="relative w-full">
+        {timeLines}
+        <div className="flex w-full justify-end">{shiftLines}</div>
+      </div>
+    </ScrollArea>
   );
 }
 

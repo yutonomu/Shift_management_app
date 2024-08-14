@@ -70,21 +70,16 @@ function Calender({ year, month, day }: CalenderProps) {
   };
 
   return (
-    <div className="relative w-screen h-screen">
-      <div className="absolute z-10">
-        <Day
-          year={year}
-          month={month}
-          day={day}
-          dayOfWeek={dayOfWeek}
-          shiftBlocks={shiftBlocks}
-          deviceNames={deviceNames}
-          nowPageTime={nowPageTime}
-        />
-      </div>
-      <div className="absolute z-20" ref={settingsButtonRef}>
-        <SettingsButton />
-      </div>
+    <div className="w-screen h-screen">
+      <Day
+        year={year}
+        month={month}
+        day={day}
+        dayOfWeek={dayOfWeek}
+        shiftBlocks={shiftBlocks}
+        deviceNames={deviceNames}
+        nowPageTime={nowPageTime}
+      />
     </div>
   );
 }

@@ -2,8 +2,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetClose,
-  Sheet,
 } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
 import SelecteDevice from "@/app/components/InputShiftForm/SelectDevice";
@@ -14,6 +12,7 @@ import { shiftFromSchema } from "@/app/types/ShiftFormSchema";
 import { editShift } from "@/app/actions/editShiftAction";
 import { deleteShift } from "@/app/actions/deleteShiftAction";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 
 interface InputShiftFormProps {
   id?: string | null;
@@ -25,6 +24,8 @@ interface InputShiftFormProps {
   end?: Date;
   isEdit?: boolean;
   nowPageTime: NowPageTime;
+  shiftBlocks: ShiftBlockType[] | null;
+  setIsSheetOpen: (isOpen: boolean) => void;
 }
 
 function InputShiftForm({
@@ -37,6 +38,8 @@ function InputShiftForm({
   end,
   isEdit = false,
   nowPageTime,
+  shiftBlocks,
+  setIsSheetOpen,
 }: InputShiftFormProps) {
   const [startDateTime, setStartDateTime] = useState<Date | undefined>(
     start ? start : undefined
@@ -45,7 +48,6 @@ function InputShiftForm({
     end ? end : new Date()
   );
   const [isAllowInput, setIsAllowInput] = useState<boolean>(true);
-  const [isSheetOpen, setIsSheetOpen] = useState(true); // シートの開閉状態を管理
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({
     selectedDevice: null,
     startTime: null,
@@ -58,72 +60,86 @@ function InputShiftForm({
     defaultDeviceName ? defaultDeviceName : undefined
   );
 
-  const handleCreateShift = async (): Promise<boolean> => {
-    console.log("handleCreateShift.selectedDevice", selectedDevice);
-    const validationResult = shiftFromSchema.safeParse({
-      selectedDevice,
-      startTime: startDateTime,
-      endTime: endDateTime,
-    });
-
-    if (!validationResult.success) {
-      const newErrors = validationResult.error.errors.reduce(
-        (acc: any, error) => {
-          acc[error.path[0]] = error.message;
-          return acc;
-        },
-        {}
-      );
-      setErrors(newErrors);
-      return false; // バリデーションエラーが発生した場合、falseを返す
-    }
-
+  const handleCreateShift = async (
+    overlapShiftId?: ShiftBlockType["id"][],
+    overlapShifts?: ShiftBlockType[]
+  ) => {
     try {
       const newShift = await postShift({
-        selectedDevice: validationResult.data.selectedDevice,
-        startTime: validationResult.data.startTime,
-        endTime: validationResult.data.endTime,
+        selectedDevice: selectedDevice!,
+        startTime: startDateTime!,
+        endTime: endDateTime!,
+        isOverlapShiftId: overlapShiftId ? overlapShiftId : [],
+        overlapShifts: overlapShifts ? overlapShifts : null,
       });
       setErrors({ selectedDevice: null, startTime: null, endTime: null });
+      setIsSheetOpen(false); // 成功した場合にシートを閉じる
+
       router.push(
         `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
       ); // ページをリフレッシュ
       console.log("Shift created successfully", newShift);
-      setIsSheetOpen(false); // 成功した場合にシートを閉じる
-      return true; // シフト作成が成功した場合、trueを返す
     } catch (error) {
       console.error("Error creating shift:", error);
       setErrors((prevErrors) => ({
         ...prevErrors,
         general: "シフトの作成中にエラーが発生しました。再度お試しください。",
       }));
-      return false; // シフト作成に失敗した場合、falseを返す
     }
   };
 
-  const handleDeleteShift = async (): Promise<boolean> => {
+  const handleDeleteShift = async () => {
     try {
       const deletedShift = await deleteShift({
         shiftId: id as string,
       });
+      setIsSheetOpen(false); // 成功した場合にシートを閉じる
+
       router.push(
         `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
       ); // ページをリフレッシュ
       console.log("Shift edited successfully", deletedShift);
-      setIsSheetOpen(false); // 成功した場合にシートを閉じる
-      return true; // シフトの削除が成功した場合、trueを返す
     } catch (error) {
       console.error("Error creating shift:", error);
       setErrors((prevErrors) => ({
         ...prevErrors,
         general: "シフトの削除中にエラーが発生しました。再度お試しください。",
       }));
-      return false; // シフトの削除に失敗した場合、falseを返す
+      return;
     }
   };
 
-  const handleEditShift = async (): Promise<boolean> => {
-    console.log("handleEditShift.selectedDevice", selectedDevice);
+  const handleEditShift = async (
+    overlapShiftId?: ShiftBlockType["id"][],
+    overlapShifts?: ShiftBlockType[]
+  ) => {
+    try {
+      const fixShift = await editShift({
+        shiftId: id as string,
+        userId: userId as string,
+        selectedDevice: selectedDevice!,
+        startTime: startDateTime!,
+        endTime: endDateTime!,
+        isOverlapShiftId: overlapShiftId ? overlapShiftId : [],
+        overlapShifts: overlapShifts ? overlapShifts : [],
+      });
+      setErrors({ selectedDevice: null, startTime: null, endTime: null });
+      setIsSheetOpen(false); // 成功した場合にシートを閉じる
+      router.push(
+        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
+      ); // ページをリフレッシュ
+      console.log("Shift edited successfully", fixShift);
+    } catch (error) {
+      console.error("Error creating shift:", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: "シフトの作成中にエラーが発生しました。再度お試しください。",
+      }));
+      return;
+    }
+  };
+
+  const handlePost = () => {
     const validationResult = shiftFromSchema.safeParse({
       selectedDevice,
       startTime: startDateTime,
@@ -139,31 +155,45 @@ function InputShiftForm({
         {}
       );
       setErrors(newErrors);
-      return false; // バリデーションエラーが発生した場合、falseを返す
+      setIsSheetOpen(true);
+      return;
     }
 
-    try {
-      const fixShift = await editShift({
-        shiftId: id as string,
-        userId: userId as string,
-        selectedDevice: validationResult.data.selectedDevice,
-        startTime: validationResult.data.startTime,
-        endTime: validationResult.data.endTime,
-      });
-      setErrors({ selectedDevice: null, startTime: null, endTime: null });
-      router.push(
-        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
-      ); // ページをリフレッシュ
-      console.log("Shift edited successfully", fixShift);
-      setIsSheetOpen(false); // 成功した場合にシートを閉じる
-      return true; // シフトの編集が成功した場合、trueを返す
-    } catch (error) {
-      console.error("Error creating shift:", error);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        general: "シフトの作成中にエラーが発生しました。再度お試しください。",
-      }));
-      return false; // シフト編集に失敗した場合、falseを返す
+    // 重複しているシフトがあるか確認
+    const overlapShifts: ShiftBlockType[] =
+      shiftBlocks?.filter(
+        (block) =>
+          block.userId !== userId &&
+          block.selectedDevice === selectedDevice &&
+          ((validationResult.data.startTime >= block.startTime &&
+            validationResult.data.startTime < block.endTime) ||
+            (validationResult.data.endTime > block.startTime &&
+              validationResult.data.endTime <= block.endTime) ||
+            (validationResult.data.startTime <= block.startTime &&
+              validationResult.data.endTime >= block.endTime))
+      ) || [];
+
+    if (overlapShifts.length > 0) {
+      const overlapShiftId = overlapShifts.map((shift) => shift.id);
+
+      const isConfirmOK = confirm(
+        "シフトが重複していますが登録しますか？\n登録した場合、管理者にリクエストが送信されます"
+      );
+      if (isConfirmOK) {
+        if (isEdit) {
+          handleEditShift(overlapShiftId, overlapShifts);
+        } else {
+          handleCreateShift(overlapShiftId, overlapShifts);
+        }
+      } else {
+        return;
+      }
+    } else {
+      if (isEdit) {
+        handleEditShift();
+      } else {
+        handleCreateShift();
+      }
     }
   };
 
@@ -203,87 +233,77 @@ function InputShiftForm({
   }, [startDateTime]);
 
   return (
-    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+    <div>
       <SheetHeader>
         <SheetTitle>
           {isEdit ? "シフトを編集します" : "シフトを登録します"}
         </SheetTitle>
-        <SheetDescription>
-          <div>
-            {errors.startTime && (
-              <div className="text-red-500 text-xs mt-2">
-                {errors.startTime}
+      </SheetHeader>
+      <SheetDescription>
+        <div>
+          {errors.startTime && (
+            <div className="text-red-500 text-xs mt-2">{errors.startTime}</div>
+          )}
+          <SelectDateAndTime
+            dateTime={startDateTime}
+            setDateTime={setStartDateTime}
+          />
+        </div>
+        {/* 開始時間を選択する */}
+        <div>
+          {errors.endTime && (
+            <div className="text-red-500 text-xs mt-2">{errors.endTime}</div>
+          )}
+          <SelectDateAndTime
+            dateTime={endDateTime}
+            setDateTime={setEndDateTime}
+          />
+        </div>
+        {/* 終了時間を選択する */}
+        <div>
+          {errors.selectedDevice && (
+            <div className="text-red-500 text-xs mt-2">
+              {errors.selectedDevice === "Required"
+                ? "デバイス名を選択してください"
+                : errors.selectedDevice}
+            </div>
+          )}
+          <SelecteDevice
+            deviceNames={deviceNames}
+            defaultDeviceName={defaultDeviceName}
+            setSelectedDevice={setSelectedDevice}
+            setIsAllowInput={setIsAllowInput}
+          />
+        </div>
+        {/* デバイス名を選択する */}
+        <div className="flex justify-center items-center">
+          <div className="flex flex-row space-x-4">
+            <button
+              className="rounded-md border border-black bg-white w-[30vw] h-[15vw] mt-4"
+              onClick={handlePost}
+              type="submit"
+              disabled={!isAllowInput}
+            >
+              <div className="text-base text-black">
+                {isEdit ? "編集" : "決定"}
               </div>
-            )}
-            <SelectDateAndTime
-              dateTime={startDateTime}
-              setDateTime={setStartDateTime}
-            />
-          </div>
-          {/* 開始時間を選択する */}
-          <div>
-            {errors.endTime && (
-              <div className="text-red-500 text-xs mt-2">{errors.endTime}</div>
-            )}
-            <SelectDateAndTime
-              dateTime={endDateTime}
-              setDateTime={setEndDateTime}
-            />
-          </div>
-          {/* 終了時間を選択する */}
-          <div>
-            {errors.selectedDevice && (
-              <div className="text-red-500 text-xs mt-2">
-                {errors.selectedDevice === "Required"
-                  ? "デバイス名を選択してください"
-                  : errors.selectedDevice}
-              </div>
-            )}
-            <SelecteDevice
-              deviceNames={deviceNames}
-              defaultDeviceName={defaultDeviceName}
-              setSelectedDevice={setSelectedDevice}
-              setIsAllowInput={setIsAllowInput}
-            />
-          </div>
-          {/* デバイス名を選択する */}
-          <div className="flex justify-center items-center">
-            <div className="flex flex-row space-x-4">
+            </button>{" "}
+            {isEdit && (
               <button
-                className="rounded-md border border-black bg-white w-[30vw] h-[15vw] mt-4"
+                className="rounded-md border border-black w-[30vw] h-[15vw] mt-4"
                 onClick={async () => {
-                  if (isEdit) {
-                    const success = await handleEditShift();
-                    console.log("edit success", success);
-                  } else {
-                    const success = await handleCreateShift();
-                    console.log("create success", success);
-                  }
+                  const success = await handleDeleteShift();
+                  console.log("delete success", success);
                 }}
-                type="submit"
                 disabled={!isAllowInput}
               >
-                <div className="text-base text-black">
-                  {isEdit ? "編集" : "決定"}
-                </div>
+                <div className="text-base text-red-500">削除</div>
               </button>
-              {isEdit && (
-                <button
-                  className="rounded-md border border-black w-[30vw] h-[15vw] mt-4"
-                  onClick={async () => {
-                    const success = await handleDeleteShift();
-                    console.log("delete success", success);
-                  }}
-                  disabled={!isAllowInput}
-                >
-                  <div className="text-base text-red-500">削除</div>
-                </button>
-              )}
-            </div>
+            )}
           </div>
-        </SheetDescription>
-      </SheetHeader>
-    </Sheet>
+        </div>
+      </SheetDescription>
+    </div>
   );
 }
 

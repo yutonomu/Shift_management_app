@@ -71,6 +71,7 @@ function Day({
           deviceNames={deviceNames}
           dateTime={new Date(year, month - 1, day)}
           nowPageTime={nowPageTime}
+          shiftBlocks={shiftBlocks}
         />
       </div>
     </div>

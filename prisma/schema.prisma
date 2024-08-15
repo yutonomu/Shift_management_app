@@ -86,7 +86,7 @@ model Shift {
   endTime          DateTime
   project          String?
   selectedDevice   Devices
-  isOverlapShiftId String?
+  isOverlapShiftId Json?          @default("[]")
 
   @@map("shifts")
 }

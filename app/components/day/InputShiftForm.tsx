@@ -74,10 +74,7 @@ function InputShiftForm({
       });
       setErrors({ selectedDevice: null, startTime: null, endTime: null });
       setIsSheetOpen(false); // 成功した場合にシートを閉じる
-
-      router.push(
-        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
-      ); // ページをリフレッシュ
+      router.refresh(); // ページをリフレッシュ
       console.log("Shift created successfully", newShift);
     } catch (error) {
       console.error("Error creating shift:", error);
@@ -94,10 +91,7 @@ function InputShiftForm({
         shiftId: id as string,
       });
       setIsSheetOpen(false); // 成功した場合にシートを閉じる
-
-      router.push(
-        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
-      ); // ページをリフレッシュ
+      router.refresh(); // ページをリフレッシュ
       console.log("Shift edited successfully", deletedShift);
     } catch (error) {
       console.error("Error creating shift:", error);
@@ -125,9 +119,7 @@ function InputShiftForm({
       });
       setErrors({ selectedDevice: null, startTime: null, endTime: null });
       setIsSheetOpen(false); // 成功した場合にシートを閉じる
-      router.push(
-        `/calender/day/${nowPageTime.year}/${nowPageTime.month}/${nowPageTime.day}`
-      ); // ページをリフレッシュ
+      router.refresh(); // ページをリフレッシュ
       console.log("Shift edited successfully", fixShift);
     } catch (error) {
       console.error("Error creating shift:", error);

@@ -35,20 +35,12 @@ export function SettingsButton() {
               日
             </Link>
             <Link
-              key="admin"
+              key="day"
               href="#"
-              className="text-lg font-medium transition-colors hover:text-primary"
+              className="text-lg font-medium transition-colors text-gray-300"
               prefetch={false}
             >
-              管理者画面
-            </Link>
-            <Link
-              key="logout"
-              href="#"
-              className="text-lg font-medium transition-colors hover:text-primary"
-              prefetch={false}
-            >
-              ログアウト
+              ユーザー登録(Coming soon)
             </Link>
           </div>
         </SheetContent>
@@ -70,17 +62,11 @@ export function SettingsButton() {
         </Button>
         <Button
           // href="#"
-          className="text-lg font-medium transition-colors hover:text-primary"
+          variant={"outline"}
+          className="text-lg font-medium bg-gray-400 text-gray-300 hover:bg-gray-400 hover:text-gray-300 cursor-default"
           // prefetch={false}
         >
-          管理者画面
-        </Button>
-        <Button
-          // href="#"
-          className="text-lg font-medium transition-colors hover:text-primary r-0"
-          // prefetch={false}
-        >
-          ログアウト
+          ユーザー登録(Coming soon)
         </Button>
       </nav>
     </div>

@@ -28,11 +28,12 @@ async function getShiftMonthData({
 }
 
 const MonthCalender = ({ params }: { params: { time: number } }) => {
+  const today = new Date();
   let date = new Date(params.time);
   let [year, month, day] = [
     date.getFullYear(),
     date.getMonth() + 1,
-    date.getDate(),
+    today.getDate(),
   ];
   const nowPageTime: NowPageTime = { year, month, day };
 

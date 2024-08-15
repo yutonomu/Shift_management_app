@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import InputShiftForm from "./InputShiftForm";
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
@@ -12,6 +12,7 @@ interface UserShiftBlockProps {
   height: number;
   left: number;
   index: number;
+  shiftBlocks: ShiftBlockType[];
 }
 function UserShiftBlock({
   userInput,
@@ -21,9 +22,11 @@ function UserShiftBlock({
   height,
   left,
   index,
+  shiftBlocks,
 }: UserShiftBlockProps) {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger>
         <div
           key={index}
@@ -35,12 +38,16 @@ function UserShiftBlock({
             backgroundColor:
               userInput.isOverlapShiftId !== null ? "red" : userInput.color,
           }}
+          onClick={() => {
+            setIsSheetOpen(true);
+          }}
         >
           {userInput.name}
         </div>
       </SheetTrigger>
       <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
         <InputShiftForm
+          key={index}
           id={userInput.id}
           userId={userInput.userId}
           deviceNames={deviceNames}
@@ -50,6 +57,8 @@ function UserShiftBlock({
           defaultDeviceName={userInput.selectedDevice}
           isEdit={true}
           nowPageTime={nowPageTime}
+          shiftBlocks={shiftBlocks}
+          setIsSheetOpen={setIsSheetOpen}
         />
       </SheetContent>
     </Sheet>

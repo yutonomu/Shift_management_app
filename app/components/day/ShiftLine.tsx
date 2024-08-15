@@ -3,9 +3,6 @@ import { NowPageTime } from "@/app/types/NowPageTime";
 import { Role } from "@prisma/client";
 import UserShiftBlock from "./UserShiftBlock";
 import AdminShiftBlock from "./AdminShiftBlock";
-import { useState } from "react";
-
-
 interface ShiftLineProps {
   deviceNames: string[];
   deviceName: string;
@@ -36,7 +33,7 @@ function ShiftLine({
           userInput.startTime,
           userInput.endTime
         );
-        const [isSheetOpen, setIsSheetOpen] = useState(false);
+
         return (
           userInput.selectedDevice === deviceName &&
           (role === "USER" ? (
@@ -48,6 +45,7 @@ function ShiftLine({
               height={height}
               left={left}
               index={index}
+              shiftBlocks={shiftBlocks}
             />
           ) : (
             <AdminShiftBlock
@@ -59,48 +57,6 @@ function ShiftLine({
               index={index}
             />
           ))
-        {/* 
-          userInput.selectedDevice === deviceName && (
-            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-              <SheetTrigger>
-                <div
-                  key={index}
-                  className="absolute w-full border-2 border-white bg-white rounded-xl text-center text-black"
-                  style={{
-                    top: `${top}px`,
-                    height: `${height}px`,
-                    left: `${left}px`,
-                    backgroundColor:
-                      userInput.isOverlapShiftId !== null
-                        ? "red"
-                        : userInput.color,
-                  }}
-                  onClick={() => {
-                    setIsSheetOpen(true);
-                  }}
-                >
-                  {userInput.name}
-                </div>
-              </SheetTrigger>
-              <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
-                <InputShiftForm
-                  key={index}
-                  id={userInput.id}
-                  userId={userInput.userId}
-                  deviceNames={deviceNames}
-                  dateTime={userInput.startTime}
-                  start={userInput.startTime}
-                  end={userInput.endTime}
-                  defaultDeviceName={userInput.selectedDevice}
-                  isEdit={true}
-                  nowPageTime={nowPageTime}
-                  shiftBlocks={shiftBlocks}
-                  setIsSheetOpen={setIsSheetOpen}
-                />
-              </SheetContent>
-            </Sheet>
-          )
-          */}
         );
       })}
     </div>

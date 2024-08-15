@@ -142,7 +142,22 @@ function ShiftLine({
             </Sheet>
           ) : (
             <Dialog>
-              <DialogTrigger>
+              {userInput.isOverlapShiftId !== null ? (
+                <DialogTrigger>
+                  <div
+                    key={index}
+                    className="absolute w-full border-2 border-white bg-white rounded-xl text-center text-black drop-shadow-md"
+                    style={{
+                      top: `${top}px`,
+                      height: `${height}px`,
+                      left: `${left}px`,
+                      backgroundColor: "red", // 背景色が赤の場合
+                    }}
+                  >
+                    {userInput.name}
+                  </div>
+                </DialogTrigger>
+              ) : (
                 <div
                   key={index}
                   className="absolute w-full border-2 border-white bg-white rounded-xl text-center text-black drop-shadow-md"
@@ -150,15 +165,13 @@ function ShiftLine({
                     top: `${top}px`,
                     height: `${height}px`,
                     left: `${left}px`,
-                    backgroundColor:
-                      userInput.isOverlapShiftId !== null
-                        ? "red"
-                        : userInput.color,
+                    backgroundColor: userInput.color, // 背景色が赤でない場合
                   }}
                 >
                   {userInput.name}
                 </div>
-              </DialogTrigger>
+              )}
+
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>どちらのシフトを優先しますか？</DialogTitle>

@@ -39,6 +39,40 @@ function MonthlyCalender({
     setIsOpen(true); // イベント編集シートを開く
   };
 
+  // 重複しているシフトのが存在する日付の背景色を赤にする
+  const backgroundEvents: {
+    start: string;
+    end: string;
+    display: string;
+    color: string;
+  }[] = shiftBlocks.map((shiftBlock) => {
+    if (shiftBlock.isOverlapShiftId !== undefined) {
+      return {
+        start:
+          `${shiftBlock.startTime.getFullYear()}` +
+          "-" +
+          `${shiftBlock.startTime.getMonth() + 1}`.padStart(2, "0") +
+          "-" +
+          `${shiftBlock.startTime.getDate()}`.padStart(2, "0"),
+        end:
+          `${shiftBlock.endTime.getFullYear()}` +
+          "-" +
+          `${shiftBlock.endTime.getMonth() + 1}`.padStart(2, "0") +
+          "-" +
+          `${shiftBlock.endTime.getDate()}`.padStart(2, "0"),
+        display: "background",
+        color: "red",
+      };
+    } else {
+      return {
+        start: "",
+        end: "",
+        display: "",
+        color: "",
+      };
+    }
+  });
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin, dayGridPlugin, interactionPlugin]}
@@ -58,7 +92,7 @@ function MonthlyCalender({
         center: "title",
         end: "",
       }}
-      events={[...events]}
+      events={[...events, ...backgroundEvents]}
       eventClick={(info) => {
         return handleClick(info);
       }}

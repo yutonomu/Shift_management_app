@@ -1,21 +1,24 @@
 // Calendar.tsx
-import React, { useEffect } from "react";
+import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import jaLocale from "@fullcalendar/core/locales/ja";
 import interactionPlugin from "@fullcalendar/interaction";
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
+import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface MonthCalendarProps {
   shiftBlocks: ShiftBlockType[];
   setIsOpen: (isOpen: boolean) => void;
   setClickedBlock: (block: ShiftBlockType | null) => void;
+  nowPageTime: NowPageTime;
 }
 
 function MonthlyCalender({
   shiftBlocks,
   setIsOpen,
   setClickedBlock,
+  nowPageTime,
 }: MonthCalendarProps) {
   // カレンダー上に表示するイベントのデータ
   const events: { title: string; start: Date; end: Date }[] = shiftBlocks.map(
@@ -77,6 +80,10 @@ function MonthlyCalender({
     <FullCalendar
       plugins={[dayGridPlugin, dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
+      initialDate={`${nowPageTime.year}-${String(nowPageTime.month).padStart(
+        2,
+        "0"
+      )}-01`} // `initialDate` を指定して月の初日を表示
       height="auto"
       locales={[jaLocale]}
       locale="ja"

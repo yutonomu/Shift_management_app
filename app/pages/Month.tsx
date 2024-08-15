@@ -46,6 +46,7 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
           shiftBlocks={shiftBlocks}
           setIsOpen={setIsOpen}
           setClickedBlock={setClickedBlock}
+          nowPageTime={nowPageTime}
         />
       </div>
       <div className="absolute z-20 mb-[10vw] mr-[5vw] right-0 bottom-0 lg:mt-3 lg:right-10 lg:top-0">

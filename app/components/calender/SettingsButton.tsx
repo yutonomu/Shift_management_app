@@ -1,8 +1,21 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function SettingsButton() {
+  const router = useRouter();
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+
+  const onClickDay = () => {
+    router.push(`/calender/day/${year}/${month}/${day}`);
+  };
+  const onClickMonth = () => {
+    router.push(`/calender/month/${year}/${month}`);
+  };
+
   return (
     <div className="container flex h-16 lg:h-full  items-center justify-between px-4 md:px-6 lg:ml-0 ">
       <Sheet>
@@ -10,61 +23,53 @@ export function SettingsButton() {
           <Button
             variant="outline"
             size="icon"
-            className="lg:hidden bg-gray-200"
+            className="lg:hidden bg-gray-200 drop-shadow-xl"
           >
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="bg-background p-6 shadow-xl">
-          <div className="flex flex-col items-start gap-6">
-            <Link
-              key="month"
-              href="#"
-              className="text-lg font-medium transition-colors hover:text-primary "
-              prefetch={false}
+          <div className="flex flex-col items-start gap-6 mx-3">
+            <Button
+              variant="ghost"
+              className="border border-gray-400 w-full  text-black text-lg font-medium transition-colors hover:bg-gray-200"
+              onClick={onClickMonth}
             >
               月
-            </Link>
-            <Link
-              key="day"
-              href="#"
-              className="text-lg font-medium transition-colors hover:text-primary"
-              prefetch={false}
+            </Button>
+            <Button
+              variant="outline"
+              className="border border-gray-400 w-full text-black text-lg font-medium transition-colors hover:bg-gray-200"
+              onClick={onClickDay}
             >
               日
-            </Link>
-            <Link
-              key="day"
-              href="#"
-              className="text-lg font-medium transition-colors text-gray-300"
-              prefetch={false}
+            </Button>
+            <Button
+              variant="outline"
+              className="text-sm w-full p-2 text-gray-400 hover:bg-white hover:text-gray-400 cursor-default"
             >
               ユーザー登録 (Coming soon...)
-            </Link>
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
       <nav className="hidden lg:space-x-4 lg:flex lg:grid-rows-4 lg:gap-10 ">
         <Button
-          // href="#"
           className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-gray-400"
-          // prefetch={false}
+          onClick={onClickMonth}
         >
           月
         </Button>
         <Button
-          // href="#"
           className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-gray-400"
-          // prefetch={false}
+          onClick={onClickDay}
         >
           日
         </Button>
         <Button
-          // href="#"
           variant={"outline"}
           className="text-lg font-medium bg-gray-300 text-gray-400 hover:bg-gray-300 hover:text-gray-400 cursor-default"
-          // prefetch={false}
         >
           ユーザー登録 (Coming soon...)
         </Button>

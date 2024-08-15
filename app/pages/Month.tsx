@@ -39,7 +39,7 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
   };
   return (
     <div className="relative w-full h-full">
-      <div className="absolute z-20">
+      <div className="absolute z-20 lg:mt-5">
         <SettingsButton />
       </div>
       <div className="absolute z-10 mt-3 w-full h-full">

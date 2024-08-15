@@ -93,7 +93,7 @@ function MonthlyCalender({
       dayCellContent={(info) => {
         return <div>{info.dayNumberText.replace("日", "")}</div>;
       }}
-      dayMaxEvents={true}
+      dayMaxEvents={3}
       headerToolbar={{
         start: "",
         center: "title",

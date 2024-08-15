@@ -46,7 +46,7 @@ function MonthlyCalender({
     display: string;
     color: string;
   }[] = shiftBlocks.map((shiftBlock) => {
-    if (shiftBlock.isOverlapShiftId !== undefined) {
+    if (shiftBlock.isOverlapShiftId.length > 0) {
       return {
         start:
           `${shiftBlock.startTime.getFullYear()}` +

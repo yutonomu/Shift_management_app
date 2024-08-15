@@ -17,13 +17,13 @@ export function SettingsButton() {
   };
 
   return (
-    <div className="container flex h-16 lg:h-full  items-center justify-between px-4 md:px-6 lg:ml-0 ">
+    <div className="container flex h-16 lg:h-full items-center justify-between px-4 md:px-6 lg:ml-0 ">
       <Sheet>
         <SheetTrigger asChild>
           <Button
             variant="outline"
             size="icon"
-            className="xl:hidden bg-gray-200 drop-shadow-xl"
+            className="xl:hidden bg-gray-200 drop-shadow-xl mb-2"
           >
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>

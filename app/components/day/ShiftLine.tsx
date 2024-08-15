@@ -26,7 +26,6 @@ function ShiftLine({
   session,
 }: ShiftLineProps) {
   let role: Role;
-  console.log("session", session);
   if (session?.user.role === Role.ADMIN) {
     role = session.user.role;
   } else if (session?.user.role === Role.USER) {

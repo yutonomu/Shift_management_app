@@ -1,10 +1,27 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../prisma";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 
 const prismaClient = new PrismaClient();
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+    role: Role;
+  }
+  interface Session extends DefaultSession {
+    user: {
+      id: string;
+      role: Role;
+    } & DefaultSession["user"];
+  }
+  interface JWT {
+    id: string;
+    role: Role;
+  }
+}
 
 async function getAllowedEmails() {
   const allowedEmails = await prismaClient.dobocreateUser.findMany({
@@ -34,6 +51,7 @@ export const nextAuthOptions: NextAuthOptions = {
 
         if (dobocreateUser) {
           token.id = dobocreateUser.id; // DobocreateUserのIDをトークンに設定
+          token.role = dobocreateUser.role as Role; // DobocreateUserのroleをトークンに設定
         }
       }
       return token;
@@ -41,6 +59,7 @@ export const nextAuthOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.role = token.role as Role;
       }
       return session;
     },

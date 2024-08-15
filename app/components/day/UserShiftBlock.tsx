@@ -5,7 +5,7 @@ import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { NowPageTime } from "@/app/types/NowPageTime";
 
 interface UserShiftBlockProps {
-  userInput: ShiftBlockType;
+  inputtedShiftBlock: ShiftBlockType;
   deviceNames: string[];
   nowPageTime: NowPageTime;
   top: number;
@@ -15,7 +15,7 @@ interface UserShiftBlockProps {
   shiftBlocks: ShiftBlockType[];
 }
 function UserShiftBlock({
-  userInput,
+  inputtedShiftBlock,
   deviceNames,
   nowPageTime,
   top,
@@ -36,25 +36,27 @@ function UserShiftBlock({
             height: `${height}px`,
             left: `${left}px`,
             backgroundColor:
-              userInput.isOverlapShiftId.length > 0 ? "red" : userInput.color,
+              inputtedShiftBlock.isOverlapShiftId.length > 0
+                ? "red"
+                : inputtedShiftBlock.color,
           }}
           onClick={() => {
             setIsSheetOpen(true);
           }}
         >
-          {userInput.name}
+          {inputtedShiftBlock.name}
         </div>
       </SheetTrigger>
       <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
         <InputShiftForm
           key={index}
-          id={userInput.id}
-          userId={userInput.userId}
+          id={inputtedShiftBlock.id}
+          userId={inputtedShiftBlock.userId}
           deviceNames={deviceNames}
-          dateTime={userInput.startTime}
-          start={userInput.startTime}
-          end={userInput.endTime}
-          defaultDeviceName={userInput.selectedDevice}
+          dateTime={inputtedShiftBlock.startTime}
+          start={inputtedShiftBlock.startTime}
+          end={inputtedShiftBlock.endTime}
+          defaultDeviceName={inputtedShiftBlock.selectedDevice}
           isEdit={true}
           nowPageTime={nowPageTime}
           shiftBlocks={shiftBlocks}

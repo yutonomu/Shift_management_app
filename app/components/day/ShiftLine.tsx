@@ -36,17 +36,17 @@ function ShiftLine({
     <div className="w-full flex flex-col relative">
       {/* ShiftLineの仕切り線 */}
 
-      {shiftBlocks.map((userInput: ShiftBlockType, index: number) => {
+      {shiftBlocks.map((inputtedShiftBlock: ShiftBlockType, index: number) => {
         const { top, left, height } = calcBlockPosition(
-          userInput.startTime,
-          userInput.endTime
+          inputtedShiftBlock.startTime,
+          inputtedShiftBlock.endTime
         );
 
         return (
-          userInput.selectedDevice === deviceName &&
+          inputtedShiftBlock.selectedDevice === deviceName &&
           (role === "USER" ? (
             <UserShiftBlock
-              userInput={userInput}
+              inputtedShiftBlock={inputtedShiftBlock}
               deviceNames={deviceNames}
               nowPageTime={nowPageTime}
               top={top}
@@ -57,7 +57,7 @@ function ShiftLine({
             />
           ) : (
             <AdminShiftBlock
-              userInput={userInput}
+              inputtedShiftBlock={inputtedShiftBlock}
               shiftBlocks={shiftBlocks}
               top={top}
               height={height}

@@ -6,6 +6,7 @@ import jaLocale from "@fullcalendar/core/locales/ja";
 import interactionPlugin from "@fullcalendar/interaction";
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import { useRouter } from "next/navigation";
 
 interface MonthCalendarProps {
   shiftBlocks: ShiftBlockType[];
@@ -20,6 +21,7 @@ function MonthlyCalender({
   setClickedBlock,
   nowPageTime,
 }: MonthCalendarProps) {
+  const router = useRouter();
   // カレンダー上に表示するイベントのデータ
   const events: { title: string; start: Date; end: Date }[] = shiftBlocks.map(
     (shiftBlock) => {
@@ -40,6 +42,16 @@ function MonthlyCalender({
     });
     setClickedBlock(shiftBlocks[index]); // クリックされたシフトと同じ id のシフトブロックをセット
     setIsOpen(true); // イベント編集シートを開く
+  };
+
+  // クリックされたら該当の日付の日表示カレンダーに遷移
+  const handleDateClick = (clickedDate: any) => {
+    const date = new Date(clickedDate);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const path = `/calender/day/${year}/${month}/${day}`;
+    return router.push(path);
   };
 
   // 重複しているシフトのが存在する日付の背景色を赤にする
@@ -88,12 +100,12 @@ function MonthlyCalender({
       locales={[jaLocale]}
       locale="ja"
       dateClick={(info) => {
-        console.log(info.date); // 日付がクリックされたらコンソールに日付を表示
+        handleDateClick(info.date);
       }}
       dayCellContent={(info) => {
         return <div>{info.dayNumberText.replace("日", "")}</div>;
       }}
-      dayMaxEvents={true}
+      dayMaxEvents={3}
       headerToolbar={{
         start: "",
         center: "title",

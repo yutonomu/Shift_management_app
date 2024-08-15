@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -16,7 +15,7 @@ import { z } from "zod";
 import { overlapUpdateShift } from "@/app/actions/overlapUpdateShiftAction";
 
 interface AdminShiftBlockProps {
-  userInput: ShiftBlockType;
+  inputtedShiftBlock: ShiftBlockType;
   shiftBlocks: ShiftBlockType[];
   top: number;
   height: number;
@@ -25,7 +24,7 @@ interface AdminShiftBlockProps {
 }
 
 function AdminShiftBlock({
-  userInput,
+  inputtedShiftBlock,
   shiftBlocks,
   top,
   height,
@@ -37,11 +36,13 @@ function AdminShiftBlock({
 
   // selectedIdListの初期化
   useEffect(() => {
-    const initialSelectedId = userInput.isOverlapShiftId.map((overlapId) => {
-      return { [userInput.id]: false, [overlapId]: false };
-    }); // userInputのisOverlapShiftIdの要素数分のオブジェクトを作成. それぞれのkeyはuserInput.idとisOverlapShiftIdの要素
+    const initialSelectedId = inputtedShiftBlock.isOverlapShiftId.map(
+      (overlapId) => {
+        return { [inputtedShiftBlock.id]: false, [overlapId]: false };
+      }
+    ); // inputtedShiftBlockのisOverlapShiftIdの要素数分のオブジェクトを作成. それぞれのkeyはinputtedShiftBlock.idとisOverlapShiftIdの要素
     setSelectedIdList(initialSelectedId);
-  }, [userInput.id, userInput.isOverlapShiftId]);
+  }, [inputtedShiftBlock.id, inputtedShiftBlock.isOverlapShiftId]);
 
   // 決定ボタンがクリックされた時の処理
   const onConfirmClick = async () => {
@@ -88,7 +89,7 @@ function AdminShiftBlock({
 
   return (
     <Dialog open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-      {userInput.isOverlapShiftId.length > 0 ? (
+      {inputtedShiftBlock.isOverlapShiftId.length > 0 ? (
         <DialogTrigger>
           <div
             key={index}
@@ -100,7 +101,7 @@ function AdminShiftBlock({
               backgroundColor: "red", // 背景色が赤の場合
             }}
           >
-            {userInput.name}
+            {inputtedShiftBlock.name}
           </div>
         </DialogTrigger>
       ) : (
@@ -111,10 +112,10 @@ function AdminShiftBlock({
             top: `${top}px`,
             height: `${height}px`,
             left: `${left}px`,
-            backgroundColor: userInput.color, // 背景色が赤でない場合
+            backgroundColor: inputtedShiftBlock.color, // 背景色が赤でない場合
           }}
         >
-          {userInput.name}
+          {inputtedShiftBlock.name}
         </div>
       )}
 
@@ -125,9 +126,9 @@ function AdminShiftBlock({
         <div className="flex justify-center w-full py-4">
           <ToggleChoiceButton
             shiftBlocks={shiftBlocks}
-            myId={userInput.id}
-            myName={userInput.name}
-            myOverlapShiftId={userInput.isOverlapShiftId}
+            myId={inputtedShiftBlock.id}
+            myName={inputtedShiftBlock.name}
+            myOverlapShiftId={inputtedShiftBlock.isOverlapShiftId}
             selectedIdList={selectedIdList}
             setSelectedIdList={setSelectedIdList}
           />

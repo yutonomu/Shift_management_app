@@ -4,6 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import { useSession } from "next-auth/react";
 
 interface BodyProps {
   deviceNames: string[];
@@ -22,6 +23,8 @@ function Body({
   updateShiftLineLeftAndWidth,
   nowPageTime,
 }: BodyProps) {
+  const { data: session } = useSession();
+
   const timeLineHeight = useRef<HTMLDivElement | null>(null); // ShiftLineの高さを取得するためのref
   const timeLinesRef = useRef<(HTMLDivElement | null)[]>([]); // 時刻の横線の高さを取得するためのrefの配列
   const shiftLinesRef = useRef<(HTMLDivElement | null)[]>([]); // ShiftLineのrefの配列
@@ -152,6 +155,7 @@ function Body({
           shiftBlocks={shiftBlocks}
           calcBlockPosition={calcBlockPosition}
           nowPageTime={nowPageTime}
+          session={session}
         />
       </div>
     );

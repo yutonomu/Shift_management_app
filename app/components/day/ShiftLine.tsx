@@ -2,6 +2,7 @@ import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import InputShiftForm from "./InputShiftForm";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import { useState } from "react";
 
 interface ShiftLineProps {
   deviceNames: string[];
@@ -30,11 +31,10 @@ function ShiftLine({
           userInput.startTime,
           userInput.endTime
         );
-        console.log("userInput.selectedDevice: ", userInput.isOverlapShiftId);
-
+        const [isSheetOpen, setIsSheetOpen] = useState(false);
         return (
           userInput.selectedDevice === deviceName && (
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger>
                 <div
                   key={index}
@@ -45,12 +45,16 @@ function ShiftLine({
                     left: `${left}px`,
                     backgroundColor: userInput.color,
                   }}
+                  onClick={() => {
+                    setIsSheetOpen(true);
+                  }}
                 >
                   {userInput.name}
                 </div>
               </SheetTrigger>
               <SheetContent className="w-screen h-[80vh]" side={"bottom"}>
                 <InputShiftForm
+                  key={index}
                   id={userInput.id}
                   userId={userInput.userId}
                   deviceNames={deviceNames}
@@ -60,6 +64,8 @@ function ShiftLine({
                   defaultDeviceName={userInput.selectedDevice}
                   isEdit={true}
                   nowPageTime={nowPageTime}
+                  shiftBlocks={shiftBlocks}
+                  setIsSheetOpen={setIsSheetOpen}
                 />
               </SheetContent>
             </Sheet>

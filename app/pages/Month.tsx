@@ -8,6 +8,7 @@ import InputShiftForm from "@/app/components/day/InputShiftForm";
 import { NowPageTime } from "@/app/types/NowPageTime";
 import SettingsButton from "../components/calender/SettingsButton";
 import InputShiftButton from "../components/day/InputShiftButton";
+import UserButton from "@/components/user-button";
 
 interface MonthProps {
   shiftBlocks: ShiftBlockType[];
@@ -56,6 +57,9 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
           nowPageTime={nowPageTime}
           shiftBlocks={shiftBlocks}
         />
+      </div>
+      <div className="absolute z-20 right-5 mt-3 lg:right-16 lg:top-2">
+        <UserButton />
       </div>
       <Sheet open={isOpen} onOpenChange={handleClose}>
         <SheetContent className="w-screen h-[80vh]" side={"bottom"}>

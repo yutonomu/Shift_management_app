@@ -26,7 +26,7 @@ function InputShiftButton({
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger>
-        <button className="rounded-[30%] lg:rounded-sm  bg-gray-300 w-12 lg:w-auto h-12 lg:pl-2 lg:pr-2 flex items-center justify-center drop-shadow-xl lg:drop-shadow-none lg:hover:bg-white">
+        <button className="rounded-[30%] lg:rounded-sm  bg-gray-300 w-12 lg:w-auto h-12 lg:pl-2 lg:pr-2 flex items-center justify-center drop-shadow-xl lg:drop-shadow-none hover:bg-gray-400">
           <PlusIcon className="lg:hidden text-black h-6 w-6" />
           <div className="hidden lg:flex">新規シフト登録</div>
         </button>

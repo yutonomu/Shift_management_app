@@ -21,7 +21,7 @@ export function SettingsButton() {
             <Link
               key="month"
               href="#"
-              className="text-lg font-medium transition-colors hover:text-primary"
+              className="text-lg font-medium transition-colors hover:text-primary "
               prefetch={false}
             >
               月
@@ -48,14 +48,14 @@ export function SettingsButton() {
       <nav className="hidden lg:space-x-4 lg:flex lg:grid-rows-4 lg:gap-10 ">
         <Button
           // href="#"
-          className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-white"
+          className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-gray-400"
           // prefetch={false}
         >
           月
         </Button>
         <Button
           // href="#"
-          className="text-lg font-medium transition-colors hover:text-primary"
+          className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-gray-400"
           // prefetch={false}
         >
           日
@@ -63,7 +63,7 @@ export function SettingsButton() {
         <Button
           // href="#"
           variant={"outline"}
-          className="text-lg font-medium bg-gray-400 text-gray-300 hover:bg-gray-400 hover:text-gray-300 cursor-default"
+          className="text-lg font-medium bg-gray-300 text-gray-400 hover:bg-gray-300 hover:text-gray-400 cursor-default"
           // prefetch={false}
         >
           ユーザー登録(Coming soon)

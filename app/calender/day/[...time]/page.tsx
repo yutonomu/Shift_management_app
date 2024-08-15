@@ -17,7 +17,6 @@ const DayCalender = ({ params }: { params: { time: number } }) => {
 
   const handlers = useSwipeable({
     onSwiped: (event) => {
-      console.log(event);
       if (event.dir == "Left") {
         const nextDate = new Date(date);
         nextDate.setDate(date.getDate() + 1);

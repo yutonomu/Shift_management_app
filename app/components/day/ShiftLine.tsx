@@ -3,6 +3,8 @@ import { NowPageTime } from "@/app/types/NowPageTime";
 import { Role } from "@prisma/client";
 import UserShiftBlock from "./UserShiftBlock";
 import AdminShiftBlock from "./AdminShiftBlock";
+import { Session } from "next-auth";
+
 interface ShiftLineProps {
   deviceNames: string[];
   deviceName: string;
@@ -12,6 +14,7 @@ interface ShiftLineProps {
     endTime: Date
   ) => { top: number; left: number; height: number };
   nowPageTime: NowPageTime;
+  session: Session | null;
 }
 
 function ShiftLine({
@@ -20,9 +23,15 @@ function ShiftLine({
   shiftBlocks,
   calcBlockPosition,
   nowPageTime,
+  session,
 }: ShiftLineProps) {
-  const role = "ADMIN" as Role;
-  // const role = "USER" as Role;
+  let role: Role;
+  console.log("session", session);
+  if (session?.user.role === Role.ADMIN) {
+    role = session.user.role;
+  } else if (session?.user.role === Role.USER) {
+    role = session.user.role;
+  }
 
   return (
     <div className="w-full flex flex-col relative">

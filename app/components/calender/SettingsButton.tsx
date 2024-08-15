@@ -23,7 +23,7 @@ export function SettingsButton() {
           <Button
             variant="outline"
             size="icon"
-            className="lg:hidden bg-gray-200 drop-shadow-xl"
+            className="xl:hidden bg-gray-200 drop-shadow-xl"
           >
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
@@ -54,7 +54,7 @@ export function SettingsButton() {
           </div>
         </SheetContent>
       </Sheet>
-      <nav className="hidden lg:space-x-4 lg:flex lg:grid-rows-4 lg:gap-10 ">
+      <nav className="hidden lg:space-x-4 xl:flex lg:grid-rows-4 lg:gap-10 ">
         <Button
           className="bg-gray-300 text-black text-lg font-medium transition-colors hover:bg-gray-400"
           onClick={onClickMonth}

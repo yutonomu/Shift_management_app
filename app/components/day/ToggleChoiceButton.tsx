@@ -1,13 +1,33 @@
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { SelectedIdType } from "@/app/types/SelectedIdType";
+
+// カスタムボタンコンポーネント
+type CustomButtonProps = {
+  label: string;
+  isSelected: boolean;
+  onClick: () => void;
+};
+const CustomButton = ({ label, isSelected, onClick }: CustomButtonProps) => {
+  return (
+    <button
+      className={`${isSelected ? "bg-black" : "bg-white"} ${
+        isSelected ? "text-white" : "text-black"
+      } border border-black px-4 py-2 rounded-md`}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+};
 
 interface ToggleChoiceButtonProps {
   shiftBlocks: ShiftBlockType[];
   myId: string;
   myName: string;
-  myOverlapShiftId: string | null;
-  selectedId: string | null;
-  setSelectedId: (id: string) => void;
+  myOverlapShiftId: string[];
+  selectedIdList: SelectedIdType[];
+  setSelectedIdList: (selectedId: SelectedIdType[]) => void;
 }
 
 function ToggleChoiceButton({
@@ -15,55 +35,47 @@ function ToggleChoiceButton({
   myId,
   myName,
   myOverlapShiftId,
-  selectedId,
-  setSelectedId,
+  selectedIdList,
+  setSelectedIdList,
 }: ToggleChoiceButtonProps) {
-  const handleClick = (shiftBlockId: string) => {
-    setSelectedId(shiftBlockId);
+  // ボタンがクリックされた時、選択されたボタンのIDを取得
+  const handleClick = (index: number, clicked: string, unClicked: string) => {
+    const newSelectedId = selectedIdList.map((id, i) => {
+      if (i === index) {
+        return { [clicked]: true, [unClicked]: false };
+      }
+      return id;
+    });
+    setSelectedIdList(newSelectedId);
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <CustomButton
-        id={myId}
-        label={myName}
-        isSelected={selectedId === myId}
-        onClick={() => handleClick(myId)}
-      />
-      <CustomButton
-        id={myOverlapShiftId}
-        label={
-          // 重複しているシフトの名前を表示
-          shiftBlocks.map((other: ShiftBlockType, index: number) => {
-            return myOverlapShiftId === other.id && other.name;
-          })
-        }
-        isSelected={selectedId === myOverlapShiftId}
-        onClick={() => handleClick(myOverlapShiftId)}
-      />
+    <div className="w-full">
+      {myOverlapShiftId.map((overlapId, index) => {
+        return (
+          <div
+            key={index}
+            className="grid grid-cols-2 rounded-md border border-gray-400 gap-2 m-2 p-2"
+          >
+            <CustomButton
+              label={myName}
+              isSelected={selectedIdList[index][myId] === true}
+              onClick={() => handleClick(index, myId, overlapId)}
+            />
+            <CustomButton
+              label={
+                shiftBlocks.find(
+                  (block: ShiftBlockType) => block.id === overlapId
+                )?.name || ""
+              }
+              isSelected={selectedIdList[index][overlapId] === true}
+              onClick={() => handleClick(index, overlapId, myId)}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
-
-// シフト採択ポップアップ用のカスタムボタン
-type CustomButtonProps = {
-  id: string;
-  label: string;
-  // setSelectedId: (id: string) => void;
-  isSelected: boolean;
-  onClick: () => void;
-};
-const CustomButton = ({ label, isSelected, onClick }: CustomButtonProps) => {
-  return (
-    <button
-      className={`${isSelected ? "bg-black" : "bg-white"}  ${
-        isSelected ? "text-white" : "text-black"
-      } border border-black px-4 py-2 rounded-md`}
-      onClick={() => onClick()}
-    >
-      {label}
-    </button>
-  );
-};
 
 export default ToggleChoiceButton;

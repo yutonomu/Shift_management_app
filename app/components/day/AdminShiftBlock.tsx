@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ToggleChoiceButton from "./ToggleChoiceButton";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
+import { SelectedIdType } from "@/app/types/SelectedIdType";
 
 interface AdminShiftBlockProps {
   userInput: ShiftBlockType;
@@ -29,14 +30,35 @@ function AdminShiftBlock({
   left,
   index,
 }: AdminShiftBlockProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedIdList, setSelectedIdList] = useState<SelectedIdType[]>([]);
+
+  // selectedIdListの初期化
+  useEffect(() => {
+    const initialSelectedId = userInput.isOverlapShiftId.map((overlapId) => {
+      return { [userInput.id]: false, [overlapId]: false };
+    }); // userInputのisOverlapShiftIdの要素数分のオブジェクトを作成. それぞれのkeyはuserInput.idとisOverlapShiftIdの要素
+    setSelectedIdList(initialSelectedId);
+  }, [userInput.id, userInput.isOverlapShiftId]);
+
+  // 決定ボタンがクリックされた時の処理
   const onConfirmClick = () => {
-    console.log("決定", selectedId);
+    console.log("決定", selectedIdList);
+    const results = selectedIdList.map((item, index) => {
+      const selectedId = Object.keys(item).find((key) => item[key] === true); // 選択されたシフトのID
+      const unSelectedId = Object.keys(item).find((key) => item[key] === false); // 選択されなかったシフトのID
+      return {
+        // 選択されたシフトのIDと同じIDを持つshiftBlocksの要素をselectの値にする
+        select: shiftBlocks.find((block) => block.id === selectedId),
+        // 選択されなかったシフトのIDと同じIDを持つshiftBlocksの要素をunSelectの値にする
+        unSelect: shiftBlocks.find((block) => block.id === unSelectedId),
+      };
+    });
+    console.log("results: ", results);
   };
 
   return (
     <Dialog>
-      {userInput.isOverlapShiftId !== null ? (
+      {userInput.isOverlapShiftId.length > 0 ? (
         <DialogTrigger>
           <div
             key={index}
@@ -76,8 +98,8 @@ function AdminShiftBlock({
             myId={userInput.id}
             myName={userInput.name}
             myOverlapShiftId={userInput.isOverlapShiftId}
-            selectedId={selectedId}
-            setSelectedId={setSelectedId}
+            selectedIdList={selectedIdList}
+            setSelectedIdList={setSelectedIdList}
           />
         </div>
         <DialogFooter className="justify-start px-20">

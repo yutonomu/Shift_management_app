@@ -1,13 +1,19 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function SettingsButton() {
+  const router = useRouter();
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+
   const onClickDay = () => {
-    console.log("日");
+    router.push(`/calender/day/${year}/${month}/${day}`);
   };
   const onClickMonth = () => {
-    console.log("月");
+    router.push(`/calender/month/${year}/${month}`);
   };
 
   return (
@@ -41,7 +47,7 @@ export function SettingsButton() {
             </Button>
             <Button
               variant="outline"
-              className="text-lg font-medium w-full  text-gray-400 hover:bg-white hover:text-gray-400 cursor-default"
+              className="text-sm w-full p-2 text-gray-400 hover:bg-white hover:text-gray-400 cursor-default"
             >
               ユーザー登録 (Coming soon...)
             </Button>

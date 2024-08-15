@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import ToggleChoiceButton from "./ToggleChoiceButton";
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { SelectedIdType } from "@/app/types/SelectedIdType";
+import { z } from "zod";
+import { overlapUpdateShift } from "@/app/actions/overlapUpdateShiftAction";
 
 interface AdminShiftBlockProps {
   userInput: ShiftBlockType;
@@ -31,6 +33,7 @@ function AdminShiftBlock({
   index,
 }: AdminShiftBlockProps) {
   const [selectedIdList, setSelectedIdList] = useState<SelectedIdType[]>([]);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   // selectedIdListの初期化
   useEffect(() => {
@@ -41,7 +44,7 @@ function AdminShiftBlock({
   }, [userInput.id, userInput.isOverlapShiftId]);
 
   // 決定ボタンがクリックされた時の処理
-  const onConfirmClick = () => {
+  const onConfirmClick = async () => {
     console.log("決定", selectedIdList);
     const results = selectedIdList.map((item, index) => {
       const selectedId = Object.keys(item).find((key) => item[key] === true); // 選択されたシフトのID
@@ -53,11 +56,38 @@ function AdminShiftBlock({
         unSelect: shiftBlocks.find((block) => block.id === unSelectedId),
       };
     });
-    console.log("results: ", results);
+    // Zodバリデーションスキーマ
+    const ResultsSchema = z.array(
+      z.object({
+        select: z
+          .object({
+            id: z.string(),
+          })
+          .nullable(), // nullableにしておくことで、バリデーションの際にnullかどうかをチェック
+        unSelect: z
+          .object({
+            id: z.string(),
+          })
+          .nullable(),
+      })
+    );
+
+    const validation = ResultsSchema.safeParse(results);
+
+    if (!validation.success) {
+      alert("選択されていない項目があります");
+    } else {
+      const updatedShift = await overlapUpdateShift({
+        results: results,
+      });
+      setIsSheetOpen(false);
+      console.log("results: ", results);
+      return updatedShift;
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       {userInput.isOverlapShiftId.length > 0 ? (
         <DialogTrigger>
           <div
@@ -103,16 +133,14 @@ function AdminShiftBlock({
           />
         </div>
         <DialogFooter className="justify-start px-20">
-          <DialogClose asChild>
-            <Button
-              type="button"
-              variant="default"
-              className="bg-white text-black font-bold py-2 px-4 rounded hover:bg-black hover:text-white border-2 border-black hover:border"
-              onClick={onConfirmClick}
-            >
-              決定
-            </Button>
-          </DialogClose>
+          <Button
+            type="button"
+            variant="default"
+            className="bg-white text-black font-bold py-2 px-4 rounded hover:bg-black hover:text-white border-2 border-black hover:border"
+            onClick={onConfirmClick}
+          >
+            決定
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

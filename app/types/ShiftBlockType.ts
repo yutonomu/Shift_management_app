@@ -6,7 +6,7 @@ export type ShiftBlockType = {
   color: string;
   id: string;
   userId: string;
-  isOverlapShiftId: string | null; // 重複しているShiftBlockのID. 重複していない場合はnull
+  isOverlapShiftId: string[]; // 重複しているShiftBlockのID. 重複していない場合はnull
   // defaultDevice: string; // ユーザーが設定したデフォルトのデバイス名
   // project: string;
 };

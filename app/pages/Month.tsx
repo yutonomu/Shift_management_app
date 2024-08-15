@@ -21,9 +21,6 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
     null
   ); // クリックされたシフトブロック
 
-  const year = nowPageTime.year;
-  const month = nowPageTime.month;
-  const day = nowPageTime.day;
   const inputShiftDate = () => {
     const today = new Date();
     if (
@@ -56,6 +53,7 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
           deviceNames={deviceNames}
           dateTime={inputShiftDate()}
           nowPageTime={nowPageTime}
+          shiftBlocks={shiftBlocks}
         />
       </div>
       <Sheet open={isOpen} onOpenChange={handleClose}>
@@ -70,6 +68,8 @@ function Month({ shiftBlocks, nowPageTime, deviceNames }: MonthProps) {
             end={clickedBlock?.endTime || new Date()}
             nowPageTime={nowPageTime}
             isEdit={true}
+            shiftBlocks={shiftBlocks}
+            setIsSheetOpen={handleClose}
           />
         </SheetContent>
       </Sheet>

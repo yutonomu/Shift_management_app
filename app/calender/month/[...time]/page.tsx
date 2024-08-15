@@ -1,71 +1,72 @@
-import React, { use, useEffect } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Month from "@/app/pages/Month";
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import { Devices } from "@prisma/client";
 
-interface MonthCalenderProps {
-  shiftBlocks: ShiftBlockType[];
-  nowPageTime: NowPageTime;
-  deviceNames: string[];
+async function getShiftMonthData({
+  year,
+  month,
+  day,
+}: NowPageTime): Promise<ShiftBlockType[]> {
+  const response = await fetch(`/api/shift/month/${year}/${month}/`, {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const shiftDayBlocks: ShiftBlockType[] = await response.json();
+  // startTimeとendTimeをDateオブジェクトに変換
+  shiftDayBlocks.forEach((block) => {
+    block.startTime = new Date(block.startTime);
+    block.endTime = new Date(block.endTime);
+  });
+
+  return shiftDayBlocks;
 }
 
-function MonthCalender({
-  shiftBlocks,
-  nowPageTime,
-  deviceNames,
-}: MonthCalenderProps) {
-  const testDate: ShiftBlockType[] = [
-    {
-      id: "1",
-      name: "test",
-      selectedDevice: "WHITE_PC",
-      color: "red",
-      userId: "1",
-      startTime: new Date("2024-08-13 09:00"),
-      endTime: new Date("2024-08-13 12:00"),
-    },
-    {
-      id: "2",
-      name: "test2",
-      selectedDevice: "LAPTOP",
-      color: "blue",
-      userId: "2",
-      startTime: new Date("2024-08-15 19:00"),
-      endTime: new Date("2024-08-15 23:00"),
-    },
-    {
-      id: "3",
-      name: "test3",
-      selectedDevice: "MAC2",
-      color: "green",
-      userId: "3",
-      startTime: new Date("2024-08-13 1:00"),
-      endTime: new Date("2024-08-13 10:00"),
-    },
+const MonthCalender = ({ params }: { params: { time: number } }) => {
+  let date = new Date(params.time);
+  let [year, month, day] = [
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate(),
   ];
+  const nowPageTime: NowPageTime = { year, month, day };
 
-  const testNowPageTime: NowPageTime = {
-    year: 2024,
-    month: 8,
-    day: 2,
-  };
+  // 指定可能なデバイス名のリスト
+  const deviceNames: string[] = Object.values(Devices).filter(
+    (value) => typeof value === "string"
+  ) as string[];
 
-  const testDeviceNames: string[] = [
-    "WHITE_PC",
-    "BLACK_PC",
-    "LAPTOP",
-    "MAC1",
-    "MAC2",
-  ];
+  // シフトデータの状態を保持するstate
+  const [shiftBlocks, setShiftBlocks] = useState<ShiftBlockType[]>([]);
+
+  useEffect(() => {
+    // シフトデータを非同期で取得
+    const fetchShiftData = async () => {
+      try {
+        const data = await getShiftMonthData({ year, month, day });
+        setShiftBlocks(data);
+      } catch (error) {
+        console.error("Error fetching shift data:", error);
+      }
+    };
+
+    fetchShiftData();
+  }, []); // 空の依存配列で初回レンダリング時に実行
+
   return (
     <div className="w-screen h-screen">
       <Month
-        shiftBlocks={testDate}
-        nowPageTime={testNowPageTime}
-        deviceNames={testDeviceNames}
+        shiftBlocks={shiftBlocks}
+        nowPageTime={nowPageTime}
+        deviceNames={deviceNames}
       />
     </div>
   );
-}
+};
 
 export default MonthCalender;

@@ -4,6 +4,8 @@ import Month from "@/app/pages/Month";
 import { ShiftBlockType } from "@/app/types/ShiftBlockType";
 import { NowPageTime } from "@/app/types/NowPageTime";
 import { Devices } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useSwipeable } from "react-swipeable";
 
 async function getShiftMonthData({
   year,
@@ -28,6 +30,8 @@ async function getShiftMonthData({
 }
 
 const MonthCalender = ({ params }: { params: { time: number } }) => {
+  const router = useRouter();
+
   const today = new Date();
   let date = new Date(params.time);
   let [year, month, day] = [
@@ -57,10 +61,35 @@ const MonthCalender = ({ params }: { params: { time: number } }) => {
     };
 
     fetchShiftData();
-  }, []); // 空の依存配列で初回レンダリング時に実行
+  }, [year, month]); // 空の依存配列で初回レンダリング時に実行
+
+  const handlers = useSwipeable({
+    onSwiped: (event) => {
+      if (event.dir === "Left") {
+        const nextMonth = new Date(year, month, 1);
+        console.log("Left");
+        console.log("nextMonth", nextMonth);
+        nextMonth.setMonth(month); // 次の月に移動
+        router.push(
+          `/calender/month/${nextMonth.getFullYear()}/${
+            nextMonth.getMonth() + 1
+          }`
+        );
+      } else if (event.dir === "Right") {
+        const prevMonth = new Date(year, month - 2, 1);
+        prevMonth.setMonth(month - 2); // 前の月に移動
+        router.push(
+          `/calender/month/${prevMonth.getFullYear()}/${
+            prevMonth.getMonth() + 1
+          }`
+        );
+      }
+    },
+    trackMouse: true, // マウス操作でのスワイプを許可
+  });
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen" {...handlers}>
       <Month
         shiftBlocks={shiftBlocks}
         nowPageTime={nowPageTime}

@@ -36,7 +36,7 @@ function UserShiftBlock({
             height: `${height}px`,
             left: `${left}px`,
             backgroundColor:
-              userInput.isOverlapShiftId !== null ? "red" : userInput.color,
+              userInput.isOverlapShiftId.length > 0 ? "red" : userInput.color,
           }}
           onClick={() => {
             setIsSheetOpen(true);

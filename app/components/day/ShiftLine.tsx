@@ -1,8 +1,10 @@
 import type { ShiftBlockType } from "@/app/types/ShiftBlockType";
-import InputShiftForm from "./InputShiftForm";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { NowPageTime } from "@/app/types/NowPageTime";
+import { Role } from "@prisma/client";
+import UserShiftBlock from "./UserShiftBlock";
+import AdminShiftBlock from "./AdminShiftBlock";
 import { useState } from "react";
+
 
 interface ShiftLineProps {
   deviceNames: string[];
@@ -22,6 +24,9 @@ function ShiftLine({
   calcBlockPosition,
   nowPageTime,
 }: ShiftLineProps) {
+  const role = "ADMIN" as Role;
+  // const role = "USER" as Role;
+
   return (
     <div className="w-full flex flex-col relative">
       {/* ShiftLineの仕切り線 */}
@@ -33,6 +38,28 @@ function ShiftLine({
         );
         const [isSheetOpen, setIsSheetOpen] = useState(false);
         return (
+          userInput.selectedDevice === deviceName &&
+          (role === "USER" ? (
+            <UserShiftBlock
+              userInput={userInput}
+              deviceNames={deviceNames}
+              nowPageTime={nowPageTime}
+              top={top}
+              height={height}
+              left={left}
+              index={index}
+            />
+          ) : (
+            <AdminShiftBlock
+              userInput={userInput}
+              shiftBlocks={shiftBlocks}
+              top={top}
+              height={height}
+              left={left}
+              index={index}
+            />
+          ))
+        {/* 
           userInput.selectedDevice === deviceName && (
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger>
@@ -73,6 +100,7 @@ function ShiftLine({
               </SheetContent>
             </Sheet>
           )
+          */}
         );
       })}
     </div>

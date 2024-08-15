@@ -40,7 +40,7 @@ export function SettingsButton() {
               className="text-lg font-medium transition-colors text-gray-300"
               prefetch={false}
             >
-              ユーザー登録(Coming soon)
+              ユーザー登録 (Coming soon...)
             </Link>
           </div>
         </SheetContent>
@@ -66,7 +66,7 @@ export function SettingsButton() {
           className="text-lg font-medium bg-gray-300 text-gray-400 hover:bg-gray-300 hover:text-gray-400 cursor-default"
           // prefetch={false}
         >
-          ユーザー登録(Coming soon)
+          ユーザー登録 (Coming soon...)
         </Button>
       </nav>
     </div>

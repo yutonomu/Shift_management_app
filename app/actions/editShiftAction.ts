@@ -1,9 +1,10 @@
 "use server";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
-import { Devices } from "@prisma/client";
+import { Devices, Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { nextAuthOptions } from "@/lib/next-auth/options";
+import { ShiftBlockType } from "../types/ShiftBlockType";
 
 const shiftFromSchema = z
   .object({
@@ -22,12 +23,16 @@ export const editShift = async ({
   selectedDevice,
   startTime,
   endTime,
+  isOverlapShiftId,
+  overlapShifts,
 }: {
-  userId: string;
-  shiftId: string; // ここで型定義を行います
-  selectedDevice: string;
-  startTime: Date;
-  endTime: Date;
+  userId: ShiftBlockType["userId"];
+  shiftId: ShiftBlockType["id"];
+  selectedDevice: ShiftBlockType["selectedDevice"];
+  startTime: ShiftBlockType["startTime"];
+  endTime: ShiftBlockType["endTime"];
+  isOverlapShiftId: ShiftBlockType["isOverlapShiftId"];
+  overlapShifts?: ShiftBlockType[] | [];
 }) => {
   const session = await getServerSession(nextAuthOptions);
   if (!session) {
@@ -40,7 +45,6 @@ export const editShift = async ({
     startTime,
     endTime,
   });
-  console.log(selectedDevice, startTime, endTime);
 
   if (!validationResult.success) {
     throw new Error("Validation failed: " + validationResult.error.message);
@@ -55,6 +59,7 @@ export const editShift = async ({
         selectedDevice: selectedDevice as Devices,
         startTime: new Date(startTime),
         endTime: new Date(endTime),
+        isOverlapShiftId: isOverlapShiftId.length > 0 ? isOverlapShiftId : [],
         user: {
           connect: {
             id: userId,
@@ -63,7 +68,27 @@ export const editShift = async ({
       },
     });
 
-    console.log("Shift updated successfully", editShift);
+    if (overlapShifts && overlapShifts.length > 0) {
+      // 重複シフトのisOverlapShiftIdに新しいshiftIdを追加
+      for (const overlapShift of overlapShifts) {
+        await prisma.shift.update({
+          where: { id: overlapShift.id },
+          data: {
+            isOverlapShiftId: [
+              ...((overlapShift.isOverlapShiftId as string[]) || []),
+              shiftId,
+            ],
+          },
+        });
+      }
+    }
+
+    console.log(
+      "Shift updated successfully,editShift",
+      editShift,
+      "overlapShifts",
+      overlapShifts
+    );
 
     // シフトの編集が成功した場合、成功メッセージを返す
     return { success: true, shift: editShift };

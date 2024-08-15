@@ -57,7 +57,10 @@ export async function GET(
         selectedDevice: shift.selectedDevice,
         startTime: shift.startTime,
         endTime: shift.endTime,
-        isOverlapShiftId: shift.isOverlapShiftId,
+        isOverlapShiftId: Array.isArray(shift.isOverlapShiftId)
+          ? (shift.isOverlapShiftId as string[]) // 型アサーションを使用してstring[]に変換
+          : [], // isOverlapShiftId が null でないことを確認し、空配列を返す
+        // isOverlapShiftId: shift.isOverlapShiftId,
         color: shift.user.color,
       };
     });

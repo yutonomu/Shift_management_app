@@ -8,7 +8,8 @@ const DayCalender = ({ params }: { params: { time: number } }) => {
   const router = useRouter();
 
   // Date型にすることで、あり得ない日付を入力された場合に自動的に補正してくれる
-  let date = new Date(params.time);
+  const date = new Date(params.time);
+  console.log("day.route.ts.date:", date);
   let [year, month, day] = [
     date.getFullYear(),
     date.getMonth() + 1,

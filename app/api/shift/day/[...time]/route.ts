@@ -7,6 +7,7 @@ export async function GET(
   { params }: { params: { time: string } }
 ): Promise<NextResponse> {
   const date = new Date(params.time);
+  console.log("day.route.ts.date:", date);
   const [year, month, day] = [
     date.getFullYear(),
     date.getMonth() + 1,

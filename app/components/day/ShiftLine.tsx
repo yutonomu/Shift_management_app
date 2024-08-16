@@ -46,6 +46,7 @@ function ShiftLine({
           inputtedShiftBlock.selectedDevice === deviceName &&
           (role === "USER" ? (
             <UserShiftBlock
+              key={inputtedShiftBlock.id}
               inputtedShiftBlock={inputtedShiftBlock}
               deviceNames={deviceNames}
               nowPageTime={nowPageTime}
@@ -57,6 +58,7 @@ function ShiftLine({
             />
           ) : (
             <AdminShiftBlock
+              key={inputtedShiftBlock.id}
               inputtedShiftBlock={inputtedShiftBlock}
               shiftBlocks={shiftBlocks}
               top={top}

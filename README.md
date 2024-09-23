@@ -1,11 +1,14 @@
 # Shift Management App
 
-[![Next.js](https://img.shields.io/badge/Next.js-13.4.3-000000?logo=nextdotjs)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.1.6-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-5.3.1-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.2-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-2023.5.20-000000?logo=vercel)](https://vercel.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14.7-4169E1?logo=postgresql)](https://www.postgresql.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2.5-000000?logo=nextdotjs)](https://nextjs.org/)
+[![Server Actions](https://img.shields.io/badge/Server%20Actions-000000)](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
+[![API Routes](https://img.shields.io/badge/API%20Routes-000000)](https://nextjs.org/docs/api-routes/introduction)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5.4-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-5.18.0-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.9-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
+[![NextAuth.js](https://img.shields.io/badge/NextAuth.js-4.24.7-9F73AB)](https://next-auth.js.org/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Components-000000)](https://ui.shadcn.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-37.5.3-000000?logo=vercel)](https://vercel.com/)
 
 ## 概要
 

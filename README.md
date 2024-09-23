@@ -1,20 +1,38 @@
-# Shift Management App の機能詳細
+# Shift Management App
+
+[![Next.js](https://img.shields.io/badge/Next.js-13.4.3-000000?logo=nextdotjs)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.1.6-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-5.3.1-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.2-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-2023.5.20-000000?logo=vercel)](https://vercel.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14.7-4169E1?logo=postgresql)](https://www.postgresql.org/)
+
+## 概要
+
+Shift Management Appは、シフトの入力、編集、削除、およびシフトの重複解決を行うことができるアプリケーションです。一般ユーザーと管理者の2種類のユーザーが存在し、それぞれの権限に応じた機能を提供します。
 
 ## ユーザーの種類
 
 ### 一般ユーザー
 
-- シフトの入力、編集、削除が可能です。
+- **主な機能**：
+  - シフトの入力、編集、削除が可能です。
+- **利用環境**：
+  - 基本的にモバイル端末での操作を想定しています。
 
 ### 管理者
 
-- 現在のシフト状況を閲覧できます。
-- シフトの重複を解決することができます。
+- **主な機能**：
+  - 現在のシフト状況を閲覧できます。
+  - シフトの重複を解決することができます。
+- **利用環境**：
+  - 基本的にPCでの操作を想定しています。
 
 ## ログイン機能
 
 - **Google認証**を使用してログインします。
-- **ユーザー登録済み**のユーザーのみがログイン可能です。（※現在はデータベースを直接操作してユーザー登録を行っています）
+- **ユーザー登録済み**のユーザーのみがログイン可能です。
+  - ※現在はデータベースを直接操作してユーザー登録を行っています。
 
 ## シフトの操作方法
 
@@ -26,17 +44,27 @@
 - **PCの場合**：
   - ヘッダーにある「新規登録」ボタンから、新しいシフトを入力できます。
 
-![シフト入力画面](https://github.com/user-attachments/assets/21a89ed8-ba83-410e-8264-c498847d1bfc)
+動画で操作方法を確認できます：
+
+- シフトの入力：https://github.com/user-attachments/assets/21a89ed8-ba83-410e-8264-c498847d1bfc
 
 ### シフトの編集
 
 - **モバイル端末とPC共通**：
   - シフトをタップ（またはクリック）することで、編集が可能です。
 
+動画で操作方法を確認できます：
+
+- シフトの編集：https://github.com/user-attachments/assets/797172e4-04b7-4f20-ac63-417e9a2ad5ac
+
 ### シフトの削除
 
 - **モバイル端末とPC共通**：
   - シフトをタップ（またはクリック）することで、削除が可能です。
+
+動画で操作方法を確認できます：
+
+- シフトの削除：https://github.com/user-attachments/assets/1c336389-2fd3-499d-9108-881e32f1edaf
 
 ## シフトが重複している場合の処理
 
@@ -46,6 +74,15 @@
 
 ### 管理者の場合
 
-- **（※ここに管理者が重複を解決する方法の詳細を記載してください）**
+- 重複しているシフトをタップまたはクリックすることで、どのシフトを優先するかの画面が表示され、重複を解決できます。
 
----
+## カレンダーの月表示
+
+- **モバイル端末の場合**：
+  - 左上のハンバーガーメニューを開き、「月」ボタンをタップすることで月表示になります。
+
+- **PCの場合**：
+  - 左上の「月」ボタンをクリックすることで月表示になります。
+
+## 使用技術スタック
+![スクリーンショット 2024-09-24 022003](https://github.com/user-attachments/assets/1911c37a-953d-4bb8-abab-2094348e5f15)

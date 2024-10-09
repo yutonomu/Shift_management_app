@@ -271,7 +271,7 @@ function InputShiftForm({
         <div className="flex justify-center items-center">
           <div className="flex flex-row space-x-4">
             <button
-              className="rounded-md border border-black bg-white w-[30vw] h-[15vw] mt-4"
+              className="rounded-md border border-black bg-white w-[30vw] h-[15vw] lg:w-20 lg:h-14 mt-4"
               onClick={handlePost}
               type="submit"
               disabled={!isAllowInput}

@@ -138,6 +138,7 @@ export const overlapUpdateShift = async ({
                 },
                 data: {
                   startTime: newStartTime,
+                  isOverlapShiftId: [],
                 },
               })
             );

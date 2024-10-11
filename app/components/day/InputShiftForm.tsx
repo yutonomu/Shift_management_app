@@ -282,7 +282,7 @@ function InputShiftForm({
             </button>{" "}
             {isEdit && (
               <button
-                className="rounded-md border border-black w-[30vw] h-[15vw] mt-4"
+                className="rounded-md border border-black w-[30vw] h-[15vw] lg:w-20 lg:h-14 mt-4"
                 onClick={async () => {
                   const success = await handleDeleteShift();
                   console.log("delete success", success);

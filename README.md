@@ -75,6 +75,8 @@ https://github.com/user-attachments/assets/d47c7bff-a206-45ec-91bc-48fd46da8ff1
 
 - 重複しているシフトをタップまたはクリックすることで、どのシフトを優先するかの画面が表示され、重複を解決できます。
 
+https://github.com/user-attachments/assets/2ddf7429-1e9b-42e0-b76c-c804bdca26d0
+
 ## カレンダーの月表示
 
 - **モバイル端末の場合**：
